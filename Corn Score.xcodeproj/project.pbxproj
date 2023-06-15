@@ -16,6 +16,7 @@
 		26B0E7F22A3A933C00696258 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */; };
 		26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F12A3A933B00696258 /* SAConfettiView.swift */; };
 		26B0E7F62A3A98FE00696258 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F52A3A98FE00696258 /* Secret.swift */; };
+		26B0E7F82A3B401100696258 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E7F72A3B401100696258 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		26B0E7F12A3A933B00696258 /* SAConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAConfettiView.swift; sourceTree = "<group>"; };
 		26B0E7F52A3A98FE00696258 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		26B0E7F72A3B401100696258 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		2684CDCF2A3A7D9A008D0DE4 /* Corn Score */ = {
 			isa = PBXGroup;
 			children = (
+				26B0E7F72A3B401100696258 /* README.md */,
 				2684CDE52A3A8D1B008D0DE4 /* App */,
 				2684CDD92A3A7D9C008D0DE4 /* Assets.xcassets */,
 				2684CDE42A3A8D0A008D0DE4 /* Controller */,
@@ -166,6 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B0E7F82A3B401100696258 /* README.md in Resources */,
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
