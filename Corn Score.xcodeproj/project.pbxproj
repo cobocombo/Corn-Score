@@ -14,7 +14,6 @@
 		26B0E7ED2A3A927900696258 /* GithubRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7EB2A3A927800696258 /* GithubRequest.swift */; };
 		26B0E7EE2A3A927900696258 /* RatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7EC2A3A927900696258 /* RatingManager.swift */; };
 		26B0E7F22A3A933C00696258 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */; };
-		26B0E7F32A3A933C00696258 /* SwiftAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F02A3A933B00696258 /* SwiftAlertView.swift */; };
 		26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F12A3A933B00696258 /* SAConfettiView.swift */; };
 		26B0E7F62A3A98FE00696258 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F52A3A98FE00696258 /* Secret.swift */; };
 /* End PBXBuildFile section */
@@ -29,7 +28,6 @@
 		26B0E7EB2A3A927800696258 /* GithubRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubRequest.swift; sourceTree = "<group>"; };
 		26B0E7EC2A3A927900696258 /* RatingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingManager.swift; sourceTree = "<group>"; };
 		26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
-		26B0E7F02A3A933B00696258 /* SwiftAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftAlertView.swift; sourceTree = "<group>"; };
 		26B0E7F12A3A933B00696258 /* SAConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAConfettiView.swift; sourceTree = "<group>"; };
 		26B0E7F52A3A98FE00696258 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,7 +104,6 @@
 			children = (
 				26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */,
 				26B0E7F12A3A933B00696258 /* SAConfettiView.swift */,
-				26B0E7F02A3A933B00696258 /* SwiftAlertView.swift */,
 			);
 			path = External;
 			sourceTree = "<group>";
@@ -181,7 +178,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				26B0E7F22A3A933C00696258 /* ProgressHUD.swift in Sources */,
-				26B0E7F32A3A933C00696258 /* SwiftAlertView.swift in Sources */,
 				26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */,
 				26B0E7ED2A3A927900696258 /* GithubRequest.swift in Sources */,
 				26B0E7EE2A3A927900696258 /* RatingManager.swift in Sources */,

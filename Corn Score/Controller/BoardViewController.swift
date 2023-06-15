@@ -88,28 +88,24 @@ class BoardViewController: UIViewController
     {
         self.navigationController!.navigationBar.tintColor = .white
         let restartButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.handleRestartTap))
-        self.navigationItem.leftBarButtonItem = restartButton
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: nil)
-        let reportBugAction = UIAction(title: "Report a Bug", image: UIImage(systemName: "ladybug"), handler:
-        { _ in
-            self.reportABug()
-        })
-        let requestFeatureAction = UIAction(title: "Request a New Feature", image: UIImage(systemName: "lightbulb"), handler:
-        { _ in
-            self.requestAFeature()
-        })
-        let sourceCodeAction = UIAction(title: "Source Code", image: UIImage(systemName: "curlybraces"), handler:
-        { _ in
-            self.sourceCode()
-        })
+        
+        let reportBugAction = UIAction(title: "Report a Bug", image: UIImage(systemName: "ladybug")) { _ in self.reportABug() }
+        let requestFeatureAction = UIAction(title: "Request a New Feature", image: UIImage(systemName: "lightbulb")) { _ in self.requestAFeature() }
+        let sourceCodeAction = UIAction(title: "Source Code", image: UIImage(systemName: "curlybraces")) { _ in self.sourceCode() }
         let getInvolvedMenu = UIMenu(title: "Get Involved", options: .displayInline, children: [reportBugAction, requestFeatureAction, sourceCodeAction])
-        let appVersionAction = UIAction(title: "v. \(self.rating.getAppVersion())", handler: { _ in })
-        let smallTipAction = UIAction(title: "Small Tip - $.99", handler: { _ in })
-        let mediumTipAction = UIAction(title: "Medium Tip - $2.99", handler: { _ in })
-        let largeTipAction = UIAction(title: "Large Tip - $4.99", handler: { _ in })
-        let appInfoMenu = UIMenu(title: "App Info", options: .displayInline, children: [appVersionAction])
+        
+        let smallTipAction = UIAction(title: "Small Tip - $.99" ) { _ in }
+        let mediumTipAction = UIAction(title: "Medium Tip - $2.99") { _ in }
+        let largeTipAction = UIAction(title: "Large Tip - $4.99") { _ in }
         let tipMenu = UIMenu(title: "Leave A Tip", options: .displayInline, children: [smallTipAction, mediumTipAction, largeTipAction])
+        
+        let appVersionAction = UIAction(title: "v. \(self.rating.getAppVersion())") { _ in }
+        let appInfoMenu = UIMenu(title: "App Info", options: .displayInline, children: [appVersionAction])
+        
         settingsButton.menu = UIMenu(title: "", children: [getInvolvedMenu, tipMenu, appInfoMenu])
+        
+        self.navigationItem.leftBarButtonItem = restartButton
         self.navigationItem.rightBarButtonItem = settingsButton
     }
     
@@ -235,109 +231,101 @@ class BoardViewController: UIViewController
     // Description: Method to show a report a bug prompt.
     @objc func reportABug()
     {
-        let alertView = SwiftAlertView(title: "Report A Bug 🐞", message: "Send screenshots to coltonboyd503@icloud.com", buttonTitles: "Cancel", "Submit")
-        alertView.style = .auto
-        alertView.isDismissOnActionButtonClicked = false
-        alertView.isEnabledValidationLabel = true
-        alertView.addTextField
+        let alertController = UIAlertController(title: "Report A Bug 🐞", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Bug title..."
         }
-        alertView.addTextField
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Short description of bug..."
         }
-        alertView.addTextField
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Email..."
             textField.keyboardType = .emailAddress
             textField.autocapitalizationType = .none
             textField.autocorrectionType = .no
         }
-        alertView.onActionButtonClicked
-        { alert , index in
-            let title = alert.textField(at: 0)
-            let body = alert.textField(at: 1)
-            let email = alert.textField(at: 2)
-            var canSend = true
-            if(!self.isTextFieldValid(title!))
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(cancelAction)
+
+        let submitAction = UIAlertAction(title: "Submit", style: .default)
+        { _ in
+            var willBeSent = true
+            guard let title = alertController.textFields?[0].text,
+            let body = alertController.textFields?[1].text,
+            let email = alertController.textFields?[2].text
+            else { return}
+            
+            if(!self.isTextFieldValid(title)) { willBeSent = false }
+            if(!self.isTextFieldValid(body)) { willBeSent = false }
+            if(!self.isValidEmail(email)) { willBeSent = false }
+    
+            if(willBeSent)
             {
-                alert.validationLabel.text = "Title cannot be empty."
-                canSend = false
-            }
-            if(!self.isTextFieldValid(body!))
-            {
-                alert.validationLabel.text = "Description cannot be empty."
-                canSend = false
-            }
-            if(!self.isValidEmail(email!.text!))
-            {
-                alert.validationLabel.text = "Invalid email format."
-                canSend = false
-            }
-            if(canSend)
-            {
-                alert.dismiss()
                 ProgressHUD.animationType = .systemActivityIndicator
                 ProgressHUD.show()
-                self.request.createIssue(title: title!.text!, body: "BUG REPORT: " + body!.text! + " --  BY: \(email!.text!)", type: "bug")
+                self.request.createIssue(title: title, body: "BUG REPORT: " + body + " --  BY: \(email)", type: "bug")
             }
+            else { ProgressHUD.showFailed("Invalid response in textfield.") }
         }
-        alertView.show()
+        alertController.addAction(submitAction)
+        self.present(alertController, animated: true)
     }
     
     // Description: Method to show a request a feature prompt.
-    @objc func requestAFeature()
+    private func requestAFeature()
     {
-        let alertView = SwiftAlertView(title: "Request A Feature 💡", message: "Send additional info to coltonboyd503@icloud.com", buttonTitles: "Cancel", "Submit")
-        alertView.style = .auto
-        alertView.isDismissOnActionButtonClicked = false
-        alertView.isEnabledValidationLabel = true
-        alertView.addTextField
+        let alertController = UIAlertController(title: "Request A Feature 💡", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Feature title..."
         }
-        alertView.addTextField
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Short description of feature..."
         }
-        alertView.addTextField
+
+        alertController.addTextField
         { textField in
             textField.placeholder = "Email..."
             textField.keyboardType = .emailAddress
             textField.autocapitalizationType = .none
             textField.autocorrectionType = .no
         }
-        alertView.onActionButtonClicked
-        { alert , index in
-            let title = alert.textField(at: 0)
-            let body = alert.textField(at: 1)
-            let email = alert.textField(at: 2)
-            var canSend = true
-            if(!self.isTextFieldValid(title!))
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(cancelAction)
+
+        let submitAction = UIAlertAction(title: "Submit", style: .default)
+        { _ in
+            var willBeSent = true
+            guard let title = alertController.textFields?[0].text,
+            let body = alertController.textFields?[1].text,
+            let email = alertController.textFields?[2].text
+            else { return}
+            
+            if(!self.isTextFieldValid(title)) { willBeSent = false }
+            if(!self.isTextFieldValid(body)) { willBeSent = false }
+            if(!self.isValidEmail(email)) { willBeSent = false }
+    
+            if(willBeSent)
             {
-                alert.validationLabel.text = "Title cannot be empty."
-                canSend = false
-            }
-            if(!self.isTextFieldValid(body!))
-            {
-                alert.validationLabel.text = "Description cannot be empty."
-                canSend = false
-            }
-            if(!self.isValidEmail(email!.text!))
-            {
-                alert.validationLabel.text = "Invalid email format."
-                canSend = false
-            }
-            if(canSend)
-            {
-                alert.dismiss()
                 ProgressHUD.animationType = .systemActivityIndicator
                 ProgressHUD.show()
-                self.request.createIssue(title: title!.text!, body: "IN APP REQUEST: " + body!.text! + " --  BY: \(email!.text!)", type: "enhancement")
+                self.request.createIssue(title: title, body: "IN APP REQUEST: " + body + " --  BY: \(email)", type: "enhancement")
             }
+            else { ProgressHUD.showFailed("Invalid response in textfield.") }
         }
-        alertView.show()
+        alertController.addAction(submitAction)
+        self.present(alertController, animated: true)
     }
     
     // Description: Method to display the source code in a SafariViewController.
@@ -349,12 +337,8 @@ class BoardViewController: UIViewController
     }
     
     // Description: Method to check if a textfield is empty or not.
-    private func isTextFieldValid(_ textField: UITextField) -> Bool
+    private func isTextFieldValid(_ text: String) -> Bool
     {
-        guard let text = textField.text else
-        {
-            return false
-        }
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         return !trimmedText.isEmpty
     }
