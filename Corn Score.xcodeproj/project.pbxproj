@@ -17,6 +17,8 @@
 		26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F12A3A933B00696258 /* SAConfettiView.swift */; };
 		26B0E7F62A3A98FE00696258 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F52A3A98FE00696258 /* Secret.swift */; };
 		26B0E7F82A3B401100696258 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E7F72A3B401100696258 /* README.md */; };
+		26B0E7FA2A3BBF8B00696258 /* ScoreKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */; };
+		26B0E7FE2A3BC13700696258 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7FD2A3BC13700696258 /* BoardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		26B0E7F12A3A933B00696258 /* SAConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SAConfettiView.swift; sourceTree = "<group>"; };
 		26B0E7F52A3A98FE00696258 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
 		26B0E7F72A3B401100696258 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreKeeper.swift; sourceTree = "<group>"; };
+		26B0E7FD2A3BC13700696258 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,13 +68,11 @@
 		2684CDCF2A3A7D9A008D0DE4 /* Corn Score */ = {
 			isa = PBXGroup;
 			children = (
-				26B0E7F72A3B401100696258 /* README.md */,
-				2684CDE52A3A8D1B008D0DE4 /* App */,
+				26B0E7FC2A3BC0CB00696258 /* Source */,
 				2684CDD92A3A7D9C008D0DE4 /* Assets.xcassets */,
-				2684CDE42A3A8D0A008D0DE4 /* Controller */,
-				2684CDE62A3A8D35008D0DE4 /* Data */,
 				2684CDE72A3A8D64008D0DE4 /* External */,
 				2684CDDE2A3A7D9C008D0DE4 /* Info.plist */,
+				26B0E7F72A3B401100696258 /* README.md */,
 			);
 			path = "Corn Score";
 			sourceTree = "<group>";
@@ -98,6 +100,7 @@
 				26B0E7EB2A3A927800696258 /* GithubRequest.swift */,
 				26B0E7EC2A3A927900696258 /* RatingManager.swift */,
 				26B0E7F52A3A98FE00696258 /* Secret.swift */,
+				26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -109,6 +112,25 @@
 				26B0E7F12A3A933B00696258 /* SAConfettiView.swift */,
 			);
 			path = External;
+			sourceTree = "<group>";
+		};
+		26B0E7FB2A3BC0B700696258 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				26B0E7FD2A3BC13700696258 /* BoardView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		26B0E7FC2A3BC0CB00696258 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				2684CDE52A3A8D1B008D0DE4 /* App */,
+				2684CDE42A3A8D0A008D0DE4 /* Controller */,
+				2684CDE62A3A8D35008D0DE4 /* Data */,
+				26B0E7FB2A3BC0B700696258 /* View */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,9 +206,11 @@
 				26B0E7F22A3A933C00696258 /* ProgressHUD.swift in Sources */,
 				26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */,
 				26B0E7ED2A3A927900696258 /* GithubRequest.swift in Sources */,
+				26B0E7FA2A3BBF8B00696258 /* ScoreKeeper.swift in Sources */,
 				26B0E7EE2A3A927900696258 /* RatingManager.swift in Sources */,
 				2684CDD52A3A7D9A008D0DE4 /* BoardViewController.swift in Sources */,
 				2684CDD12A3A7D9A008D0DE4 /* AppDelegate.swift in Sources */,
+				26B0E7FE2A3BC13700696258 /* BoardView.swift in Sources */,
 				26B0E7F62A3A98FE00696258 /* Secret.swift in Sources */,
 				2684CDD32A3A7D9A008D0DE4 /* SceneDelegate.swift in Sources */,
 			);

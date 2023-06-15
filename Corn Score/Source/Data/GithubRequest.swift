@@ -1,18 +1,14 @@
 // Imports.
 import Foundation
 
-// Description: 
+// Description: Object to create Github issues for different types based on labels.
 class GithubRequest
 {
-    // Description:
+    // Description: Method to call Github API to create an issue for this app.
     public func createIssue(title: String, body: String, type: String)
     {
         let endpoint = "https://api.github.com/repos/cobocombo/Corn-Score/issues"
-        let issueData = [
-            "title": title,
-            "body": body,
-            "labels": [type]
-        ] as [String : Any] as [String : Any]
+        let issueData = [ "title": title, "body": body, "labels": [type] ] as [String : Any] as [String : Any]
         
         guard let url = URL(string: endpoint) else 
         {
