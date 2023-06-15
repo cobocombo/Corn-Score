@@ -156,7 +156,7 @@ class BoardViewController: UIViewController
             }
         }
     }
-    
+        
     // Description: Method to build & show an alert when one of the user wins.
     private func showWinAlert(team: String)
     {
@@ -165,10 +165,10 @@ class BoardViewController: UIViewController
         confettiView.intensity = 1.0
         confettiView.colors = [UIColor.red, UIColor.blue, UIColor.green]
         self.view.addSubview(confettiView)
-        let alertView = SwiftAlertView(title: "Game Over 🥊", message: "\(team) wins!", buttonTitles: "OK")
-        alertView.style = .auto
-        alertView.onButtonClicked
-        { _, index in
+        
+        let alertController = UIAlertController(title: "Game Over 🥊", message: "\(team) wins!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        { _ in
             self.newGame()
             confettiView.stopConfetti()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25)
@@ -177,9 +177,10 @@ class BoardViewController: UIViewController
                 self.rating.checkForAppRating()
             }
         }
+        alertController.addAction(okAction)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25)
         {
-            alertView.show()
+            self.present(alertController, animated: true)
             confettiView.startConfetti()
         }
     }

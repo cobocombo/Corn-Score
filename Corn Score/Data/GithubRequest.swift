@@ -23,7 +23,7 @@ class GithubRequest
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("token \(ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
+        request.setValue("token \(GITHUB_ISSUES_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do 
