@@ -45,12 +45,10 @@ class BoardViewController: UIViewController
         let sourceCodeAction = UIAction(title: "Source Code", image: UIImage(systemName: "curlybraces")) { _ in self.sourceCode() }
         let getInvolvedMenu = UIMenu(title: "Get Involved", options: .displayInline, children: [reportBugAction, requestFeatureAction, sourceCodeAction])
         
-        let smallTipAction = UIAction(title: "Small Tip - $.99" ) { _ in }
-        let mediumTipAction = UIAction(title: "Medium Tip - $2.99") { _ in }
-        let largeTipAction = UIAction(title: "Large Tip - $4.99") { _ in }
-        let tipMenu = UIMenu(title: "Leave A Tip", options: .displayInline, children: [smallTipAction, mediumTipAction, largeTipAction])
+        let smallTipAction = UIAction(title: "Buy Me A Coffee" , image: UIImage(systemName: "cup.and.saucer")) { _ in self.showTipLink() }
+        let tipMenu = UIMenu(title: "Support", options: .displayInline, children: [smallTipAction])
         
-        let appVersionAction = UIAction(title: "v. \(self.rating.getAppVersion())") { _ in }
+        let appVersionAction = UIAction(title: "v. \(self.rating.getAppVersion())", image: UIImage(systemName: "info.circle")) { _ in }
         let appInfoMenu = UIMenu(title: "App Info", options: .displayInline, children: [appVersionAction])
         
         settingsButton.menu = UIMenu(title: "", children: [getInvolvedMenu, tipMenu, appInfoMenu])
@@ -268,6 +266,14 @@ class BoardViewController: UIViewController
         self.present(safariViewController, animated: true, completion: nil)
     }
     
+    // Description: Method to display my buy me a coffee link in a SafariViewController.
+    private func showTipLink()
+    {
+        let url = URL(string: "https://www.buymeacoffee.com/cobocombo")!
+        let safariViewController = SFSafariViewController(url: url)
+        self.present(safariViewController, animated: true, completion: nil)
+    }
+    
     // Description: Method to check if a textfield is empty or not.
     private func isTextFieldValid(_ text: String) -> Bool
     {
@@ -283,4 +289,3 @@ class BoardViewController: UIViewController
         return emailPredicate.evaluate(with: email)
     }
 }
-
