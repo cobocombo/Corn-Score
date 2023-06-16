@@ -20,6 +20,7 @@
 		26B0E7FA2A3BBF8B00696258 /* ScoreKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */; };
 		26B0E7FE2A3BC13700696258 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7FD2A3BC13700696258 /* BoardView.swift */; };
 		26B0E8002A3CD58E00696258 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */; };
+		26B0E8022A3D146F00696258 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E8012A3D146F00696258 /* images */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreKeeper.swift; sourceTree = "<group>"; };
 		26B0E7FD2A3BC13700696258 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
+		26B0E8012A3D146F00696258 /* images */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = images; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 		2684CDCF2A3A7D9A008D0DE4 /* Corn Score */ = {
 			isa = PBXGroup;
 			children = (
+				26B0E8012A3D146F00696258 /* images */,
 				26B0E7FC2A3BC0CB00696258 /* Source */,
 				2684CDD92A3A7D9C008D0DE4 /* Assets.xcassets */,
 				2684CDE72A3A8D64008D0DE4 /* External */,
@@ -194,6 +197,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B0E8022A3D146F00696258 /* images in Resources */,
 				26B0E7F82A3B401100696258 /* README.md in Resources */,
 				26B0E8002A3CD58E00696258 /* PRIVACY_POLICY.md in Resources */,
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
