@@ -16,7 +16,7 @@ class BoardViewController: UIViewController
         super.viewDidLoad()
         self.setupBoard()
         self.setupNavigationBar()
-        self.rating.checkCurrentAppVersioning()
+        self.sync()
     }
     
     // Method to set up the teams and their colors for their respective sides.
@@ -33,7 +33,7 @@ class BoardViewController: UIViewController
         self.view.addSubview(self.board)
     }
     
-    // Method to setup all the buttons in the navigation bar.
+    // Method to setup all the menus / buttons in the navigation bar.
     private func setupNavigationBar()
     {
         self.navigationController!.navigationBar.tintColor = .white
@@ -48,7 +48,7 @@ class BoardViewController: UIViewController
         let smallTipAction = UIAction(title: "Buy Me A Coffee" , image: UIImage(systemName: "cup.and.saucer")) { _ in self.showTipLink() }
         let tipMenu = UIMenu(title: "Support", options: .displayInline, children: [smallTipAction])
         
-        let appVersionAction = UIAction(title: "v. \(self.rating.getAppVersion())", image: UIImage(systemName: "info.circle")) { _ in }
+        let appVersionAction = UIAction(title: "v. \(AppInfo.shared.getAppVersion())", image: UIImage(systemName: "info.circle")) { _ in }
         let appInfoMenu = UIMenu(title: "App Info", options: .displayInline, children: [appVersionAction])
         
         settingsButton.menu = UIMenu(title: "", children: [getInvolvedMenu, tipMenu, appInfoMenu])
@@ -57,7 +57,20 @@ class BoardViewController: UIViewController
         self.navigationItem.rightBarButtonItem = settingsButton
     }
     
-    // Method to increase a teams score by 1.
+    // Method to syn app info changes and present an first launch alert if needed.
+    private func sync()
+    {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05)
+        {
+            if(!AppInfo.shared.isAppLaunched())
+            {
+                self.firstLaunchTipAlert()
+            }
+            AppInfo.shared.checkCurrentAppVersioning()
+        }
+    }
+    
+    // Method to increase a team's score by 1.
     private func increaseScore(team: String)
     {
         if(team == "Team 1")
@@ -74,7 +87,7 @@ class BoardViewController: UIViewController
         }
     }
     
-    // Description: Method to decrease a teams score by 1.
+    // Description: Method to decrease a team's score by 1.
     private func decreaseScore(team: String)
     {
         if(team == "Team 1")
@@ -158,6 +171,15 @@ class BoardViewController: UIViewController
         self.newGame()
     }
     
+    // Description: Method called to show a first launch tip to give simple tap instructions.
+    private func firstLaunchTipAlert()
+    {
+        let alertController = UIAlertController(title: "App Tip 💡", message: "Press above the number to increase a team's score, and press below to decrease a team's score.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true)
+    }
+    
     // Description: Method to show a report a bug prompt.
     private func reportABug()
     {
@@ -211,7 +233,7 @@ class BoardViewController: UIViewController
     // Description: Method to show a request a feature prompt.
     private func requestAFeature()
     {
-        let alertController = UIAlertController(title: "Request A Feature 💡", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Request A Feature 📢", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
 
         alertController.addTextField
         { textField in
