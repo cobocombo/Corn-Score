@@ -1,10 +1,15 @@
+//================================================================================//
+
 // Imports.
 import UIKit
 import SafariServices
 
+//================================================================================//
+
 // Description: View Controller that manages the corn hole score board views & data.
 class BoardViewController: UIViewController
 {
+    private var alerts = BaseAlertControllers()
     private var board: BoardView!
     private var keeper = ScoreKeeper()
     private var request = GithubRequest()
@@ -39,10 +44,10 @@ class BoardViewController: UIViewController
         self.navigationController!.navigationBar.tintColor = .white
         let restartButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.handleRestartTap))
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: nil)
-        
+
         let reportBugAction = UIAction(title: "Report a Bug", image: UIImage(systemName: "ladybug")) { _ in self.reportABug() }
         let requestFeatureAction = UIAction(title: "Request a New Feature", image: UIImage(systemName: "lightbulb")) { _ in self.requestAFeature() }
-        let sourceCodeAction = UIAction(title: "Source Code", image: UIImage(systemName: "curlybraces")) { _ in self.sourceCode() }
+        let sourceCodeAction = UIAction(title: "Source Code", image: UIImage(systemName: "curlybraces")) { _ in self.showSourceCode() }
         let getInvolvedMenu = UIMenu(title: "Get Involved", options: .displayInline, children: [reportBugAction, requestFeatureAction, sourceCodeAction])
         
         let smallTipAction = UIAction(title: "Buy Me A Coffee" , image: UIImage(systemName: "cup.and.saucer")) { _ in self.showTipLink() }
@@ -174,38 +179,14 @@ class BoardViewController: UIViewController
     // Description: Method called to show a first launch tip to give simple tap instructions.
     private func firstLaunchTipAlert()
     {
-        let alertController = UIAlertController(title: "App Tip 💡", message: "Press above the number to increase a team's score, and press below to decrease a team's score.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default)
-        alertController.addAction(okAction)
+        let alertController = self.alerts.firstLaunchTipAlertController()
         self.present(alertController, animated: true)
     }
     
     // Description: Method to show a report a bug prompt.
     private func reportABug()
     {
-        let alertController = UIAlertController(title: "Report A Bug 🐞", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Bug title..."
-        }
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Short description of bug..."
-        }
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Email..."
-            textField.keyboardType = .emailAddress
-            textField.autocapitalizationType = .none
-            textField.autocorrectionType = .no
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(cancelAction)
-
+        let alertController = self.alerts.reportABugAlertController()
         let submitAction = UIAlertAction(title: "Submit", style: .default)
         { _ in
             var willBeSent = true
@@ -214,9 +195,9 @@ class BoardViewController: UIViewController
             let email = alertController.textFields?[2].text
             else { return}
             
-            if(!self.isTextFieldValid(title)) { willBeSent = false }
-            if(!self.isTextFieldValid(body)) { willBeSent = false }
-            if(!self.isValidEmail(email)) { willBeSent = false }
+            if(!InputValidator.shared.isStringEmpty(text: title)) { willBeSent = false }
+            if(!InputValidator.shared.isStringEmpty(text: body)) { willBeSent = false }
+            if(!InputValidator.shared.isEmailStringValid(email: email)) { willBeSent = false }
     
             if(willBeSent)
             {
@@ -233,29 +214,7 @@ class BoardViewController: UIViewController
     // Description: Method to show a request a feature prompt.
     private func requestAFeature()
     {
-        let alertController = UIAlertController(title: "Request A Feature 📢", message: "Send additional info to coltonboyd503@icloud.com", preferredStyle: .alert)
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Feature title..."
-        }
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Short description of feature..."
-        }
-
-        alertController.addTextField
-        { textField in
-            textField.placeholder = "Email..."
-            textField.keyboardType = .emailAddress
-            textField.autocapitalizationType = .none
-            textField.autocorrectionType = .no
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alertController.addAction(cancelAction)
-
+        let alertController = self.alerts.requestAFeatureAlertController()
         let submitAction = UIAlertAction(title: "Submit", style: .default)
         { _ in
             var willBeSent = true
@@ -264,9 +223,9 @@ class BoardViewController: UIViewController
             let email = alertController.textFields?[2].text
             else { return}
             
-            if(!self.isTextFieldValid(title)) { willBeSent = false }
-            if(!self.isTextFieldValid(body)) { willBeSent = false }
-            if(!self.isValidEmail(email)) { willBeSent = false }
+            if(!InputValidator.shared.isStringEmpty(text: title)) { willBeSent = false }
+            if(!InputValidator.shared.isStringEmpty(text: body)) { willBeSent = false }
+            if(!InputValidator.shared.isEmailStringValid(email: email)) { willBeSent = false }
     
             if(willBeSent)
             {
@@ -281,7 +240,7 @@ class BoardViewController: UIViewController
     }
     
     // Description: Method to display the source code in a SafariViewController.
-    private func sourceCode()
+    private func showSourceCode()
     {
         let url = URL(string: "https://github.com/cobocombo/Corn-Score")!
         let safariViewController = SFSafariViewController(url: url)
@@ -295,19 +254,6 @@ class BoardViewController: UIViewController
         let safariViewController = SFSafariViewController(url: url)
         self.present(safariViewController, animated: true, completion: nil)
     }
-    
-    // Description: Method to check if a textfield is empty or not.
-    private func isTextFieldValid(_ text: String) -> Bool
-    {
-        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        return !trimmedText.isEmpty
-    }
-    
-    // Description: Method to check if an email string is valid or not.
-    private func isValidEmail(_ email: String) -> Bool
-    {
-        let emailRegex = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailPredicate.evaluate(with: email)
-    }
 }
+
+//================================================================================//

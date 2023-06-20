@@ -1,5 +1,9 @@
+//================================================================================//
+
 // Imports.
 import Foundation
+
+//================================================================================//
 
 // Description: Singleton object to keep track or manage any app info.
 class AppInfo
@@ -71,3 +75,5 @@ class AppInfo
         self.defaults.set(0, forKey: self.appLaunchCountKey)
     }
 }
+
+//================================================================================//

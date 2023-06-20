@@ -1,5 +1,9 @@
+//================================================================================//
+
 // Imports.
 import Foundation
+
+//================================================================================//
 
 // Description: Object to create Github issues for different types based on labels.
 class GithubRequest
@@ -63,5 +67,7 @@ class GithubRequest
         task.resume()
     }
 }
+
+//================================================================================//
 
 

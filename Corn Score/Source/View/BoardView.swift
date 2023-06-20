@@ -1,5 +1,9 @@
+//================================================================================//
+
 // Imports.
 import UIKit
+
+//================================================================================//
 
 // Description: Default board view that contains both team sides & score labels.
 class BoardView: UIView
@@ -13,7 +17,6 @@ class BoardView: UIView
     override init(frame: CGRect)
     {
         super.init(frame: frame)
-        self.backgroundColor = .green
         self.setupViews()
         self.setupConstraints()
     }
@@ -83,3 +86,5 @@ class BoardView: UIView
         }
     }
 }
+
+//================================================================================//
