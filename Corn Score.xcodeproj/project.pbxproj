@@ -16,15 +16,11 @@
 		26B0E7F22A3A933C00696258 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7EF2A3A933B00696258 /* ProgressHUD.swift */; };
 		26B0E7F42A3A933C00696258 /* SAConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F12A3A933B00696258 /* SAConfettiView.swift */; };
 		26B0E7F62A3A98FE00696258 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F52A3A98FE00696258 /* Secret.swift */; };
-		26B0E7F82A3B401100696258 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E7F72A3B401100696258 /* README.md */; };
 		26B0E7FA2A3BBF8B00696258 /* ScoreKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */; };
 		26B0E7FE2A3BC13700696258 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E7FD2A3BC13700696258 /* BoardView.swift */; };
-		26B0E8002A3CD58E00696258 /* PRIVACY_POLICY.md in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */; };
-		26B0E8022A3D146F00696258 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E8012A3D146F00696258 /* images */; };
 		26B0E8042A3FA6F900696258 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8032A3FA6F900696258 /* AppInfo.swift */; };
 		26B0E8062A40FEF600696258 /* InputValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8052A40FEF600696258 /* InputValidator.swift */; };
 		26B0E8082A41009400696258 /* BaseAlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8072A41009400696258 /* BaseAlertControllers.swift */; };
-		26B0E80F2A42733700696258 /* screenshots in Resources */ = {isa = PBXBuildFile; fileRef = 26B0E80E2A42733700696258 /* screenshots */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -209,10 +205,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26B0E8022A3D146F00696258 /* images in Resources */,
-				26B0E7F82A3B401100696258 /* README.md in Resources */,
-				26B0E8002A3CD58E00696258 /* PRIVACY_POLICY.md in Resources */,
-				26B0E80F2A42733700696258 /* screenshots in Resources */,
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,15 +355,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 4U5LUB477B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Corn Score/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Corn Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -392,15 +386,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 4U5LUB477B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Corn Score/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Corn Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
