@@ -21,6 +21,7 @@
 		26B0E8042A3FA6F900696258 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8032A3FA6F900696258 /* AppInfo.swift */; };
 		26B0E8062A40FEF600696258 /* InputValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8052A40FEF600696258 /* InputValidator.swift */; };
 		26B0E8082A41009400696258 /* BaseAlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8072A41009400696258 /* BaseAlertControllers.swift */; };
+		26D2DD602A43B4F7003DD578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		26B0E8052A40FEF600696258 /* InputValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidator.swift; sourceTree = "<group>"; };
 		26B0E8072A41009400696258 /* BaseAlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlertControllers.swift; sourceTree = "<group>"; };
 		26B0E80E2A42733700696258 /* screenshots */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = screenshots; sourceTree = SOURCE_ROOT; };
+		26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				2684CDD92A3A7D9C008D0DE4 /* Assets.xcassets */,
 				26B0E8012A3D146F00696258 /* images */,
 				2684CDDE2A3A7D9C008D0DE4 /* Info.plist */,
+				26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */,
 				26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */,
 				26B0E7F72A3B401100696258 /* README.md */,
 				26B0E80E2A42733700696258 /* screenshots */,
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
+				26D2DD602A43B4F7003DD578 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +366,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Corn Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -393,7 +397,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Corn Score";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
