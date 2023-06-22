@@ -6,6 +6,12 @@
 
 A simple iOS app where users can keep track of an ongoing corn hole game. The app is free on the iOS app store and is completely open source!
 
+<div align="center">
+  <a href="https://apps.apple.com/us/app/corn-score/id6446418989" target="_blank">
+    <img src="images/appstore.png" alt="App Store link" height="90">
+  </a>
+</div>
+
 ## Get Involved 🤝🏻
 If you would like get involved in the future creation of this iOS app, there are two things you can do! Request new features for future versions or report existing bugs. This can be one of two ways: 
 
