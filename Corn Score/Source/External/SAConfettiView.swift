@@ -74,7 +74,7 @@ public class SAConfettiView: UIView {
 
         switch type {
         case .confetti:
-            fileName = "confetti"
+            fileName = "Confetti"
         case .triangle:
             fileName = "triangle"
         case .star:
