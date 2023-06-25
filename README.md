@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/icon.png" width=200, height=200/>
+  <img src="Images/icon.png" width=200, height=200/>
 </p>
 
 # Corn Score 💯
@@ -8,7 +8,7 @@ A simple iOS app where users can keep track of an ongoing corn hole game. The ap
 
 <div align="center">
   <a href="https://apps.apple.com/us/app/corn-score/id6446418989" target="_blank">
-    <img src="images/appstore.png" alt="App Store link" height="90">
+    <img src="Images/appstore.png" alt="App Store link" height="90">
   </a>
 </div>
 

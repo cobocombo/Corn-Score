@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2626EB6F2A48781400BCA54C /* Tests in Resources */ = {isa = PBXBuildFile; fileRef = 2626EB6E2A48781400BCA54C /* Tests */; };
 		2684CDD12A3A7D9A008D0DE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684CDD02A3A7D9A008D0DE4 /* AppDelegate.swift */; };
 		2684CDD32A3A7D9A008D0DE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684CDD22A3A7D9A008D0DE4 /* SceneDelegate.swift */; };
 		2684CDD52A3A7D9A008D0DE4 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684CDD42A3A7D9A008D0DE4 /* BoardViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2626EB6E2A48781400BCA54C /* Tests */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tests; sourceTree = SOURCE_ROOT; };
 		2684CDCD2A3A7D9A008D0DE4 /* Corn Score.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Corn Score.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2684CDD02A3A7D9A008D0DE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2684CDD22A3A7D9A008D0DE4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,11 +42,11 @@
 		26B0E7F92A3BBF8B00696258 /* ScoreKeeper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreKeeper.swift; sourceTree = "<group>"; };
 		26B0E7FD2A3BC13700696258 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = PRIVACY_POLICY.md; sourceTree = SOURCE_ROOT; };
-		26B0E8012A3D146F00696258 /* images */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = images; sourceTree = SOURCE_ROOT; };
+		26B0E8012A3D146F00696258 /* Images */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Images; sourceTree = SOURCE_ROOT; };
 		26B0E8032A3FA6F900696258 /* AppInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		26B0E8052A40FEF600696258 /* InputValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidator.swift; sourceTree = "<group>"; };
 		26B0E8072A41009400696258 /* BaseAlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlertControllers.swift; sourceTree = "<group>"; };
-		26B0E80E2A42733700696258 /* screenshots */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = screenshots; sourceTree = SOURCE_ROOT; };
+		26B0E80E2A42733700696258 /* Screenshots */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Screenshots; sourceTree = SOURCE_ROOT; };
 		26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,13 +81,14 @@
 			isa = PBXGroup;
 			children = (
 				2684CDD92A3A7D9C008D0DE4 /* Assets.xcassets */,
-				26B0E8012A3D146F00696258 /* images */,
+				26B0E8012A3D146F00696258 /* Images */,
 				2684CDDE2A3A7D9C008D0DE4 /* Info.plist */,
 				26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */,
 				26B0E7FF2A3CD58E00696258 /* PRIVACY_POLICY.md */,
 				26B0E7F72A3B401100696258 /* README.md */,
-				26B0E80E2A42733700696258 /* screenshots */,
+				26B0E80E2A42733700696258 /* Screenshots */,
 				26B0E7FC2A3BC0CB00696258 /* Source */,
+				2626EB6E2A48781400BCA54C /* Tests */,
 			);
 			path = "Corn Score";
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2626EB6F2A48781400BCA54C /* Tests in Resources */,
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
 				26D2DD602A43B4F7003DD578 /* LaunchScreen.storyboard in Resources */,
 			);
