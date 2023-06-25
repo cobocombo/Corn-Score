@@ -21,6 +21,7 @@
 		26B0E8042A3FA6F900696258 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8032A3FA6F900696258 /* AppInfo.swift */; };
 		26B0E8062A40FEF600696258 /* InputValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8052A40FEF600696258 /* InputValidator.swift */; };
 		26B0E8082A41009400696258 /* BaseAlertControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B0E8072A41009400696258 /* BaseAlertControllers.swift */; };
+		26C42B8E2A48803E00966EC1 /* Tests in Resources */ = {isa = PBXBuildFile; fileRef = 26C42B8D2A48803E00966EC1 /* Tests */; };
 		26D2DD602A43B4F7003DD578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		26B0E8052A40FEF600696258 /* InputValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidator.swift; sourceTree = "<group>"; };
 		26B0E8072A41009400696258 /* BaseAlertControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAlertControllers.swift; sourceTree = "<group>"; };
 		26B0E80E2A42733700696258 /* Screenshots */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; path = Screenshots; sourceTree = SOURCE_ROOT; };
+		26C42B8D2A48803E00966EC1 /* Tests */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tests; sourceTree = SOURCE_ROOT; };
 		26D2DD5F2A43B4F7003DD578 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				26B0E7F72A3B401100696258 /* README.md */,
 				26B0E80E2A42733700696258 /* Screenshots */,
 				26B0E7FC2A3BC0CB00696258 /* Source */,
+				26C42B8D2A48803E00966EC1 /* Tests */,
 			);
 			path = "Corn Score";
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26C42B8E2A48803E00966EC1 /* Tests in Resources */,
 				2684CDDA2A3A7D9C008D0DE4 /* Assets.xcassets in Resources */,
 				26D2DD602A43B4F7003DD578 /* LaunchScreen.storyboard in Resources */,
 			);
