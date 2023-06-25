@@ -3,6 +3,7 @@
 // Imports.
 import UIKit
 import SafariServices
+import Foundation
 
 //================================================================================//
 
