@@ -1,0 +1,34 @@
+.content 
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100%;
+}
+
+.team-side 
+{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: white;
+}
+
+.team-name 
+{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transform: translateY(-32px);
+    overflow-wrap: anywhere;
+}
+
+.team-score 
+{
+    font-size: 6em;
+    margin-top: 10px;
+    transform: translateY(-32px);
+}
