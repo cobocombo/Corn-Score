@@ -12,6 +12,7 @@ A simple app where users can keep track of an ongoing corn hole game. The app is
 - Added the ability for the user to change the team name & score label text color.
 - Added the ability to increase the font size of the team name & score label text.
 - Added the ability for the user to reset all custom settings to default.
+- Added what's new page in app.
 - Added privacy policy page in app.
 - Initial release to a standalone website.
 - Initial release to Android.
