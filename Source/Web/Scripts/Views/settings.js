@@ -168,16 +168,21 @@ function updateTextSize()
 
 ///////////////////////////////////////////////////////////////////
 
-// Function called when the user taps the source code listitem. Its opens the source code link based on platform.
+// Function called when the user taps the source code list item. Its opens the source code link based on platform.
 function sourceCodeTapped()
 {
+    let url = 'https://github.com/cobocombo/Corn-Score';
     if(getCurrentPlatform() == Platforms.Web)
     {
-        window.open('https://github.com/cobocombo/Corn-Score', '_blank');
+        window.open(url, '_blank');
     }
     else if(getCurrentPlatform() == Platforms.iOS)
     {
-        window.webkit.messageHandlers.openSafariViewController.postMessage('https://github.com/cobocombo/Corn-Score');
+        window.webkit.messageHandlers.openSafariViewController.postMessage(url);
+    }
+    else if(getCurrentPlatform() == Platforms.Android)
+    {
+        androidMessageHandler.openInCustomTabs(url);
     }
 }
 
@@ -254,6 +259,7 @@ function submitBugReport()
             document.getElementById("report-a-bug-email").value = "";
             setTimeout(() => 
             {
+                console.log("SUCCESS!!")
                 ons.notification.alert(
                 {
                     title: 'Success!',
@@ -266,6 +272,7 @@ function submitBugReport()
             hideModal('loading-modal');
             setTimeout(() => 
             {
+                console.log("FAIL!!")
                 ons.notification.alert(
                 {
                     title: 'Failure!',

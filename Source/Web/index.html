@@ -182,7 +182,7 @@
                     <ons-list-header>Title</ons-list-header>
                         <ons-list-item>
                             <div class="center">
-                                <ons-input id="report-a-bug-title" float maxlength="20" style="width: 100%;" placeholder="A title that summarizes the issue..."></ons-input>
+                                <ons-input id="report-a-bug-title" float maxlength="40" style="width: 100%;" placeholder="A title that summarizes the issue..."></ons-input>
                             </div>
                         </ons-list-item>
                     <ons-list-header>Description</ons-list-header>
@@ -194,7 +194,7 @@
                     <ons-list-header>Email</ons-list-header>
                         <ons-list-item>
                             <div class="center">
-                                <ons-input id="report-a-bug-email" float maxlength="30" style="width: 100%;" placeholder="A good email to discuss the issue..." type="email"></ons-input>
+                                <ons-input id="report-a-bug-email" float maxlength="40" style="width: 100%;" placeholder="A good email to discuss the issue..." type="email"></ons-input>
                             </div>
                         </ons-list-item>
                 </ons-list>
@@ -364,14 +364,16 @@
         <script src="Libraries/Confetti/confetti.js"></script>
 
         <!-- ///////////////////////////// SCRIPTS ///////////////////////////// -->
-        <script src="Scripts/info.js"></script>
-        <script src="Scripts/secret.js"></script>
-        <script src="Scripts/input.js"></script>
-        <script src="Scripts/github.js"></script>
-        <script src="Scripts/storage-keys.js"></script>
-        <script src="Scripts/text-sizes.js"></script>
-        <script src="Scripts/platform.js"></script>
-        <script src="Scripts/settings.js"></script>
-        <script src="Scripts/board.js"></script>
+        <script src="Scripts/Data/info.js"></script>
+        <script src="Scripts/Data/secret.js"></script>
+        <script src="Scripts/Data/storage-keys.js"></script>
+        <script src="Scripts/Data/text-sizes.js"></script>
+
+        <script src="Scripts/Utility/input.js"></script>
+        <script src="Scripts/Utility/github.js"></script>
+        <script src="Scripts/Utility/platform.js"></script>
+
+        <script src="Scripts/Views/settings.js"></script>
+        <script src="Scripts/Views/board.js"></script>
     </body>
 </html>
