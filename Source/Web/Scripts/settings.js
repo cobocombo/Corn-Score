@@ -3,6 +3,14 @@
 // Setup.
 document.addEventListener('init', function()
 {
+    updateSettingsComponents();
+});
+
+///////////////////////////////////////////////////////////////////
+
+// Function to set and update the UI components used to change customization settings.
+function updateSettingsComponents()
+{
     let team1NameInput = document.getElementById('team-1-name-input');
     let team2NameInput = document.getElementById('team-2-name-input');
     let team1ColorInput = document.getElementById('team-1-color-picker');
@@ -66,7 +74,7 @@ document.addEventListener('init', function()
         });
         textSizeSelector.selectedIndex = optionIndex;
     }
-});
+}
 
 ///////////////////////////////////////////////////////////////////
 
@@ -348,6 +356,32 @@ function submitNewFeatureRequest()
     };
 
     submitNewFeatureRequest();
+}
+
+///////////////////////////////////////////////////////////////////
+
+// Function called when the user taps the Reset To Default list item.
+function resetToDefaultTapped()
+{
+    ons.notification.alert(
+    {
+        title: 'Reset To Default?',
+        message: 'All customizations will be lost',
+        buttonLabels: ['Cancel', 'Reset'],
+        primaryButtonIndex: 1,
+        callback: function (index) 
+        {
+          if (index === 1) 
+          {
+            setDefaults();
+            updateTeamNames();
+            updateTeamColors();
+            updateTextColor();
+            updateTextSize();
+            updateSettingsComponents();
+          }
+        }
+    });
 }
 
 ///////////////////////////////////////////////////////////////////

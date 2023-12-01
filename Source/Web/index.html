@@ -62,8 +62,8 @@
 
                 <!-- Settings List Form -->
                 <ons-list>
-                    <!-- Edit Teams -->
-                    <ons-list-header>Edit Teams</ons-list-header>
+                    <!-- Customization -->
+                    <ons-list-header>Customize</ons-list-header>
                     <ons-list-item class="edit-team-input-item">
                         <div class="left">
                             <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
@@ -86,9 +86,6 @@
                             <input type="color" class="team-color-picker" id="team-2-color-picker" value="#0000FF">
                         </div>
                     </ons-list-item>
-
-                    <!-- Edit Board -->
-                    <ons-list-header>Edit Board</ons-list-header>
                     <ons-list-item>
                         <div class="left">
                             <ons-icon icon="fa-palette" class="list-item__icon"></ons-icon>
@@ -116,6 +113,12 @@
                               </option>
                             </ons-select>
                         </div>
+                    </ons-list-item>
+                    <ons-list-item tappable onclick="resetToDefaultTapped()">
+                        <div class="left">
+                            <ons-icon icon="fa-redo" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Reset To Default</div>
                     </ons-list-item>
 
                     <!-- Get Involved -->
@@ -255,6 +258,7 @@
                     <ul>
                         <li>Added the ability for the user to change the team name & score label text color.</li>
                         <li>Added the ability to increase the font size of the team name & score label text.</li>
+                        <li>Added the ability for the user to reset all custom settings to default.</li>
                         <li>Added privacy policy page in app.</li>
                         <li>Initial release to a standalone website.</li>
                         <li>Initial release to Android.</li>
