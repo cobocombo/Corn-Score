@@ -259,7 +259,6 @@ function submitBugReport()
             document.getElementById("report-a-bug-email").value = "";
             setTimeout(() => 
             {
-                console.log("SUCCESS!!")
                 ons.notification.alert(
                 {
                     title: 'Success!',
