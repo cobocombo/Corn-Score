@@ -8,6 +8,7 @@ import SafariServices
 
 class WebViewController: UIViewController
 {
+    // Method called when the view is done loading.
     override func viewDidLoad()
     {
         super.viewDidLoad();
@@ -28,12 +29,19 @@ class WebViewController: UIViewController
         webView.load(request);
         self.view.addSubview(webView);
     }
+    
+    // Overriden status bar style.
+    override var preferredStatusBarStyle: UIStatusBarStyle
+    {
+        return .lightContent
+    }
 }
 
 ///////////////////////////////////////////////////////////////////
 
 class WebKitMessageHandler: NSObject, WKScriptMessageHandler
 {
+    // Method called when the webkit message handler is invoked.
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage)
     {
         if message.name == "openSafariViewController", let urlString = message.body as? String
