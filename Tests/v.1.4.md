@@ -13,9 +13,9 @@
 | Confetti Celebration | When either teams hits 21, a game over alert should show and a confetti celebration should happen. | PASS |
 | Buy Me A Beer Link - Web | Pressing the buy me a beer button on the web platform should open a new window tab with the buy me a beer link. | PASS |
 | Customize - Team Names | In the settings menu the user can change the names of both teams. The board reflects changes and saves the names. | PASS |
-| Customize - Team Colors | In the settings menu the user can change the colors of both teams. The board reflects changes and saves the colors. | PASS |
-| Customize - Text Color | In the settings menu the user can change the color of the board text.| The board reflects this change and saves the color. | PASS |
-| Customize - Text Size | In the settings menu the user can change the size of the board text. | The board reflects this change and saves the size. | PASS |
+| Customize - Team Colors | In the settings menu the user can change the colors of both teams.  The board reflects changes and saves the colors. | PASS |
+| Customize - Text Color | In the settings menu the user can change the color of the board text. The board reflects this change and saves the color. | PASS |
+| Customize - Text Size | In the settings menu the user can change the size of the board text. The board reflects this change and saves the size. | PASS |
 | Customize - Reset To Default | In the settings menu the user can reset all settings to default. | PASS |
 | Source Code Link - Web | Pressing the source code list item on the web platform should open a new window tab with the source code link. | PASS |
 | Report A Bug Feature | Report A Bug feature should work as expected. | PASS |
