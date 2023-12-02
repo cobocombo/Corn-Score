@@ -160,17 +160,25 @@ function restartButtonTapped()
 function buyMeABeerButtonTapped()
 {
     let url = 'https://www.buymeacoffee.com/cobocombo';
-    if(getCurrentPlatform() == Platforms.Web)
-    {
-        window.open(url, '_blank');
-    }
-    else if(getCurrentPlatform() == Platforms.iOS)
+    if(ons.platform.isWKWebView())
     {
         window.webkit.messageHandlers.openSafariViewController.postMessage(url);
     }
-    else if(getCurrentPlatform() == Platforms.Android)
+    else if(ons.platform.isAndroid())
     {
-        androidMessageHandler.openInCustomTabs(url);
+        const isWebView = /(wv|i)\b/.test(navigator.userAgent);
+        if (isWebView) 
+        {
+            androidMessageHandler.openInCustomTabs(url);
+        } 
+        else
+        {
+            window.open(url, '_blank');
+        }
+    }
+    else
+    {
+        window.open(url, '_blank');
     }
 }
 
