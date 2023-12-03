@@ -1,10 +1,15 @@
 <p align="center">
-  <img src="Images/IOS-rounded.png" width=200, height=200/>
+  <img src="Images/IOS-rounded.png" width=250, height=250/>
 </p>
 
 # Corn Score 💯
 
 A simple app where users can keep track of an ongoing corn hole game. The app is free on the iOS & Google Play stores, and is completely open source! It is also available as a standalone website!
+
+<div style="display: flex;">
+    <img src="Images/app-store.webp" alt="Image 1" style="width: 15%; height: auto; padding-right: 20px">
+    <img src="Images/google-play.webp" alt="Image 2" style="width: 15%; height: auto;">
+</div>
 
 ## Whats New:
 
@@ -14,7 +19,6 @@ A simple app where users can keep track of an ongoing corn hole game. The app is
 - Added the ability for the user to reset all custom settings to default.
 - Added what's new page in app.
 - Added privacy policy page in app.
-- Initial release to a standalone website.
 - Initial release to Android.
 
 ### v.1.3
@@ -39,7 +43,7 @@ Corn Score is supported by the following awesome libraries and is subject to the
 If you enjoy the app being free, and you feel like this repository is a great learning space for building apps, then feel free to help support further development by keeping me fueled with beer.
 
 
-<div align="center">
+<div>
   <a href="https://www.buymeacoffee.com/cobocombo"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a beer&emoji=🍺&slug=cobocombo&button_colour=FF5F5F&font_colour=ffffff&font_family=Poppins&outline_colour=000000&coffee_colour=FFDD00" /></a>
 </div>
 
