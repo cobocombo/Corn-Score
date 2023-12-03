@@ -7,8 +7,8 @@
 A simple app where users can keep track of an ongoing corn hole game. The app is free on the iOS & Google Play stores, and is completely open source! It is also available as a standalone website!
 
 <div style="display: flex;">
-    <img src="Images/app-store.webp" alt="Image 1" style="width: 15%; height: auto; padding-right: 20px">
-    <img src="Images/google-play.webp" alt="Image 2" style="width: 15%; height: auto;">
+    <img src="Images/app-store.webp" alt="Image 1" style="width: 25%; height: auto; padding-right: 20px">
+    <img src="Images/google-play.webp" alt="Image 2" style="width: 25%; height: auto;">
 </div>
 
 ## Whats New:
