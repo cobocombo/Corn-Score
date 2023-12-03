@@ -166,7 +166,15 @@ function buyMeABeerButtonTapped()
     }
     else if(ons.platform.isAndroid())
     {
-        androidMessageHandler.openInCustomTabs(url);
+        const isWebView = /(wv|i)\b/.test(navigator.userAgent);
+        if (isWebView) 
+        {
+            androidMessageHandler.openInCustomTabs(url);
+        } 
+        else
+        {
+            window.open(url, '_blank');
+        }
     }
     else
     {
