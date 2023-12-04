@@ -15,6 +15,7 @@ class WebViewController: UIViewController
         
         let userContentController = WKUserContentController();
         userContentController.add(WebKitMessageHandler(), name: "openSafariViewController");
+        userContentController.add(WebKitMessageHandler(), name: "rateApp");
         
         let webViewConfig = WKWebViewConfiguration();
         webViewConfig.userContentController = userContentController;
@@ -56,6 +57,19 @@ class WebKitMessageHandler: NSObject, WKScriptMessageHandler
                         .first { $0.isKeyWindow };
             let rootViewController = window?.rootViewController;
             rootViewController!.present(safariViewController, animated: true, completion: nil);
+        }
+        
+        if message.name == "rateApp", let urlString = message.body as? String
+        {
+            let url = URL(string: urlString);
+            if #available(iOS 10.0, *)
+            {
+                UIApplication.shared.open(url!, options: [:], completionHandler: nil);
+            }
+            else
+            {
+                UIApplication.shared.openURL(url!);
+            }
         }
     }
 }

@@ -399,3 +399,25 @@ function resetToDefaultTapped()
 }
 
 ///////////////////////////////////////////////////////////////////
+
+// Function called when the user taps the rate corn score list item. Directs the user to the appropriate store listing.
+function rateCornScoreTapped()
+{
+    let appStoreUrl = "https://itunes.apple.com/app/id6446418989?action=write-review";
+    let googlePlayUrl = 'https://play.google.com/store/apps/details?id=com.cobo.cornscore';
+
+    if(ons.platform.isWKWebView())
+    {
+        window.webkit.messageHandlers.rateApp.postMessage(appStoreUrl);
+    }
+    else if(ons.platform.isAndroid())
+    {
+        const isWebView = /(wv|i)\b/.test(navigator.userAgent);
+        if (isWebView) 
+        {
+            androidMessageHandler.openInCustomTabs(googlePlayUrl);
+        } 
+    }
+}
+
+///////////////////////////////////////////////////////////////////
