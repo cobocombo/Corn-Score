@@ -7,8 +7,8 @@
 A simple app where users can keep track of an ongoing corn hole game. The app is free on the iOS & Google Play stores, and is completely open source!
 
 <div style="display: flex;">
-    <img src="Images/app-store.webp" alt="Image 1" style="width: 250px; height: auto; padding-right: 20px">
-    <img src="Images/google-play.webp" alt="Image 2" style="width: 250px; height: auto;">
+    <a href="https://itunes.apple.com/app/id6446418989"><img src="Images/app-store.webp" alt="Image 1" style="width: 250px; height: auto; padding-right: 20px"></a>
+    <a href="https://play.google.com/store/apps/details?id=com.cobo.cornscore"><img src="Images/google-play.webp" alt="Image 2" style="width: 250px; height: auto;"></a>
 </div>
 
 ## Whats New:
