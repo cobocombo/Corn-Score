@@ -29,17 +29,10 @@ class MainActivity : AppCompatActivity()
 class AndroidMessageHandler(private val activity: AppCompatActivity, private val context: Context)
 {
     @JavascriptInterface
-    fun debug(message: String)
-    {
-        Log.d("Corn Score", message)
-    }
-
-    @JavascriptInterface
     fun openInCustomTabs(url: String)
     {
         val builder = CustomTabsIntent.Builder()
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(context, Uri.parse(url))
-        Log.d("Corn Score", url)
     }
 }
