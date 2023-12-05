@@ -1,3 +1,5 @@
+///////////////////////////////////////////////////////////////////
+
 package com.cobo.cornscore
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +9,8 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import androidx.browser.customtabs.CustomTabsIntent
 import android.net.Uri
+
+///////////////////////////////////////////////////////////////////
 
 class MainActivity : AppCompatActivity()
 {
@@ -26,6 +30,8 @@ class MainActivity : AppCompatActivity()
     }
 }
 
+///////////////////////////////////////////////////////////////////
+
 class AndroidMessageHandler(private val activity: AppCompatActivity, private val context: Context)
 {
     @JavascriptInterface
@@ -36,3 +42,5 @@ class AndroidMessageHandler(private val activity: AppCompatActivity, private val
         customTabsIntent.launchUrl(context, Uri.parse(url))
     }
 }
+
+///////////////////////////////////////////////////////////////////
