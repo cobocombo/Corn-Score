@@ -8,18 +8,18 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "My App",
+    name: "Corn Score",
     platforms: [
         .iOS("17.5")
     ],
     products: [
         .iOSApplication(
-            name: "My App",
+            name: "Corn Score",
             targets: ["AppModule"],
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .carrot),
-            accentColor: .presetColor(.yellow),
+            appIcon: .placeholder(icon: .gamepad),
+            accentColor: .presetColor(.red),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -36,6 +36,9 @@ let package = Package(
         .executableTarget(
             name: "AppModule",
             path: ".",
+            resources: [
+                .process("Resources")
+            ],
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals")
             ]

@@ -23,7 +23,7 @@ class WebViewController: UIViewController
         let webView = WKWebView(frame: view.bounds, configuration: webViewConfig);
         webView.autoresizingMask = [ .flexibleWidth, .flexibleHeight];
         
-        let htmlPath = Bundle.main.path(forResource: "Web/index", ofType: "html")!;
+        let htmlPath = Bundle.main.path(forResource: "index", ofType: "html")!;
         let fileURL = URL(fileURLWithPath: htmlPath);
         let request = URLRequest(url: fileURL);
         
@@ -75,5 +75,3 @@ class WebKitMessageHandler: NSObject, WKScriptMessageHandler
 }
 
 ///////////////////////////////////////////////////////////////////
-
-

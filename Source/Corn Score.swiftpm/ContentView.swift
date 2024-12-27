@@ -5,8 +5,7 @@ struct ContentView: UIViewControllerRepresentable
 {
     func makeUIViewController(context: Context) -> UIViewController 
     {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .red
+        let viewController = WebViewController()
         return viewController
     }
     
