@@ -1,15 +1,19 @@
 ///////////////////////////////////////////////////////////////////
 
+const APP_VERSION = '1.5';
+
+///////////////////////////////////////////////////////////////////
+
 // Setup.
 document.addEventListener('init', function()
 {
-    updateSettingsComponents();
+    updateSettingsUI();
 });
 
 ///////////////////////////////////////////////////////////////////
 
 // Function to set and update the UI components used to change customization settings.
-function updateSettingsComponents()
+function updateSettingsUI()
 {
     let team1NameInput = document.getElementById('team-1-name-input');
     let team2NameInput = document.getElementById('team-2-name-input');
@@ -253,7 +257,7 @@ function submitBugReport()
         showModal('loading-modal');
         let body = 
         `BUG REPORT:
-        - App Version: ${appVersion}
+        - App Version: ${APP_VERSION}
         - Operating System: ${getCurrentPlatform()}
         - Description: ${description} 
         ` 
@@ -334,7 +338,7 @@ function submitNewFeatureRequest()
         showModal('loading-modal');
         let body = 
         `NEW FEATURE REQUEST::
-        - App Version: ${appVersion}
+        - App Version: ${APP_VERSION}
         - Operating System: ${getCurrentPlatform()}
         - Description: ${description} 
         ` 
@@ -392,7 +396,7 @@ function resetToDefaultTapped()
             updateTeamColors();
             updateTextColor();
             updateTextSize();
-            updateSettingsComponents();
+            updateSettingsUI();
           }
         }
     });
