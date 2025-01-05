@@ -155,31 +155,3 @@ function restartButtonTapped()
     }
 }
 ///////////////////////////////////////////////////////////////////
-
-// Function called when the user taps the buy me a beer button. Its opens the donation link based on platform.
-function buyMeABeerButtonTapped()
-{
-    let url = 'https://www.buymeacoffee.com/cobocombo';
-    if(ons.platform.isWKWebView())
-    {
-        window.webkit.messageHandlers.openSafariViewController.postMessage(url);
-    }
-    else if(ons.platform.isAndroid())
-    {
-        const isWebView = /(wv|i)\b/.test(navigator.userAgent);
-        if (isWebView) 
-        {
-            androidMessageHandler.openInCustomTabs(url);
-        } 
-        else
-        {
-            window.open(url, '_blank');
-        }
-    }
-    else
-    {
-        window.open(url, '_blank');
-    }
-}
-
-///////////////////////////////////////////////////////////////////
