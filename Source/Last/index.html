@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Corn Score</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'">
+      <link rel="stylesheet" href="Libraries/Onsen/css/onsenui.css">
+      <link rel="stylesheet" href="Libraries/Onsen/css/onsen-css-components.min.css">
+      <link rel="stylesheet" href="Styles/board.css"/>
+    </head>
+    <body>
+        <ons-navigator swipeable id="navigator" page="board.html"></ons-navigator>
+
+        <!-- ///////////////////////////// START OF BOARD PAGE  ///////////////////////////// -->
+        <template id="board.html">
+            <ons-page id="board">
+
+                <!-- Toolbar -->
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button icon="fa-redo" id="restart-button" style="color: black;" onclick="restartButtonTapped()"></ons-toolbar-button>
+                    </div>
+                    <div class="center">Corn Score</div>
+                    <div class="right">
+                        <ons-toolbar-button icon="fa-cog" id="settings-button" style="color: black;"></ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+
+                <!-- Scoreboard -->
+                <div class="content">
+                    <div class="team-side" id="team-1-side" style="background-color: red;" onclick="changeScore('team-1', event)">
+                        <div class="team-name" id="team-1-name">Team 1</div>
+                        <div class="team-score" id="team-1-score">0</div>
+                    </div>
+
+                    <div class="team-side" id="team-2-side" style="background-color: blue;" onclick="changeScore('team-2', event)">
+                        <div class="team-name" id="team-2-name">Team 2</div>
+                        <div class="team-score" id="team-2-score">0</div>
+                    </div>
+                </div>
+
+            </ons-page>
+        </template>
+
+        <!-- ///////////////////////////// START OF SETTINGS PAGE  ///////////////////////////// -->
+        <template id="settings.html">
+            <ons-page id="settings">
+    
+                <!-- Toolbar -->
+                <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button icon="fa-angle-left" style="color: black;" onclick="popPage()"></ons-toolbar-button>
+                </div>
+                <div class="center">Settings</div>
+                </ons-toolbar>
+
+                <!-- Settings List Form -->
+                <ons-list>
+                    <!-- Customization -->
+                    <ons-list-header>Customize</ons-list-header>
+                    <ons-list-item class="edit-team-input-item">
+                        <div class="left">
+                            <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
+                        </div>
+                        <label class="center">
+                            <ons-input id="team-1-name-input" float maxlength="10" value="Team 1"></ons-input>
+                        </label>
+                        <div class="right" >
+                            <input type="color" class="team-color-picker" id="team-1-color-picker" value="#FF0000">
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item class="edit-team-input-item">
+                        <div class="left">
+                            <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
+                        </div>
+                        <label class="center">
+                            <ons-input id="team-2-name-input" float maxlength="10" value="Team 2"></ons-input>
+                        </label>
+                        <div class="right">
+                            <input type="color" class="team-color-picker" id="team-2-color-picker" value="#0000FF">
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">
+                            <ons-icon icon="fa-palette" class="list-item__icon"></ons-icon>
+                        </div>
+                        <label id="text-color-label" class="center">Text Color</label>
+                        <div class="right">
+                            <input type="color" class="team-color-picker" id="text-color-picker" value="#FFFFFF">
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div class="left">
+                            <ons-icon icon="fa-text-height" class="list-item__icon"></ons-icon>
+                        </div>
+                        <label id="text-size-label" class="center">Text Size</label>
+                        <div class="right">
+                            <ons-select id="text-size-select" style="width: 90px">
+                              <option value="Small">
+                                Small
+                              </option>
+                              <option value="Medium">
+                                Medium
+                              </option>
+                              <option value="Large">
+                                Large
+                              </option>
+                            </ons-select>
+                        </div>
+                    </ons-list-item>
+                    <ons-list-item tappable onclick="resetToDefaultTapped()">
+                        <div class="left">
+                            <ons-icon icon="fa-redo" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Reset To Default</div>
+                    </ons-list-item>
+
+                    <!-- Get Involved -->
+                    <ons-list-header>Get Involved</ons-list-header>
+                    <ons-list-item tappable modifier="chevron" onclick="sourceCodeTapped()">
+                        <div class="left">
+                            <ons-icon icon="fa-github" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Source Code</div>
+                    </ons-list-item>
+                    <ons-list-item tappable modifier="chevron" id="report-a-bug-list-item" onclick="showModal('report-a-bug-modal')">
+                        <div class="left">
+                            <ons-icon icon="fa-bug" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Report A Bug</div>
+                    </ons-list-item>
+                    <ons-list-item tappable modifier="chevron" id="request-a-feature-list-item" onclick="showModal('request-a-feature-modal')">
+                        <div class="left">
+                            <ons-icon icon="fa-plus-circle" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Request A Feature</div>
+                    </ons-list-item>
+
+                    <!-- App Info -->
+                    <ons-list-header>App Info</ons-list-header>
+                    <ons-list-item>
+                        <div class="left">
+                            <ons-icon icon="fa-info-circle" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Version: 1.4</div>
+                    </ons-list-item>
+                    <ons-list-item tappable modifier="chevron" id="rate-corn-score-list-item" onclick="rateCornScoreTapped()">
+                        <div class="left">
+                            <ons-icon icon="fa-heart" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Rate Corn Score</div>
+                    </ons-list-item>
+                    <ons-list-item tappable modifier="chevron" id="whats-new-list-item">
+                        <div class="left">
+                            <ons-icon icon="fa-star" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">What's New</div>
+                    </ons-list-item>
+                    <ons-list-item tappable modifier="chevron" id="privacy-policy-list-item">
+                        <div class="left">
+                            <ons-icon icon="fa-eye" class="list-item__icon"></ons-icon>
+                        </div>
+                        <div class="center">Privacy Policy</div>
+                    </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </template>
+
+        <!-- ///////////////////////////// START OF MODAL REPORT A BUG PAGE  ///////////////////////////// -->
+        <ons-modal id="report-a-bug-modal" animation="lift">
+            <ons-page id="report-a-bug">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button icon="fa-times" style="color: black;" onclick="hideModal('report-a-bug-modal')"></ons-toolbar-button>
+                    </div>
+                    <div class="center">Report A Bug</div>
+                    <div class="right">
+                        <ons-toolbar-button icon="fa-paper-plane" style="color: black;" onclick="submitBugReport()"></ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <ons-list>
+                    <ons-list-header>Title</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <ons-input id="report-a-bug-title" float maxlength="40" style="width: 100%;" placeholder="A title that summarizes the issue..."></ons-input>
+                            </div>
+                        </ons-list-item>
+                    <ons-list-header>Description</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <textarea class="textarea textarea--transparent" id="report-a-bug-description", style="width: 100%;" placeholder="A detailed description of what's going wrong..." rows="5"></textarea>
+                            </div>
+                        </ons-list-item>
+                    <ons-list-header>Email</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <ons-input id="report-a-bug-email" float maxlength="40" style="width: 100%;" placeholder="A good email to discuss the issue..." type="email"></ons-input>
+                            </div>
+                        </ons-list-item>
+                </ons-list>
+            </ons-page>
+        </ons-modal>
+
+        <!-- ///////////////////////////// START OF MODAL REQUEST A FEATURE PAGE  ///////////////////////////// -->
+        <ons-modal id="request-a-feature-modal" animation="lift">
+            <ons-page id="request-a-feature">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button icon="fa-times" style="color: black;" onclick="hideModal('request-a-feature-modal')"></ons-toolbar-button>
+                    </div>
+                    <div class="center">Request A Feature</div>
+                    <div class="right">
+                        <ons-toolbar-button icon="fa-paper-plane" style="color: black;" onclick="submitNewFeatureRequest()"></ons-toolbar-button>
+                    </div>
+                  </ons-toolbar>
+                  <ons-list>
+                    <ons-list-header>Title</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <ons-input id="request-a-feature-title" float maxlength="40" style="width: 100%;" placeholder="A title that summarizes the feature..."></ons-input>
+                            </div>
+                        </ons-list-item>
+                    <ons-list-header>Description</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <textarea class="textarea textarea--transparent" id="request-a-feature-description", style="width: 100%;" placeholder="A detailed description of how we could improve the app..." rows="5"></textarea>
+                            </div>
+                        </ons-list-item>
+                    <ons-list-header>Email</ons-list-header>
+                        <ons-list-item>
+                            <div class="center">
+                                <ons-input id="request-a-feature-email" float maxlength="40" style="width: 100%;" placeholder="A good email to discuss the feature..." type="email"></ons-input>
+                            </div>
+                        </ons-list-item>
+                  </ons-list>
+            </ons-page>
+        </ons-modal>
+
+
+        <!-- ///////////////////////////// START OF LOADING MODAL ///////////////////////////// -->
+        <ons-modal id="loading-modal" animation="lift">
+            <div style="text-align: center">
+              <p><ons-icon icon="fa-circle-notch" size="75px" spin></ons-icon></p>
+            </div>
+        </ons-modal>
+
+        <!-- ///////////////////////////// START OF WHAT'S NEW PAGE ///////////////////////////// -->
+        <template id="whats-new.html">
+            <ons-page id="whats-new">
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button icon="fa-angle-left" style="color: black;" onclick="popPage()"></ons-toolbar-button>
+                    </div>
+                    <div class="center">What's New</div>
+                  </ons-toolbar>
+                  <ons-card>
+                    <h3 style="text-align: left; font-weight: bold;">Version 1.4:</h2>
+                    <ul>
+                        <li>Added the ability for the user to change the team name & score label text color.</li>
+                        <li>Added the ability to increase the font size of the team name & score label text.</li>
+                        <li>Added the ability for the user to reset all custom settings to default.</li>
+                        <li>Added what's new page in app.</li>
+                        <li>Added privacy policy page in app.</li>
+                    </ul>
+                </ons-card>
+                <ons-card>
+                    <h3 style="text-align: left; font-weight: bold;">Version 1.3:</h2>
+                    <ul>
+                        <li>Added the ability to change team background colors.</li>
+                        <li>Added team labels & ability to change these labels.</li>
+                        <li>Added restart game prompt to restart button to cut down on accidental restarts.</li>
+                    </ul>
+                </ons-card>
+                <ons-card>
+                    <h3 style="text-align: left; font-weight: bold;">Version 1.2:</h2>
+                    <ul>
+                        <li>Initial release to iOS.</li>
+                    </ul>
+                </ons-card>
+            </ons-page>
+        </template>
+
+        <!-- ///////////////////////////// START OF PRIVACY POLICY PAGE ///////////////////////////// -->
+        <template id="privacy-policy.html">
+            <ons-page id="privacy-policy" >
+                <ons-toolbar>
+                    <div class="left">
+                        <ons-toolbar-button icon="fa-angle-left" style="color: black;" onclick="popPage()"></ons-toolbar-button>
+                    </div>
+                    <div class="center">Privacy Policy</div>
+                  </ons-toolbar>
+                    <ons-card>
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Description:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            This Privacy Policy describes how Corn Score ("we," "us," or "our") collects, uses, and discloses information when you use our iOS app, Corn Score. 
+                            By using the app, you agree to the collection and use of information in accordance with this policy.
+                        </p>
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Effective Date:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            6.16.23
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Information We Collect:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            The only personal user information we collect is an email if the user decides voluntarily to request a new app feature, 
+                            or to report a bug from within Corn Score.
+                        </p>
+                   
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Usage Data:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            Corn Score may collect non-personally identifiable information about your device and app usage. 
+                            This includes information such as the type of device, operating system version, app version, and other technical information. 
+                            This data is used for analytical purposes to improve the app's functionality and user experience.
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Third Party Services:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            Corn Score integrates with the Github Public API in order for users to report new features, or report any bugs from within Corn Score. 
+                            A user's personal email is necessary to be recorded in order to give the developer a contact point, about new features or bug reports initiated voluntarily.
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Data Security:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            We take reasonable measures to protect the information collected by Corn Score from loss, unauthorized access, disclosure, alteration, or destruction. 
+                            However, please note that no method of transmission over the internet or electronic storage is 100% secure and reliable, 
+                            and we cannot guarantee its absolute security.
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Advertising:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            Corn Score does not display any third-party advertisements or collect data for advertising purposes.
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Changes To This Policy:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date & revision history. 
+                            It is advised to review this Privacy Policy periodically for any changes.
+                        </p>
+                    
+                        <h3 style="text-align: left; padding-left: 10px; font-weight: bold;">Contact Us:</h2>
+                        <p style="text-align: left; padding-left: 10px; padding-right: 10px;">
+                            If you have any questions or concerns about this Privacy Policy or the practices of the Corn Score app, 
+                            please contact us at coltonboyd503@icloud.com.
+                        </p>
+                    </ons-card>
+            </ons-page>
+        </template>
+
+        
+
+        <!-- ///////////////////////////// THIRD PARTY LIBARIES ///////////////////////////// -->
+        <script src="Libraries/Onsen/js/onsenui.min.js"></script>
+        <script src="Libraries/Confetti/confetti.js"></script>
+
+        <!-- ///////////////////////////// SCRIPTS ///////////////////////////// -->
+        <script src="Scripts/Data/info.js"></script>
+        <!-- <script src="Scripts/Data/secret.js"></script> -->
+        <script src="Scripts/Data/storage-keys.js"></script>
+        <script src="Scripts/Data/text-sizes.js"></script>
+
+        <script src="Scripts/Utility/input.js"></script>
+        <script src="Scripts/Utility/github.js"></script>
+        <script src="Scripts/Utility/platform.js"></script>
+
+        <script src="Scripts/Views/settings.js"></script>
+        <script src="Scripts/Views/board.js"></script>
+    </body>
+</html>
