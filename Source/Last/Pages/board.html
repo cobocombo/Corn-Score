@@ -1,0 +1,50 @@
+<!-- ///////////////////////////////////////////////////////////
+// Board Page - Corn Score
+// Main scoreboard interface for the Corn Score app.
+//
+// Features:
+// - Toolbar:
+//   - Restart button (left): Resets the game.
+//   - Settings button (right): Navigates to settings.
+//
+// - Scoreboard:
+//   - Two team sections (Team 1 and Team 2) with:
+//     - Team name and score display.
+//     - Background colors: Red (Team 1) and Blue (Team 2).
+//   - Click on a team to update its score via `changeScore`.
+//
+// Event Handlers:
+// - restartButtonTapped(): Resets the game.
+// - changeScore(): Updates the selected team's score.
+//
+// IDs are used for styling and event binding. 
+/////////////////////////////////////////////////////// -->
+
+<ons-page id="board">
+
+  <!-- Toolbar -->
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button icon="fa-redo" id="restart-button" style="color: black;" onclick="restartButtonTapped()"></ons-toolbar-button>
+    </div>
+    <div class="center">Corn Score</div>
+    <div class="right">
+      <ons-toolbar-button icon="fa-cog" id="settings-button" style="color: black;"></ons-toolbar-button>
+    </div>
+  </ons-toolbar>
+
+  <!-- Scoreboard -->
+  <div class="content">
+    <div class="team-side" id="team-1-side" style="background-color: red;" onclick="changeScore('team-1', event)">
+      <div class="team-name" id="team-1-name">Team 1</div>
+      <div class="team-score" id="team-1-score">0</div>
+    </div>
+
+    <div class="team-side" id="team-2-side" style="background-color: blue;" onclick="changeScore('team-2', event)">
+      <div class="team-name" id="team-2-name">Team 2</div>
+      <div class="team-score" id="team-2-score">0</div>
+    </div>
+  </div>
+</ons-page>
+
+<!-- ////////////////////////////////////////////////// -->

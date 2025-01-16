@@ -1,0 +1,130 @@
+<!-- //////////////////////////////////////////////////////
+// Settings Page
+// - Displays the settings interface for the app.
+// - Includes options for customization, app info, and user involvement.
+//
+// Features:
+// - Toolbar with a back button.
+// - Customization options: Team names, colors, text size, etc.
+// - Actions for resetting settings to default, reporting bugs, and requesting features.
+// - App information: Version details, rating, updates, and privacy policy.
+/////////////////////////////////////////////////////// -->
+
+<ons-page id="settings">
+
+    <!-- Toolbar -->
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button icon="fa-angle-left" style="color: black;" onclick="popPage()"></ons-toolbar-button>
+      </div>
+      <div class="center">Settings</div>
+    </ons-toolbar>
+  
+    <!-- Settings List Form -->
+    <ons-list>
+  
+      <!-- Customization -->
+      <ons-list-header>Customize</ons-list-header>
+      <ons-list-item class="edit-team-input-item">
+        <div class="left">
+          <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
+        </div>
+        <label class="center">
+          <ons-input id="team-1-name-input" float maxlength="10" value="Team 1"></ons-input>
+        </label>
+        <div class="right">
+          <input type="color" class="team-color-picker" id="team-1-color-picker" value="#FF0000">
+        </div>
+      </ons-list-item>
+      <ons-list-item class="edit-team-input-item">
+        <div class="left">
+          <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
+        </div>
+        <label class="center">
+          <ons-input id="team-2-name-input" float maxlength="10" value="Team 2"></ons-input>
+        </label>
+        <div class="right">
+          <input type="color" class="team-color-picker" id="team-2-color-picker" value="#0000FF">
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="left">
+          <ons-icon icon="fa-palette" class="list-item__icon"></ons-icon>
+        </div>
+        <label id="text-color-label" class="center">Text Color</label>
+        <div class="right">
+          <input type="color" class="team-color-picker" id="text-color-picker" value="#FFFFFF">
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="left">
+          <ons-icon icon="fa-text-height" class="list-item__icon"></ons-icon>
+        </div>
+        <label id="text-size-label" class="center">Text Size</label>
+        <div class="right">
+          <ons-select id="text-size-select" style="width: 90px">
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+          </ons-select>
+        </div>
+      </ons-list-item>
+      <ons-list-item tappable onclick="resetToDefaultTapped()">
+        <div class="left">
+          <ons-icon icon="fa-redo" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Reset To Default</div>
+      </ons-list-item>
+  
+      <!-- Get Involved -->
+      <ons-list-header>Get Involved</ons-list-header>
+      <ons-list-item tappable modifier="chevron" onclick="sourceCodeTapped()">
+        <div class="left">
+          <ons-icon icon="fa-github" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Source Code</div>
+      </ons-list-item>
+      <ons-list-item tappable modifier="chevron" id="report-a-bug-list-item" onclick="showModal('report-a-bug-modal', 'report-a-bug.html')">
+        <div class="left">
+          <ons-icon icon="fa-bug" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Report A Bug</div>
+      </ons-list-item>
+      <ons-list-item tappable modifier="chevron" id="request-a-feature-list-item" onclick="showModal('request-a-feature-modal', 'request-a-feature.html')">
+        <div class="left">
+          <ons-icon icon="fa-plus-circle" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Request A Feature</div>
+      </ons-list-item>
+  
+      <!-- App Info -->
+      <ons-list-header>App Info</ons-list-header>
+      <ons-list-item>
+        <div class="left">
+          <ons-icon icon="fa-info-circle" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Version: 1.5</div>
+      </ons-list-item>
+      <ons-list-item tappable modifier="chevron" id="rate-corn-score-list-item" onclick="rateCornScoreTapped()">
+        <div class="left">
+          <ons-icon icon="fa-heart" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Rate Corn Score</div>
+      </ons-list-item>
+      <ons-list-item tappable modifier="chevron" id="whats-new-list-item">
+        <div class="left">
+          <ons-icon icon="fa-star" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">What's New</div>
+      </ons-list-item>
+      <ons-list-item tappable modifier="chevron" id="privacy-policy-list-item">
+        <div class="left">
+          <ons-icon icon="fa-eye" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">Privacy Policy</div>
+      </ons-list-item>
+    </ons-list>
+  
+  </ons-page>
+
+  <!-- //////////////////////////////////////////////// -->

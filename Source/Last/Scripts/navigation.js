@@ -51,14 +51,46 @@ function popPage()
 }
 
 /**
- * Displays a modal dialog by its ID.
- * This function is used to show modals, such as popups or overlays, in the app.
+ * Displays a modal by fetching its HTML content from an external file if it doesn't already exist in the DOM.
  * 
- * @param {string} id - The ID of the modal element to be displayed.
+ * This function checks if the modal with the specified ID already exists in the DOM. If it doesn't, it fetches the modal's 
+ * HTML content from the provided external file, extracts the modal, and appends it to the document body before showing it.
+ * 
+ * @async
+ * @function showModal
+ * @param {string} modalId - The ID of the modal to show.
+ * @param {string} modalFile - The URL of the external HTML file containing the modal's content.
+ * @throws {Error} Throws an error if the modal can't be found in the file or the fetch request fails.
  */
-function showModal(id) 
+async function showModal(modalId, modalFile) 
 {
-  document.getElementById(id).show();
+  try 
+  {
+    // Check if the modal already exists in the DOM.
+    let modal = document.getElementById(modalId);
+    if (!modal) 
+    {
+      // Fetch the modal content from the external file.
+      const response = await fetch(modalFile);
+      if (!response.ok) { throw new Error(`Failed to load modal from ${modalFile}: ${response.statusText}`); }
+      const modalHTML = await response.text();
+
+      // Create a temporary container to parse the HTML.
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = modalHTML;
+
+      // Extract the modal element by its ID.
+      modal = tempDiv.querySelector(`#${modalId}`);
+      if (!modal) { throw new Error(`Modal with ID "${modalId}" not found in ${modalFile}`); }
+
+      // Append the modal to the body.
+      document.body.appendChild(modal);
+    }
+
+      // Show the modal.
+      modal.show();
+  } 
+  catch (error) { console.error('Error showing modal:', error); }
 }
 
 /**

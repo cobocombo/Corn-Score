@@ -1,0 +1,42 @@
+<!-- ////////////////////////////////////////////////////////
+// App Page - Corn Score
+// Entry point for the Corn Score app.
+//
+// Features:
+// - Sets up the navigator to load `board.html` as the main page.
+// - Includes Onsen UI styles and components for UI functionality.
+// - Links to custom styles for the board page.
+// - Loads third-party libraries (Onsen UI, Confetti).
+// - Loads custom scripts for app functionality (e.g., navigation, settings, board management).
+//
+// IDs and script ordering ensure proper app initialization.
+/////////////////////////////////////////////////////// -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Corn Score</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'">
+    <link rel="stylesheet" href="../Libraries/Onsen/css/onsenui.css">
+    <link rel="stylesheet" href="../Libraries/Onsen/css/onsen-css-components.min.css">
+    <link rel="stylesheet" href="../Styles/board.css"/>
+  </head>
+  <body>
+    <ons-navigator swipeable id="navigator" page="board.html"></ons-navigator>
+
+    <!-- ///////////////////////////// THIRD PARTY LIBARIES ///////////////////////////// -->
+    <script src="../Libraries/Onsen/js/onsenui.min.js"></script>
+    <script src="../Libraries/Confetti/confetti.js"></script>
+
+    <!-- ///////////////////////////// SCRIPTS ///////////////////////////// -->
+    <script src="../Scripts/secret.js"></script>
+    <script src="../Scripts/input-validator.js"></script>
+    <script src="../Scripts/issue-manager.js"></script>
+    <script src="../Scripts/navigation.js"></script>
+    <script src="../Scripts/settings-manager.js"></script>
+    <script src="../Scripts/board-manager.js"></script>
+  </body>
+</html>
+
+<!-- ////////////////////////////////////////////////// -->

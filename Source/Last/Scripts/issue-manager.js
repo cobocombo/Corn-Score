@@ -91,7 +91,7 @@ function submitBugReport()
 
   const submitReportABugRequest = async () => 
   {
-    showModal('loading-modal');
+    showModal('loading-modal', 'loading.html');
     let body = 
     `BUG REPORT:
       - App Version: ${APP_VERSION}
@@ -176,7 +176,7 @@ function submitNewFeatureRequest()
 
   const submitNewFeatureRequest = async () => 
   {
-    showModal('loading-modal');
+    showModal('loading-modal', 'loading.html');
     let body = 
       `NEW FEATURE REQUEST::
         - App Version: ${APP_VERSION}
