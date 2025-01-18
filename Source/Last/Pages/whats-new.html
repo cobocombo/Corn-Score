@@ -4,42 +4,42 @@
 // - Each version section highlights new features and enhancements added to the app.
 ////////////////////////////////////////////////////// -->
 
-<ons-page id="whats-new">
+<ons-page>
   
   <!-- Toolbar -->  
   <ons-toolbar>
     <div class="left">
       <ons-toolbar-button icon="fa-angle-left" style="color: black;" onclick="popPage()"></ons-toolbar-button>
     </div>
-    <div class="center">What's New</div>
+    <div class="center">What's New?</div>
   </ons-toolbar>
   
-  <ons-card>
-    <h3 style="text-align: left; font-weight: bold;">Version 1.4:</h3>
-      <ul>
-        <li>Added the ability for the user to change the team name & score label text color.</li>
-        <li>Added the ability to increase the font size of the team name & score label text.</li>
-        <li>Added the ability for the user to reset all custom settings to default.</li>
-        <li>Added what's new page in app.</li>
-        <li>Added privacy policy page in app.</li>
-      </ul>
-  </ons-card>
-  
-  <ons-card>
-    <h3 style="text-align: left; font-weight: bold;">Version 1.3:</h3>
-      <ul>
-        <li>Added the ability to change team background colors.</li>
-        <li>Added team labels & ability to change these labels.</li>
-        <li>Added restart game prompt to restart button to cut down on accidental restarts.</li>
-      </ul>
-  </ons-card>
-  
-  <ons-card>
-   <h3 style="text-align: left; font-weight: bold;">Version 1.2:</h3>
-      <ul>
-        <li>Initial release to iOS.</li>
-      </ul>
-  </ons-card>
+  <div class="whats-new-content">
+    <h3 id="version-header">Version 1.5</h3>
+    <div class="content-row">
+      <div class="item-row">
+        <i class="fas fa-check-circle fa-icon"></i>
+        <div class="text-content">
+          <p class="title-text">Rules Feature</p>
+          <p class="description-text">Added a rules section to settings</p>
+        </div>
+      </div>
+      <div class="item-row">
+        <i class="fas fa-palette fa-icon"></i>
+        <div class="text-content">
+          <p class="title-text">Rounds Feature</p>
+          <p class="description-text">Added feature to keep track of rounds played</p>
+        </div>
+      </div>
+      <div class="item-row">
+        <i class="fas fa-bug fa-icon"></i>
+        <div class="text-content">
+          <p class="title-text">Bug Fixes</p>
+          <p class="description-text">Fixed some existing bugs and added stability updates</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </ons-page>
   
