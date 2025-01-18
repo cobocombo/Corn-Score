@@ -22,22 +22,26 @@ body
   justify-content: center;
   height: 100%;
   color: white;
+  position: relative;
 }
 
 .team-name 
 {
   font-size: 1.5em;
   font-weight: bold;
-  margin-bottom: 10px;
-  transform: translateY(-32px);
   overflow-wrap: anywhere;
+  padding: 20px;
+  text-align: center; 
+  line-height: 1.2; 
+  margin-bottom: -20px;
 }
 
 .team-score 
 {
   font-size: 6em;
-  margin-top: 10px;
-  transform: translateY(-32px);
+  margin-top: 0;
+  position: relative;
+  top: -10px; 
 }
 
 /* ///////////////////////////////////////////////////// */

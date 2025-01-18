@@ -18,10 +18,25 @@ const STORAGE_KEYS =
 }
 const TEXT_SIZES = 
 {
-  small: "Small",
-  medium: "Medium",
-  large: "Large"
-}
+  small: 
+  {
+    label: "Small",
+    teamName: "1.5em",
+    teamScore: "6em" 
+  },
+  medium: 
+  {
+    label: "Medium",
+    teamName: "2.0em",
+    teamScore: "8em"
+  },
+  large: 
+  {
+    label: "Large",
+    teamName: "2.50em",
+    teamScore: "10em"
+  }
+};
 
 /**
  * Adds an event listener to handle the initialization of the app.
@@ -136,6 +151,9 @@ function updateSettingsComponents()
     });
     textSizeSelector.selectedIndex = optionIndex;
   }
+
+  const versionDiv = document.getElementById("settings-app-version-list-item");
+  versionDiv.textContent = `Version: ${APP_VERSION}`;
 }
 
 /**
@@ -156,7 +174,7 @@ function setDefaults()
   localStorage.setItem(STORAGE_KEYS.team1Color, '#FF0000');
   localStorage.setItem(STORAGE_KEYS.team2Color, '#0000FF');
   localStorage.setItem(STORAGE_KEYS.textColor, '#FFFFFF');
-  localStorage.setItem(STORAGE_KEYS.textSize, TEXT_SIZES.small);
+  localStorage.setItem(STORAGE_KEYS.textSize, TEXT_SIZES.small.label);
 }
 
 /**
@@ -232,23 +250,23 @@ function updateTextSize()
   {
     switch(localStorage.getItem(STORAGE_KEYS.textSize)) 
     {
-      case TEXT_SIZES.medium:
-        document.getElementById('team-1-name').style.fontSize = '2.25em';
-        document.getElementById('team-2-name').style.fontSize = '2.25em';
-        document.getElementById('team-1-score').style.fontSize = '8em';
-        document.getElementById('team-2-score').style.fontSize = '8em';
+      case TEXT_SIZES.medium.label:
+        document.getElementById('team-1-name').style.fontSize = TEXT_SIZES.medium.teamName;
+        document.getElementById('team-2-name').style.fontSize = TEXT_SIZES.medium.teamName;
+        document.getElementById('team-1-score').style.fontSize = TEXT_SIZES.medium.teamScore;
+        document.getElementById('team-2-score').style.fontSize = TEXT_SIZES.medium.teamScore;
         break;
-      case TEXT_SIZES.large:
-        document.getElementById('team-1-name').style.fontSize = '3em';
-        document.getElementById('team-2-name').style.fontSize = '3em';
-        document.getElementById('team-1-score').style.fontSize = '12em';
-        document.getElementById('team-2-score').style.fontSize = '12em';
+      case TEXT_SIZES.large.label:
+        document.getElementById('team-1-name').style.fontSize = TEXT_SIZES.large.teamName;
+        document.getElementById('team-2-name').style.fontSize = TEXT_SIZES.large.teamName;
+        document.getElementById('team-1-score').style.fontSize = TEXT_SIZES.large.teamScore;
+        document.getElementById('team-2-score').style.fontSize = TEXT_SIZES.large.teamScore;
         break;
       default:
-        document.getElementById('team-1-name').style.fontSize = '1.5em';
-        document.getElementById('team-2-name').style.fontSize = '1.5em';
-        document.getElementById('team-1-score').style.fontSize = '6em';
-        document.getElementById('team-2-score').style.fontSize = '6em';
+        document.getElementById('team-1-name').style.fontSize = TEXT_SIZES.small.teamName;
+        document.getElementById('team-2-name').style.fontSize = TEXT_SIZES.small.teamName;
+        document.getElementById('team-1-score').style.fontSize = TEXT_SIZES.small.teamScore;
+        document.getElementById('team-2-score').style.fontSize = TEXT_SIZES.small.teamScore;
     }
   }
 }
