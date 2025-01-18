@@ -3,6 +3,7 @@
 const SOURCE_CODE_URL = 'https://github.com/cobocombo/Corn-Score';
 const APP_STORE_URL = 'https://itunes.apple.com/app/id6446418989?action=write-review';
 const BUY_ME_A_BEER_LINK = 'https://buymeacoffee.com/cobocombo';
+const CORN_HOLE_RULES_LINK = 'https://www.playcornhole.org/pages/rules'
 
 /**
  * Adds an event listener to handle the initialization of pages in the app.
@@ -168,6 +169,28 @@ function buyMeABeerTapped()
   else
   {
     window.open(BUY_ME_A_BEER_LINK, '_blank');
+  }
+}
+
+/**
+ * Handles the event when the user taps the "Rules" button.
+ * Opens the Cornhole rules link based on the platform.
+ * 
+ * - For WKWebView (iOS), opens the link using the Safari View Controller via a native handler.
+ * - For other platforms, opens the link in a new browser tab.
+ * 
+ * @fires window.open - Opens the Cornhole rules link in a new tab for non-WKWebView platforms.
+ * @fires window.webkit.messageHandlers.openSafariViewController.postMessage - Opens the link using Safari View Controller for WKWebView on iOS.
+ */
+function rulesTapped()
+{
+  if(ons.platform.isWKWebView())
+  {
+    window.webkit.messageHandlers.openSafariViewController.postMessage(CORN_HOLE_RULES_LINK);
+  }
+  else
+  {
+    window.open(CORN_HOLE_RULES_LINK, '_blank');
   }
 }
 

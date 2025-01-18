@@ -64,6 +64,7 @@ document.addEventListener('init', function()
   else
   {
     setDefaults();
+    updateTextSize();
     ons.notification.alert(
     {
       title: 'App Tip',
@@ -174,7 +175,7 @@ function setDefaults()
   localStorage.setItem(STORAGE_KEYS.team1Color, '#FF0000');
   localStorage.setItem(STORAGE_KEYS.team2Color, '#0000FF');
   localStorage.setItem(STORAGE_KEYS.textColor, '#FFFFFF');
-  localStorage.setItem(STORAGE_KEYS.textSize, TEXT_SIZES.small.label);
+  localStorage.setItem(STORAGE_KEYS.textSize, TEXT_SIZES.medium.label);
 }
 
 /**
