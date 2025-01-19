@@ -1,14 +1,4 @@
-<!-- //////////////////////////////////////////////////////
-// Settings Page
-// - Displays the settings interface for the app.
-// - Includes options for customization, app info, and user involvement.
-//
-// Features:
-// - Toolbar with a back button.
-// - Customization options: Team names, colors, text size, etc.
-// - Actions for resetting settings to default, reporting bugs, and requesting features.
-// - App information: Version details, rating, updates, and privacy policy.
-/////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////// -->
 
 <ons-page id="settings">
 
@@ -36,6 +26,7 @@
           <input type="color" class="team-color-picker" id="team-1-color-picker" value="#FF0000">
         </div>
       </ons-list-item>
+
       <ons-list-item class="edit-team-input-item">
         <div class="left">
           <ons-icon icon="fa-user" class="list-item__icon"></ons-icon>
@@ -47,6 +38,7 @@
           <input type="color" class="team-color-picker" id="team-2-color-picker" value="#0000FF">
         </div>
       </ons-list-item>
+
       <ons-list-item>
         <div class="left">
           <ons-icon icon="fa-palette" class="list-item__icon"></ons-icon>
@@ -56,6 +48,7 @@
           <input type="color" class="team-color-picker" id="text-color-picker" value="#FFFFFF">
         </div>
       </ons-list-item>
+
       <ons-list-item>
         <div class="left">
           <ons-icon icon="fa-text-height" class="list-item__icon"></ons-icon>
@@ -69,6 +62,19 @@
           </ons-select>
         </div>
       </ons-list-item>
+
+      <ons-list-item>
+        <div class="left">
+          <ons-icon icon="fa-clock" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">
+          Timer
+        </div>
+        <div class="right">
+          <ons-switch id="timer-speed-dial-toggle"></ons-switch>
+        </div>
+      </ons-list-item>
+
       <ons-list-item tappable onclick="resetToDefaultTapped()">
         <div class="left">
           <ons-icon icon="fa-redo" class="list-item__icon"></ons-icon>
@@ -84,18 +90,21 @@
         </div>
         <div class="center">Source Code</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" onclick="buyMeABeerTapped()">
         <div class="left">
           <ons-icon icon="fa-beer" class="list-item__icon"></ons-icon>
         </div>
         <div class="center">Buy Me A Beer</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" id="report-a-bug-list-item" onclick="showModal('report-a-bug-modal', 'report-a-bug.html')">
         <div class="left">
           <ons-icon icon="fa-bug" class="list-item__icon"></ons-icon>
         </div>
         <div class="center">Report A Bug</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" id="request-a-feature-list-item" onclick="showModal('request-a-feature-modal', 'request-a-feature.html')">
         <div class="left">
           <ons-icon icon="fa-plus-circle" class="list-item__icon"></ons-icon>
@@ -111,24 +120,28 @@
         </div>
         <div class="center" id="settings-app-version-list-item">Version: 1.5</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" id="rate-corn-score-list-item" onclick="rateCornScoreTapped()">
         <div class="left">
           <ons-icon icon="fa-heart" class="list-item__icon"></ons-icon>
         </div>
         <div class="center">Rate Corn Score</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" id="rules-list-item" onclick="rulesTapped()">
         <div class="left">
           <ons-icon icon="fa-thumbs-up" class="list-item__icon"></ons-icon>
         </div>
         <div class="center">Corn Hole Rules</div>
       </ons-list-item>
+
       <ons-list-item tappable modifier="chevron" id="whats-new-list-item">
         <div class="left">
           <ons-icon icon="fa-star" class="list-item__icon"></ons-icon>
         </div>
         <div class="center">What's New</div>
       </ons-list-item>
+      
       <ons-list-item tappable modifier="chevron" id="privacy-policy-list-item">
         <div class="left">
           <ons-icon icon="fa-eye" class="list-item__icon"></ons-icon>

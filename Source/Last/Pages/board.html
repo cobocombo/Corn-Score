@@ -1,25 +1,5 @@
-<!-- ///////////////////////////////////////////////////////////
-// Board Page - Corn Score
-// Main scoreboard interface for the Corn Score app.
-//
-// Features:
-// - Toolbar:
-//   - Restart button (left): Resets the game.
-//   - Settings button (right): Navigates to settings.
-//
-// - Scoreboard:
-//   - Two team sections (Team 1 and Team 2) with:
-//     - Team name and score display.
-//     - Background colors: Red (Team 1) and Blue (Team 2).
-//   - Click on a team to update its score via `changeScore`.
-//
-// Event Handlers:
-// - restartButtonTapped(): Resets the game.
-// - changeScore(): Updates the selected team's score.
-//
-// IDs are used for styling and event binding. 
-/////////////////////////////////////////////////////// -->
-
+<!-- /////////////////////////////////////////////////////////// -->
+ 
 <ons-page id="board">
 
   <!-- Toolbar -->
@@ -32,6 +12,23 @@
       <ons-toolbar-button icon="fa-cog" id="settings-button" style="color: black;"></ons-toolbar-button>
     </div>
   </ons-toolbar>
+
+  <!-- Timer Speed Dial-->
+  <ons-speed-dial position="bottom right" direction="left" id="timer-speed-dial">
+    <ons-fab id="main-timer-fab-button">00:30</ons-fab>
+    <ons-speed-dial-item id="start-timer-speed-dial-button" onclick="timerPlayButtonTapped()">
+      <ons-icon icon="fa-play"></ons-icon>
+    </ons-speed-dial-item>
+    <ons-speed-dial-item id="pause-timer-speed-dial-button" onclick="timerPauseButtonTapped()">
+      <ons-icon icon="fa-pause"></ons-icon>
+    </ons-speed-dial-item>
+    <ons-speed-dial-item id="restart-timer-speed-dial-button" onclick="timerRestartButtonTapped()">
+      <ons-icon icon="fa-redo"></ons-icon>
+    </ons-speed-dial-item>
+    <ons-speed-dial-item id="select-new-time-speed-dial-button" onclick="timerEditButtonTapped()">
+      <ons-icon icon="fa-clock"></ons-icon>
+    </ons-speed-dial-item>
+  </ons-speed-dial>
 
   <!-- Scoreboard -->
   <div class="board-content">

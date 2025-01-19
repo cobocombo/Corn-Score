@@ -1,0 +1,33 @@
+<!-- ////////////////////////////////////////////////// -->
+
+<ons-dialog id="timer-edit-dialog">
+
+  <!-- Edit Timer Form List With Sliders-->
+  <ons-list>
+    <ons-list-header>Edit Timer</ons-list-header>
+    <ons-list-item>
+      <ons-row>
+        <ons-col width="40px" style="text-align: center; line-height: 30px;"></ons-col>
+        <ons-col><ons-range id="minutes-slider" value="0" max="9" style="width: 80%;"></ons-range></ons-col>
+      </ons-row>
+      <span id="minutes-title">Minutes:</span><span id="minutes-value">0</span>
+    </ons-list-item>
+    <ons-list-item>
+      <ons-row>
+        <ons-col width="40px" style="text-align: center; line-height: 30px;"></ons-col>
+        <ons-col><ons-range id="seconds-slider" value="30" max="59" style="width: 80%;"></ons-range></ons-col>
+      </ons-row>
+      <span id="seconds-title">Seconds:</span><span id="seconds-value">30</span>
+    </ons-list-item>
+  </ons-list>
+
+  <!-- Save Button -->
+  <div style="text-align: center; padding: 10px;">
+    <p>
+      <ons-button modifier="large" style="background-color: black;" onclick="updateTimerText('change')">Save</ons-button>
+    </p>
+  </div>
+
+</ons-dialog>
+
+<!-- ////////////////////////////////////////////////// -->

@@ -3,7 +3,7 @@
 const SOURCE_CODE_URL = 'https://github.com/cobocombo/Corn-Score';
 const APP_STORE_URL = 'https://itunes.apple.com/app/id6446418989?action=write-review';
 const BUY_ME_A_BEER_LINK = 'https://buymeacoffee.com/cobocombo';
-const CORN_HOLE_RULES_LINK = 'https://www.playcornhole.org/pages/rules'
+const CORN_HOLE_RULES_LINK = 'https://www.playcornhole.org/pages/rules';
 
 /**
  * Adds an event listener to handle the initialization of pages in the app.
@@ -62,35 +62,26 @@ function popPage()
  * @function showModal
  * @param {string} modalId - The ID of the modal to show.
  * @param {string} modalFile - The URL of the external HTML file containing the modal's content.
- * @throws {Error} Throws an error if the modal can't be found in the file or the fetch request fails.
  */
 async function showModal(modalId, modalFile) 
 {
   try 
   {
-    // Check if the modal already exists in the DOM.
     let modal = document.getElementById(modalId);
-    if (!modal) 
+    if(!modal) 
     {
-      // Fetch the modal content from the external file.
       const response = await fetch(modalFile);
-      if (!response.ok) { throw new Error(`Failed to load modal from ${modalFile}: ${response.statusText}`); }
+      if(!response.ok) { throw new Error(`Failed to load modal from ${modalFile}: ${response.statusText}`); }
       const modalHTML = await response.text();
 
-      // Create a temporary container to parse the HTML.
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = modalHTML;
 
-      // Extract the modal element by its ID.
       modal = tempDiv.querySelector(`#${modalId}`);
-      if (!modal) { throw new Error(`Modal with ID "${modalId}" not found in ${modalFile}`); }
-
-      // Append the modal to the body.
+      if(!modal) { throw new Error(`Modal with ID "${modalId}" not found in ${modalFile}`); }
       document.body.appendChild(modal);
     }
-
-      // Show the modal.
-      modal.show();
+    modal.show();
   } 
   catch (error) { console.error('Error showing modal:', error); }
 }
@@ -107,6 +98,54 @@ function hideModal(id)
 }
 
 /**
+ * Displays a dialog by fetching its content from an external file and appending it to the DOM.
+ * 
+ * This function checks if the dialog with the given `dialogId` exists in the DOM. If it doesn't, it fetches
+ * the dialog's HTML content from the specified `dialogFile`, parses it, and appends it to the body. 
+ * Once the dialog is ready, the provided callback function (if any) is called before showing the dialog.
+ * 
+ * @param {string} dialogId - The ID of the dialog element to show.
+ * @param {string} dialogFile - The file path from which to fetch the dialog HTML content.
+ * @param {function} [beforeShowCallback] - An optional callback function to run before showing the dialog.
+ */
+async function showDialog(dialogId, dialogFile, beforeShowCallback) 
+{
+  try 
+  {
+    let dialog = document.getElementById(dialogId);
+    if(!dialog) 
+    {
+      const response = await fetch(dialogFile);
+      if(!response.ok) { throw new Error(`Failed to load dialog from ${dialogFile}: ${response.statusText}`); }
+      const dialogHTML = await response.text();
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = dialogHTML;
+
+      dialog = tempDiv.querySelector(`#${dialogId}`);
+      if(!dialog) { throw new Error(`Dialog with ID "${dialogId}" not found in ${dialogFile}`); }
+      document.body.appendChild(dialog);
+    }
+
+    if(typeof beforeShowCallback === 'function') { beforeShowCallback(); }
+    dialog.show();
+  } 
+  catch (error) { console.error('Error showing dialog:', error); }
+}
+
+/**
+ * Hides a dialog by its ID.
+ * 
+ * This function takes the ID of a dialog element and hides it using the `hide` method.
+ * 
+ * @param {string} dialogId - The ID of the dialog element to hide.
+ */
+function hideDialog(dialogId) 
+{
+  document.getElementById(dialogId).hide();
+}
+
+/**
  * Handles the event when the user taps the "Source Code" list item.
  * Opens the source code URL in a new window or using the Safari View Controller, depending on the platform.
  * 
@@ -118,14 +157,8 @@ function hideModal(id)
  */
 function sourceCodeTapped()
 {
-  if(ons.platform.isWKWebView())
-  {
-    window.webkit.messageHandlers.openSafariViewController.postMessage(SOURCE_CODE_URL);
-  }
-  else
-  {
-    window.open(SOURCE_CODE_URL, '_blank');
-  }
+  if(ons.platform.isWKWebView()) { window.webkit.messageHandlers.openSafariViewController.postMessage(SOURCE_CODE_URL); }
+  else { window.open(SOURCE_CODE_URL, '_blank'); }
 }
 
 /**
@@ -140,14 +173,8 @@ function sourceCodeTapped()
  */
 function rateCornScoreTapped()
 {
-  if(ons.platform.isWKWebView())
-  {
-    window.webkit.messageHandlers.rateApp.postMessage(APP_STORE_URL);
-  }
-  else
-  {
-    window.open(APP_STORE_URL, '_blank');
-  }
+  if(ons.platform.isWKWebView()) { window.webkit.messageHandlers.rateApp.postMessage(APP_STORE_URL); }
+  else { window.open(APP_STORE_URL, '_blank'); }
 }
 
 /**
@@ -162,14 +189,8 @@ function rateCornScoreTapped()
  */
 function buyMeABeerTapped()
 {
-  if(ons.platform.isWKWebView())
-  {
-    window.webkit.messageHandlers.openSafariViewController.postMessage(BUY_ME_A_BEER_LINK);
-  }
-  else
-  {
-    window.open(BUY_ME_A_BEER_LINK, '_blank');
-  }
+  if(ons.platform.isWKWebView()) { window.webkit.messageHandlers.openSafariViewController.postMessage(BUY_ME_A_BEER_LINK); }
+  else { window.open(BUY_ME_A_BEER_LINK, '_blank'); }
 }
 
 /**
@@ -184,14 +205,8 @@ function buyMeABeerTapped()
  */
 function rulesTapped()
 {
-  if(ons.platform.isWKWebView())
-  {
-    window.webkit.messageHandlers.openSafariViewController.postMessage(CORN_HOLE_RULES_LINK);
-  }
-  else
-  {
-    window.open(CORN_HOLE_RULES_LINK, '_blank');
-  }
+  if(ons.platform.isWKWebView()) { window.webkit.messageHandlers.openSafariViewController.postMessage(CORN_HOLE_RULES_LINK); }
+  else { window.open(CORN_HOLE_RULES_LINK, '_blank'); }
 }
 
 ///////////////////////////////////////////////////////////

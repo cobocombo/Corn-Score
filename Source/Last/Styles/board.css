@@ -33,13 +33,37 @@ body
   text-align: center; 
   line-height: 1.2; 
   margin-bottom: -20px;
+  transform: translateY(-20px);
 }
 
 .team-score 
 {
   margin-top: 0;
   position: relative;
-  top: -10px; 
+  top: -10px;
+  transform: translateY(-20px);
+}
+
+#timer-speed-dial
+{
+  visibility: hidden;
+}
+
+#main-timer-fab-button
+{
+  font-weight: bold;
+}
+
+#main-timer-fab-button, #select-new-time-speed-dial-button, #start-timer-speed-dial-button, #pause-timer-speed-dial-button, #restart-timer-speed-dial-button
+{
+  background-color: gold;
+  color: black;
+  font-size: 17px;
+}
+
+#main-timer-fab-button
+{
+  font-size: 16px;
 }
 
 /* ///////////////////////////////////////////////////// */

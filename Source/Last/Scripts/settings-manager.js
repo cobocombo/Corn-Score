@@ -14,7 +14,8 @@ const STORAGE_KEYS =
   team1Color: "team1Color",
   team2Color: "team2Color", 
   textColor: "textColor",
-  textSize: "textSize"
+  textSize: "textSize",
+  timerToggle: "timerToggle"
 }
 const TEXT_SIZES = 
 {
@@ -60,6 +61,7 @@ document.addEventListener('init', function()
     updateTeamColors();
     updateTextColor();
     updateTextSize();
+    updateTimerSpeedDial();
   }
   else
   {
@@ -72,29 +74,33 @@ document.addEventListener('init', function()
     });
   }
   updateSettingsComponents();
+
+  const versionDiv = document.getElementById("settings-app-version-list-item");
+  versionDiv.textContent = `Version: ${APP_VERSION}`;
 });
 
 /////////////////////// FUNCTIONS /////////////////////////
 
 /**
  * Sets up and updates UI components for customization settings.
- * The function listens for changes in the input fields (team names, team colors, text color, and text size) 
+ * The function listens for changes in the input fields (team names, team colors, text color, etc.) 
  * and stores the updated values in localStorage. It also updates the UI to reflect the stored settings.
  * 
- * - Sets up input listeners for team names, team colors, text color, and text size.
+ * - Sets up input listeners for team names, team colors, text color, etc.
  * - Stores updated values in localStorage.
  * - Initializes the input fields with values from localStorage if available.
  * 
- * @fires localStorage - Stores team names, team colors, text color, and text size preferences.
+ * @fires localStorage - Stores team names, team colors, text color, etc. preferences.
  */
 function updateSettingsComponents()
 {
-  let team1NameInput = document.getElementById('team-1-name-input');
-  let team2NameInput = document.getElementById('team-2-name-input');
-  let team1ColorInput = document.getElementById('team-1-color-picker');
-  let team2ColorInput = document.getElementById('team-2-color-picker');
-  let textColorInput = document.getElementById('text-color-picker');
-  let textSizeSelector = document.getElementById('text-size-select');
+  const team1NameInput = document.getElementById('team-1-name-input');
+  const team2NameInput = document.getElementById('team-2-name-input');
+  const team1ColorInput = document.getElementById('team-1-color-picker');
+  const team2ColorInput = document.getElementById('team-2-color-picker');
+  const textColorInput = document.getElementById('text-color-picker');
+  const textSizeSelector = document.getElementById('text-size-select');
+  const timerToggle = document.getElementById('timer-speed-dial-toggle');
   
   team1NameInput.addEventListener('input', function() 
   {
@@ -126,6 +132,11 @@ function updateSettingsComponents()
     localStorage.setItem(STORAGE_KEYS.textSize, textSizeSelector.value);
     updateTextSize();
   });
+  timerToggle.addEventListener('change', function() 
+  {
+    localStorage.setItem(STORAGE_KEYS.timerToggle, timerToggle.checked);
+    updateTimerSpeedDial();
+  });
 
   if(localStorage.getItem(STORAGE_KEYS.team1Name) != null && localStorage.getItem(STORAGE_KEYS.team2Name) != null)
   {
@@ -153,16 +164,17 @@ function updateSettingsComponents()
     textSizeSelector.selectedIndex = optionIndex;
   }
 
-  const versionDiv = document.getElementById("settings-app-version-list-item");
-  versionDiv.textContent = `Version: ${APP_VERSION}`;
+  if(localStorage.getItem(STORAGE_KEYS.timerToggle) != null)
+  {
+    if(localStorage.getItem(STORAGE_KEYS.timerToggle) == 'true') { timerToggle.checked = true; }
+    else { timerToggle.checked = false; }
+  }
 }
 
 /**
  * Sets the default settings for the app.
- * This function stores default values for team names, team colors, text color, text size, 
- * and a flag indicating whether the user has visited the app before in localStorage.
  * 
- * - Sets default values for team 1 and team 2 names, colors, text color, and text size.
+ * - Sets default values for team 1 and team 2 names, colors, text color, etc.
  * - Marks the user as having visited the app before.
  * 
  * @fires localStorage - Stores default settings in localStorage.
@@ -176,6 +188,7 @@ function setDefaults()
   localStorage.setItem(STORAGE_KEYS.team2Color, '#0000FF');
   localStorage.setItem(STORAGE_KEYS.textColor, '#FFFFFF');
   localStorage.setItem(STORAGE_KEYS.textSize, TEXT_SIZES.medium.label);
+  localStorage.setItem(STORAGE_KEYS.timerToggle, 'false');
 }
 
 /**
@@ -273,20 +286,41 @@ function updateTextSize()
 }
 
 /**
+ * Updates the visibility and interactivity of the timer speed dial based on stored settings.
+ * 
+ * This function checks the value of `localStorage` for a key related to the timer toggle and updates
+ * the visibility and pointer events of the timer speed dial element accordingly. If the toggle is 
+ * enabled, the speed dial is made visible and interactive; otherwise, it is hidden and non-interactive.
+ * It also stops the timer when the speed dial visibility is updated.
+ * 
+ */
+function updateTimerSpeedDial()
+{
+  if(localStorage.getItem(STORAGE_KEYS.timerToggle) != null)
+  {
+    let timerSpeedDial = document.getElementById('timer-speed-dial');
+    if(localStorage.getItem(STORAGE_KEYS.timerToggle) == 'true') 
+    { 
+      timerSpeedDial.style.visibility = 'visible';
+      timerSpeedDial.style.pointerEvents = 'auto'; 
+    }
+    else 
+    { 
+      timerSpeedDial.style.visibility = 'hidden'; 
+      timerSpeedDial.style.pointerEvents = 'none';
+    }
+  }
+  timerStop();
+}
+
+/**
  * Handles the event when the user taps the "Reset To Default" list item.
  * Displays a confirmation dialog, and if the user confirms, resets all customization settings to their default values.
  * 
- * - Resets the team names, team colors, text color, and text size to default values.
+ * - Resets the team names, team colors, text color, etc. to default values.
  * - Calls the `setDefaults()` function to set the default values in localStorage.
  * - Updates the UI components to reflect the default settings.
  * 
- * @fires ons.notification.alert - Displays an alert for confirming the reset action.
- * @fires setDefaults - Resets the settings to default values.
- * @fires updateTeamNames - Updates the team names UI to reflect the new settings.
- * @fires updateTeamColors - Updates the team colors UI to reflect the new settings.
- * @fires updateTextColor - Updates the text color UI to reflect the new settings.
- * @fires updateTextSize - Updates the text size UI to reflect the new settings.
- * @fires updateSettingsComponents - Updates the settings UI components to reflect the new settings.
  */
 function resetToDefaultTapped()
 {
@@ -305,6 +339,7 @@ function resetToDefaultTapped()
         updateTeamColors();
         updateTextColor();
         updateTextSize();
+        updateTimerSpeedDial();
         updateSettingsComponents();
       }
     }
@@ -318,14 +353,8 @@ function resetToDefaultTapped()
  */
 function getCurrentPlatform()
 {
-  if(navigator.userAgent.includes("iPhone") || navigator.userAgent.includes("iPad"))
-  {
-    return PLATFORMS.iOS;
-  }
-  else
-  {
-    return PLATFORMS.Web;
-  }
+  if(navigator.userAgent.includes("iPhone") || navigator.userAgent.includes("iPad")) { return PLATFORMS.iOS; }
+  else { return PLATFORMS.Web; }
 }
 
 ///////////////////////////////////////////////////////////

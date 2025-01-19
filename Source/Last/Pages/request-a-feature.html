@@ -1,34 +1,42 @@
-<!-- ///////////////////////////// START OF MODAL REQUEST A FEATURE PAGE  ///////////////////////////// -->
+<!-- ////////////////////////////////////////////////// -->
+
 <ons-modal id="request-a-feature-modal" animation="lift">
   <ons-page id="request-a-feature">
-      <ons-toolbar>
-          <div class="left">
-              <ons-toolbar-button icon="fa-times" style="color: black;" onclick="hideModal('request-a-feature-modal')"></ons-toolbar-button>
-          </div>
-          <div class="center">Request A Feature</div>
-          <div class="right">
-              <ons-toolbar-button icon="fa-paper-plane" style="color: black;" onclick="submitNewFeatureRequest()"></ons-toolbar-button>
-          </div>
-        </ons-toolbar>
-        <ons-list>
-          <ons-list-header>Title</ons-list-header>
-              <ons-list-item>
-                  <div class="center">
-                      <ons-input id="request-a-feature-title" float maxlength="40" style="width: 100%;" placeholder="A title that summarizes the feature..."></ons-input>
-                  </div>
-              </ons-list-item>
-          <ons-list-header>Description</ons-list-header>
-              <ons-list-item>
-                  <div class="center">
-                      <textarea class="textarea textarea--transparent" id="request-a-feature-description", style="width: 100%;" placeholder="A detailed description of how we could improve the app..." rows="5"></textarea>
-                  </div>
-              </ons-list-item>
-          <ons-list-header>Email</ons-list-header>
-              <ons-list-item>
-                  <div class="center">
-                      <ons-input id="request-a-feature-email" float maxlength="40" style="width: 100%;" placeholder="A good email to discuss the feature..." type="email"></ons-input>
-                  </div>
-              </ons-list-item>
-        </ons-list>
+
+    <!-- Toolbar -->
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button icon="fa-times" style="color: black;" onclick="hideModal('request-a-feature-modal')"></ons-toolbar-button>
+      </div>
+      <div class="center">Request A Feature</div>
+      <div class="right">
+        <ons-toolbar-button icon="fa-paper-plane" style="color: black;" onclick="submitNewFeatureRequest()"></ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+      
+    <!-- Request A Feature Form List -->
+    <ons-list>
+      <ons-list-header>Title</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+          <ons-input id="request-a-feature-title" float maxlength="40" style="width: 100%;" placeholder="A title that summarizes the feature..."></ons-input>
+        </div>
+      </ons-list-item>
+      <ons-list-header>Description</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+          <textarea class="textarea textarea--transparent" id="request-a-feature-description", style="width: 100%;" placeholder="A detailed description of how we could improve the app..." rows="5"></textarea>
+        </div>
+      </ons-list-item>
+      <ons-list-header>Email</ons-list-header>
+      <ons-list-item>
+        <div class="center">
+          <ons-input id="request-a-feature-email" float maxlength="40" style="width: 100%;" placeholder="A good email to discuss the feature..." type="email"></ons-input>
+        </div>
+      </ons-list-item>
+    </ons-list>
+
   </ons-page>
 </ons-modal>
+
+<!-- ////////////////////////////////////////////////// -->

@@ -1,16 +1,4 @@
-<!-- ////////////////////////////////////////////////////////
-// App Page - Corn Score
-// Entry point for the Corn Score app.
-//
-// Features:
-// - Sets up the navigator to load `board.html` as the main page.
-// - Includes Onsen UI styles and components for UI functionality.
-// - Links to custom styles for the board page.
-// - Loads third-party libraries (Onsen UI, Confetti).
-// - Loads custom scripts for app functionality (e.g., navigation, settings, board management).
-//
-// IDs and script ordering ensure proper app initialization.
-/////////////////////////////////////////////////////// -->
+<!-- //////////////////////////////////////////////////////// -->
 
 <!DOCTYPE html>
 <html>
@@ -23,6 +11,7 @@
     <link rel="stylesheet" href="../Styles/board.css"/>
     <link rel="stylesheet" href="../Styles/privacy-policy.css"/>
     <link rel="stylesheet" href="../Styles/whats-new.css"/>
+    <link rel="stylesheet" href="../Styles/timer-edit.css"/>
   </head>
   <body>
     <ons-navigator swipeable id="navigator" page="board.html"></ons-navigator>
@@ -30,6 +19,7 @@
     <!-- ///////////////////////////// THIRD PARTY LIBARIES ///////////////////////////// -->
     <script src="../Libraries/Onsen/js/onsenui.min.js"></script>
     <script src="../Libraries/Confetti/confetti.js"></script>
+    <script src="../Libraries/Easy-Timer/easytimer.min.js"></script>
 
     <!-- ///////////////////////////// SCRIPTS ///////////////////////////// -->
     <script src="../Scripts/secret.js"></script>
@@ -39,6 +29,7 @@
     <script src="../Scripts/settings-manager.js"></script>
     <script src="../Scripts/whats-new-manager.js"></script>
     <script src="../Scripts/board-manager.js"></script>
+    <script src="../Scripts/timer-edit-manager.js"></script>
   </body>
 </html>
 
