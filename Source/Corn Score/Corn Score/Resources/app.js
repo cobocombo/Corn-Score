@@ -1,3 +1,101 @@
+///////////////////////////////////////////////////////////
+// SETTINGS MODULE
+///////////////////////////////////////////////////////////
+
+/** Singleton class representing the main SettingsManager object. */
+class SettingsManager
+{
+  #appVersion;
+  #errors;
+  #storageKeys;
+  #textSizes;
+
+  static #instance = null;
+
+  /** Creates the settings object. **/
+  constructor() 
+  {
+    this.#appVersion = '1.5';
+    this.#errors = 
+    {
+      singleInstanceError: 'Settings Manager Error: Only one SettingsManager object can exist at a time.',
+    };
+
+    this.#storageKeys = 
+    {
+      team1Name: 'team-1-name',
+      team2Name: 'team-2-name',
+      team1Color: 'team-1-color',
+      team2Color: 'team-2-color', 
+      textColor: 'text-color',
+      textSize: 'text-size'
+    }
+
+    this.#textSizes = 
+    {
+      small: 
+      {
+        label: 'Small',
+        teamName: '20px',
+        teamScore: '90px' 
+      },
+      medium: 
+      {
+        label: 'Medium',
+        teamName: '30px',
+        teamScore: '110px'
+      },
+      large: 
+      {
+        label: 'Large',
+        teamName: '40px',
+        teamScore: '130px'
+      }
+    }
+
+    if(SettingsManager.#instance) console.error(this.#errors.singleInstanceError);
+    else 
+    {
+      SettingsManager.#instance = this;
+    }
+  }
+
+  /** Static method to return a new SettingsManager instance. Allows for Singleton+Module pattern. */
+  static getInstance() 
+  {
+    return new SettingsManager();
+  }
+
+  setDefaults()
+  {
+    localStorage.setItem(this.#storageKeys.team1Name, 'Team 1');
+    localStorage.setItem(this.#storageKeys.team2Name, 'Team 2');
+    localStorage.setItem(this.#storageKeys.team1Color, '#FF0000');
+    localStorage.setItem(this.#storageKeys.team2Color, '#0000FF');
+    localStorage.setItem(this.#storageKeys.textColor, '#FFFFFF');
+    localStorage.setItem(this.#storageKeys.textSize, this.#textSizes.medium.label);
+  }
+
+  get appVersion()
+  {
+    return this.#appVersion;
+  }
+
+  get textSizes()
+  {
+    return this.#textSizes;
+  }
+
+  get storageKeys()
+  {
+    return this.#storageKeys;
+  }
+}
+
+///////////////////////////////////////////////////////////
+// PAGES
+///////////////////////////////////////////////////////////
+
 class ScoreBoardPage extends ui.Page
 {
   onInit()
@@ -9,6 +107,11 @@ class ScoreBoardPage extends ui.Page
     this.setupNameRow();
     this.setupScoreRow();
     this.setupFooterRow();
+  }
+
+  onShow()
+  {
+
   }
 
   setupNavBar()
@@ -208,9 +311,11 @@ class ScoreBoardPage extends ui.Page
   }
 }
 
+/////////////////////////////////////////////////
+
 class SettingsPage extends ui.Page
 {
-  onShow()
+  onInit()
   {
     this.navigationBarTitle = 'Settings';
 
@@ -229,16 +334,20 @@ class SettingsPage extends ui.Page
 
     let team1ColorPicker = new ui.ColorPicker();
     team1ColorPicker.color = '#FF0000';
+    team1ColorPicker.onChange = (color) => { console.log(color); }
 
     let team2ColorPicker = new ui.ColorPicker();
     team2ColorPicker.color = '#0000FF';
+    team2ColorPicker.onChange = (color) => { console.log(color); }
 
     let textColorPicker = new ui.ColorPicker();
     textColorPicker.color = '#FFFFFF';
+    textColorPicker.onChange = (color) => { console.log(color); }
 
     let textSizeSelctor = new ui.Selector();
-    textSizeSelctor.options = ['Small','Medium','Large'];
+    textSizeSelctor.options = [settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label];
     textSizeSelctor.underbar = false;
+    textSizeSelctor.onChange = (option) => { console.log(option); }
     
     let settingsList = new ui.List();
     settingsList.addItem({ item: new ui.ListHeader({ text: 'Customize' }) });
@@ -261,7 +370,58 @@ class SettingsPage extends ui.Page
 
     this.addComponents({ components: [ settingsList ]});
   }
+
+  onShow()
+  {
+    
+  }
 }
+
+/////////////////////////////////////////////////
+
+class ReportABugPage extends ui.Page
+{
+  onInit()
+  {
+
+  }
+}
+
+/////////////////////////////////////////////////
+
+class RequestAFeature extends ui.Page
+{
+  onInit()
+  {
+
+  }
+}
+
+/////////////////////////////////////////////////
+
+class PrivacyPolicyPage extends ui.Page
+{
+  onInit()
+  {
+
+  }
+}
+
+/////////////////////////////////////////////////
+
+class WhatsNewPage extends ui.Page
+{
+  onInit()
+  {
+
+  }
+}
+
+///////////////////////////////////////////////////////////
+
+globalThis.settings = SettingsManager.getInstance();
 
 const navigator = new ui.Navigator({ root: new ScoreBoardPage() });
 app.present({ root: navigator });
+
+///////////////////////////////////////////////////////////
