@@ -150,7 +150,26 @@ class ScoreBoardPage extends ui.Page
 
   teamWins({ team } = {})
   {
+    confetti.start();
 
+    let nameText = null;
+    if(team == 'team-1') nameText = this.team1Name;
+    else nameText = this.team2Name;
+
+    let okButton = new ui.AlertDialogButton();
+    okButton.text = 'Ok';
+    okButton.onTap = () => 
+    { 
+      this.restartGame(); 
+      confetti.stop();
+    }
+
+    let gameOverAlert = new ui.AlertDialog();
+    gameOverAlert.title = 'Game Over!';
+    gameOverAlert.rowfooter = true;
+    gameOverAlert.buttons = [ okButton ];
+    gameOverAlert.addComponents({ components: [ new ui.Text({ text: `${nameText.text} wins!` }) ]});
+    gameOverAlert.present();
   }
 
   restartButtonTapped()
@@ -169,6 +188,7 @@ class ScoreBoardPage extends ui.Page
       restartAlert.title = 'All score data will be lost';
       restartAlert.rowfooter = true;
       restartAlert.buttons = [ cancelButton, restartButton ];
+      restartAlert.addComponents({ components: [ new ui.Text({ text: 'Restart Game?' }) ]})
 
       restartAlert.present();
     }
@@ -180,8 +200,6 @@ class ScoreBoardPage extends ui.Page
     this.team2ScoreAmount = 0;
     this.updateScores();
   }
-
-  
 
   updateScores()
   {
