@@ -1,11 +1,13 @@
 class ScoreBoardPage extends ui.Page
 {
-  onInit()
+  onShow()
   {
     this.setupNavBar();
     this.setupNameRow();
     this.setupScoreRow();
     this.setupFooterRow();
+
+    console.log('Showing...')
   }
 
   setupNavBar()
@@ -26,15 +28,15 @@ class ScoreBoardPage extends ui.Page
   setupNameRow()
   {
     this.team1Name = new ui.Text({ type: 'header-1' });
-    this.team1Name.text = 'The Corn Scorer';
-    this.team1Name.fontSize = '40px';
+    this.team1Name.text = 'Team 1';
+    this.team1Name.fontSize = '30px';
     this.team1Name.style.margin = '0px';
     this.team1Name.style.textAlign = 'center';
     this.team1Name.color = 'white';
 
     this.team2Name = new ui.Text({ type: 'header-1' });
     this.team2Name.text = 'Team 2';
-    this.team2Name.fontSize = '40px';
+    this.team2Name.fontSize = '30px';
     this.team2Name.style.margin = '0px';
     this.team1Name.style.textAlign = 'center';
     this.team2Name.color = 'white';
@@ -61,13 +63,13 @@ class ScoreBoardPage extends ui.Page
   {
     this.team1Score = new ui.Text({ type: 'header-1' });
     this.team1Score.text = '0';
-    this.team1Score.fontSize = '130px';
+    this.team1Score.fontSize = '110px';
     this.team1Score.style.margin = '0px';
     this.team1Score.color = 'white';
 
     this.team2Score = new ui.Text({ type: 'header-1' });
     this.team2Score.text = '0';
-    this.team2Score.fontSize = '130px';
+    this.team2Score.fontSize = '110px';
     this.team2Score.style.margin = '0px';
     this.team2Score.color = 'white';
 
@@ -110,7 +112,7 @@ class ScoreBoardPage extends ui.Page
 
 class SettingsPage extends ui.Page
 {
-  onInit()
+  onShow()
   {
     this.navigationBarTitle = 'Settings';
 
@@ -160,6 +162,8 @@ class SettingsPage extends ui.Page
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'] }) });
 
     this.addComponents({ components: [ settingsList ]});
+
+    console.log('Settings...')
   }
 }
 
