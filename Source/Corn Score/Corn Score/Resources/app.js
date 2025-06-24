@@ -2,6 +2,14 @@ class ScoreBoardPage extends ui.Page
 {
   onInit()
   {
+    this.setupNavBar();
+    this.setupNameRow();
+    this.setupScoreRow();
+    this.setupFooterRow();
+  }
+
+  setupNavBar()
+  {
     this.navigationBarTitle = 'Corn Score';
 
     let restartButton = new ui.BarButton();
@@ -13,56 +21,90 @@ class ScoreBoardPage extends ui.Page
 
     this.navigationBarButtonsLeft = [ restartButton ];
     this.navigationBarButtonsRight = [ settingsButton ];
+  }
 
-    let team1Name = new ui.Text({ type: 'header-2' });
-    team1Name.text = 'Team 1';
-    team1Name.color = 'white';
-    team1Name.y = '200px';
+  setupNameRow()
+  {
+    this.team1Name = new ui.Text({ type: 'header-1' });
+    this.team1Name.text = 'The Corn Scorer';
+    this.team1Name.fontSize = '40px';
+    this.team1Name.style.margin = '0px';
+    this.team1Name.style.textAlign = 'center';
+    this.team1Name.color = 'white';
 
-    let team1Score = new ui.Text({ type: 'header-1' });
-    team1Score.text = '0';
-    team1Score.color = 'white';
-    team1Score.y = '250px';
+    this.team2Name = new ui.Text({ type: 'header-1' });
+    this.team2Name.text = 'Team 2';
+    this.team2Name.fontSize = '40px';
+    this.team2Name.style.margin = '0px';
+    this.team1Name.style.textAlign = 'center';
+    this.team2Name.color = 'white';
 
-    let team2Name = new ui.Text({ type: 'header-2' });
-    team2Name.text = 'Team 2';
-    team2Name.color = 'white';
-    team2Name.y = '200px';
+    let team1NameColumn = new ui.Column();
+    team1NameColumn.backgroundColor = 'red';
+    team1NameColumn.width = '50%';
+    team1NameColumn.addComponents({ components: [ this.team1Name ], center: true });
 
-    let team2Score = new ui.Text({ type: 'header-1' });
-    team2Score.text = '0';
-    team2Score.color = 'white';
-    team2Score.y = '250px';
+    let team2NameColumn = new ui.Column();
+    team2NameColumn.backgroundColor = 'blue';
+    team2NameColumn.width = '50%';
+    team2NameColumn.addComponents({ components: [ this.team2Name ], center: true });
 
-    let team1Side = new ui.Column();
-    team1Side.backgroundColor = 'red';
-    team1Side.width = '50%';
-    team1Side.addComponents({ components: [ team1Name, team1Score ], center: true });
+    this.nameRow = new ui.Row();
+    this.nameRow.height = '25%';
+    this.nameRow.addColumn({ column: team1NameColumn });
+    this.nameRow.addColumn({ column: team2NameColumn });
 
-    let team2Side = new ui.Column();
-    team2Side.backgroundColor = 'blue';
-    team2Side.width = '50%';
-    team2Side.addComponents({ components: [ team2Name, team2Score ], center: true });
+    this.addComponents({ components: [ this.nameRow ]});
+  }
 
-    let row = new ui.Row();
-    row.height = '100%';
-    row.addColumn({ column: team1Side });
-    row.addColumn({ column: team2Side });
+  setupScoreRow()
+  {
+    this.team1Score = new ui.Text({ type: 'header-1' });
+    this.team1Score.text = '0';
+    this.team1Score.fontSize = '130px';
+    this.team1Score.style.margin = '0px';
+    this.team1Score.color = 'white';
 
-    this.addComponents({ components: [ row ]});
+    this.team2Score = new ui.Text({ type: 'header-1' });
+    this.team2Score.text = '0';
+    this.team2Score.fontSize = '130px';
+    this.team2Score.style.margin = '0px';
+    this.team2Score.color = 'white';
 
-    window.addEventListener("orientationchange", () => 
-    {
-      const orientation = window.orientation; // -90, 0, 90, etc.
-      console.log("Device orientation changed to:", orientation);
+    let team1ScoreColumn = new ui.Column();
+    team1ScoreColumn.backgroundColor = 'red';
+    team1ScoreColumn.width = '50%';
+    team1ScoreColumn.addComponents({ components: [ this.team1Score ], center: true });
 
-      if (orientation === 90 || orientation === -90) {
-        console.log("Landscape mode");
-      } else {
-        console.log("Portrait mode");
-      }
-    });
+    let team2ScoreColumn = new ui.Column();
+    team2ScoreColumn.backgroundColor = 'blue';
+    team2ScoreColumn.width = '50%';
+    team2ScoreColumn.addComponents({ components: [ this.team2Score ], center: true });
 
+    this.scoreRow = new ui.Row();
+    this.scoreRow.height = '50%';
+    this.scoreRow.addColumn({ column: team1ScoreColumn });
+    this.scoreRow.addColumn({ column: team2ScoreColumn });
+
+    this.addComponents({ components: [ this.scoreRow ]});
+  }
+
+  setupFooterRow()
+  {
+    let team1FooterColumn = new ui.Column();
+    team1FooterColumn.backgroundColor = 'red';
+    team1FooterColumn.width = '50%';
+
+    let team2FooterColumn = new ui.Column();
+    team2FooterColumn.backgroundColor = 'blue';
+    team2FooterColumn.width = '50%';
+
+    this.footerRow = new ui.Row();
+    this.footerRow.height = '25%';
+    this.footerRow.addColumn({ column: team1FooterColumn });
+    this.footerRow.addColumn({ column: team2FooterColumn });
+
+    this.addComponents({ components: [ this.footerRow ]});
   }
 }
 
