@@ -337,6 +337,10 @@ class SettingsPage extends ui.Page
 {
   onInit()
   {
+    this.sourceCodeLink = 'https://github.com/cobocombo/Corn-Score';
+    this.buyMeACoffeeLink = 'https://www.buymeacoffee.com/cobocombo';
+    this.rateCornScoreLink = 'https://itunes.apple.com/app/id6446418989?action=write-review';
+
     this.setupNavBar();
 
     this.team1Texfield = new ui.Textfield();
@@ -372,15 +376,16 @@ class SettingsPage extends ui.Page
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-refresh', size: '32px' }), center: 'Reset To Default', tappable: true, onTap: this.resetToDefaultItemTapped.bind(this) }) });
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'Get Involved' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'] }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'] }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'] }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'] }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'], onTap: this.sourceCodeItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'], onTap: this.reportABugItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'], onTap: this.requestAFeatureItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'], onTap: this.buyMeACoffeeItemTapped.bind(this) }) });
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'App Info' }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'] }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'] }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatNewItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
 
     this.addComponents({ components: [ settingsList ]});
   }
@@ -418,6 +423,41 @@ class SettingsPage extends ui.Page
     resetAlert.present();
   }
 
+  sourceCodeItemTapped()
+  {
+    browser.open({ url: this.sourceCodeLink, inApp: true, animated: true });
+  }
+
+  buyMeACoffeeItemTapped()
+  {
+    browser.open({ url: this.buyMeACoffeeLink, inApp: true, animated: true });
+  }
+
+  rateCornScoreItemTapped()
+  {
+    browser.open({ url: this.rateCornScoreLink, inApp: false, animated: false });
+  }
+
+  reportABugItemTapped()
+  {
+    navigator.push({ page: new ReportABugPage(), animated: false });
+  }
+
+  requestAFeatureItemTapped()
+  {
+    navigator.push({ page: new RequestAFeaturePage(), animated: false });
+  }
+
+  whatNewItemTapped()
+  {
+    navigator.push({ page: new WhatsNewPage(), animated: false });
+  }
+
+  privacyPolicyItemTapped()
+  {
+    navigator.push({ page: new PrivacyPolicyPage(), animated: false });
+  }
+
   updateSettings()
   {
     this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
@@ -435,17 +475,37 @@ class ReportABugPage extends ui.Page
 {
   onInit()
   {
+    this.setupNavBar();
+  }
 
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Report A Bug';
+
+    let backButton = new ui.BackBarButton();
+    backButton.onTap = () => { navigator.pop({ animated : false }); };
+
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 }
 
 /////////////////////////////////////////////////
 
-class RequestAFeature extends ui.Page
+class RequestAFeaturePage extends ui.Page
 {
   onInit()
   {
+    this.setupNavBar();
+  }
 
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Request A Feature';
+
+    let backButton = new ui.BackBarButton();
+    backButton.onTap = () => { navigator.pop({ animated : false }); };
+
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 }
 
@@ -455,7 +515,17 @@ class PrivacyPolicyPage extends ui.Page
 {
   onInit()
   {
+    this.setupNavBar();
+  }
 
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Privacy Policy';
+
+    let backButton = new ui.BackBarButton();
+    backButton.onTap = () => { navigator.pop({ animated : false }); };
+
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 }
 
@@ -465,7 +535,17 @@ class WhatsNewPage extends ui.Page
 {
   onInit()
   {
+    this.setupNavBar();
+  }
 
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Whats New';
+
+    let backButton = new ui.BackBarButton();
+    backButton.onTap = () => { navigator.pop({ animated : false }); };
+
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 }
 
