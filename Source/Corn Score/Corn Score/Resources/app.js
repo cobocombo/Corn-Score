@@ -111,7 +111,43 @@ class ScoreBoardPage extends ui.Page
 
   onShow()
   {
+    this.team1Name.text = localStorage.getItem(settings.storageKeys.team1Name);
+    this.team2Name.text = localStorage.getItem(settings.storageKeys.team2Name);
+    
+    switch(localStorage.getItem(settings.storageKeys.textSize)) 
+    {
+      case settings.textSizes.medium.label:
+        this.team1Name.fontSize = settings.textSizes.medium.teamName;
+        this.team2Name.fontSize = settings.textSizes.medium.teamName;
+        this.team1Score.fontSize = settings.textSizes.medium.teamScore;
+        this.team2Score.fontSize = settings.textSizes.medium.teamScore;
+        break;
+      case settings.textSizes.large.label:
+        this.team1Name.fontSize = settings.textSizes.large.teamName;
+        this.team2Name.fontSize = settings.textSizes.large.teamName;
+        this.team1Score.fontSize = settings.textSizes.large.teamScore;
+        this.team2Score.fontSize = settings.textSizes.large.teamScore;
+        break;
+      default:
+        this.team1Name.fontSize = settings.textSizes.small.teamName;
+        this.team2Name.fontSize = settings.textSizes.small.teamName;
+        this.team1Score.fontSize = settings.textSizes.small.teamScore;
+        this.team2Score.fontSize = settings.textSizes.small.teamScore;
+    }
 
+    this.team1NameColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
+    this.team1ScoreColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
+    this.team1FooterColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
+
+    this.team2NameColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
+    this.team2ScoreColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
+    this.team2FooterColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
+
+    this.team1Name.color = localStorage.getItem(settings.storageKeys.textColor);
+    this.team2Name.color = localStorage.getItem(settings.storageKeys.textColor);
+
+    this.team1Score.color = localStorage.getItem(settings.storageKeys.textColor);
+    this.team2Score.color = localStorage.getItem(settings.storageKeys.textColor);
   }
 
   setupNavBar()
@@ -133,27 +169,19 @@ class ScoreBoardPage extends ui.Page
   setupNameRow()
   {
     this.team1Name = new ui.Text({ type: 'header-1' });
-    this.team1Name.text = 'Team 1';
-    this.team1Name.fontSize = '30px';
     this.team1Name.style.margin = '0px';
     this.team1Name.style.textAlign = 'center';
-    this.team1Name.color = 'white';
 
     this.team2Name = new ui.Text({ type: 'header-1' });
-    this.team2Name.text = 'Team 2';
-    this.team2Name.fontSize = '30px';
     this.team2Name.style.margin = '0px';
     this.team1Name.style.textAlign = 'center';
-    this.team2Name.color = 'white';
 
     this.team1NameColumn = new ui.Column();
-    this.team1NameColumn.backgroundColor = 'red';
     this.team1NameColumn.width = '50%';
     this.team1NameColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
     this.team1NameColumn.addComponents({ components: [ this.team1Name ], center: true });
 
     this.team2NameColumn = new ui.Column();
-    this.team2NameColumn.backgroundColor = 'blue';
     this.team2NameColumn.width = '50%';
     this.team2NameColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
     this.team2NameColumn.addComponents({ components: [ this.team2Name ], center: true });
@@ -170,24 +198,18 @@ class ScoreBoardPage extends ui.Page
   {
     this.team1Score = new ui.Text({ type: 'header-1' });
     this.team1Score.text = String(this.team1ScoreAmount);
-    this.team1Score.fontSize = '110px';
     this.team1Score.style.margin = '0px';
-    this.team1Score.color = 'white';
 
     this.team2Score = new ui.Text({ type: 'header-1' });
     this.team2Score.text = String(this.team2ScoreAmount);
-    this.team2Score.fontSize = '110px';
     this.team2Score.style.margin = '0px';
-    this.team2Score.color = 'white';
 
     this.team1ScoreColumn = new ui.Column();
-    this.team1ScoreColumn.backgroundColor = 'red';
     this.team1ScoreColumn.width = '50%';
     this.team1ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
     this.team1ScoreColumn.addComponents({ components: [ this.team1Score ], center: true });
 
     this.team2ScoreColumn = new ui.Column();
-    this.team2ScoreColumn.backgroundColor = 'blue';
     this.team2ScoreColumn.width = '50%';
     this.team2ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
     this.team2ScoreColumn.addComponents({ components: [ this.team2Score ], center: true });
@@ -203,12 +225,10 @@ class ScoreBoardPage extends ui.Page
   setupFooterRow()
   {
     this.team1FooterColumn = new ui.Column();
-    this.team1FooterColumn.backgroundColor = 'red';
     this.team1FooterColumn.width = '50%';
     this.team1FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
 
     this.team2FooterColumn = new ui.Column();
-    this.team2FooterColumn.backgroundColor = 'blue';
     this.team2FooterColumn.width = '50%';
     this.team2FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
 
@@ -317,45 +337,39 @@ class SettingsPage extends ui.Page
 {
   onInit()
   {
-    this.navigationBarTitle = 'Settings';
+    this.setupNavBar();
 
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
+    this.team1Texfield = new ui.Textfield();
+    this.team1Texfield.underbar = false;
+    this.team1Texfield.onTextChange = (text) => { localStorage.setItem(settings.storageKeys.team1Name, text); }
 
-    this.navigationBarButtonsLeft = [ backButton ];
+    this.team2Texfield = new ui.Textfield();
+    this.team2Texfield.underbar = false;
+    this.team2Texfield.onTextChange = (text) => { localStorage.setItem(settings.storageKeys.team2Name, text); }
 
-    let team1Texfield = new ui.Textfield();
-    team1Texfield.underbar = false;
-    team1Texfield.text = 'Team 1';
+    this.team1ColorPicker = new ui.ColorPicker();
+    this.team1ColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.team1Color, color); }
 
-    let team2Texfield = new ui.Textfield();
-    team2Texfield.underbar = false;
-    team2Texfield.text = 'Team 2';
+    this.team2ColorPicker = new ui.ColorPicker();
+    this.team2ColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.team2Color, color); }
 
-    let team1ColorPicker = new ui.ColorPicker();
-    team1ColorPicker.color = '#FF0000';
-    team1ColorPicker.onChange = (color) => { console.log(color); }
+    this.textColorPicker = new ui.ColorPicker();
+    this.textColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.textColor, color); }
 
-    let team2ColorPicker = new ui.ColorPicker();
-    team2ColorPicker.color = '#0000FF';
-    team2ColorPicker.onChange = (color) => { console.log(color); }
+    this.textSizeSelctor = new ui.Selector();
+    this.textSizeSelctor.options = [ settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label ];
+    this.textSizeSelctor.underbar = false;
+    this.textSizeSelctor.onChange = (option) => { localStorage.setItem(settings.storageKeys.textSize, option); }
 
-    let textColorPicker = new ui.ColorPicker();
-    textColorPicker.color = '#FFFFFF';
-    textColorPicker.onChange = (color) => { console.log(color); }
-
-    let textSizeSelctor = new ui.Selector();
-    textSizeSelctor.options = [settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label];
-    textSizeSelctor.underbar = false;
-    textSizeSelctor.onChange = (option) => { console.log(option); }
+    this.updateSettings();
     
     let settingsList = new ui.List();
     settingsList.addItem({ item: new ui.ListHeader({ text: 'Customize' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: team1Texfield, right: team1ColorPicker  }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: team2Texfield, right: team2ColorPicker }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-color-palette', size: '32px' }), center: 'Text Color', right: textColorPicker }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-document', size: '32px' }), center: 'Text Size', right: textSizeSelctor }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-refresh', size: '32px' }), center: 'Reset To Default', tappable: true }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team1Texfield, right: this.team1ColorPicker  }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team2Texfield, right: this.team2ColorPicker }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-color-palette', size: '32px' }), center: 'Text Color', right: this.textColorPicker }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-document', size: '32px' }), center: 'Text Size', right: this.textSizeSelctor }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-refresh', size: '32px' }), center: 'Reset To Default', tappable: true, onTap: this.resetToDefaultItemTapped.bind(this) }) });
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'Get Involved' }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'] }) });
@@ -364,16 +378,54 @@ class SettingsPage extends ui.Page
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'] }) });
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'App Info' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: 'Version: 1.5' }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'] }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'] }) });
 
     this.addComponents({ components: [ settingsList ]});
   }
 
-  onShow()
+  setupNavBar()
   {
-    
+    this.navigationBarTitle = 'Settings';
+
+    let backButton = new ui.BackBarButton();
+    backButton.onTap = () => { navigator.pop({ animated : false }); };
+
+    this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  resetToDefaultItemTapped()
+  {
+    let cancelButton = new ui.AlertDialogButton();
+    cancelButton.text = 'Cancel';
+
+    let resetButton = new ui.AlertDialogButton();
+    resetButton.textColor = 'red';
+    resetButton.text = 'Reset';
+    resetButton.onTap = () => 
+    {  
+      settings.setDefaults();
+      this.updateSettings();
+    }
+
+    let resetAlert = new ui.AlertDialog();
+    resetAlert.title = 'Reset To Default?';
+    resetAlert.rowfooter = true;
+    resetAlert.buttons = [ cancelButton, resetButton ];
+    resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]})
+
+    resetAlert.present();
+  }
+
+  updateSettings()
+  {
+    this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
+    this.team2Texfield.text = localStorage.getItem(settings.storageKeys.team2Name);
+    this.team1ColorPicker.color = localStorage.getItem(settings.storageKeys.team1Color);
+    this.team2ColorPicker.color = localStorage.getItem(settings.storageKeys.team2Color);
+    this.textColorPicker.color = localStorage.getItem(settings.storageKeys.textColor);
+    this.textSizeSelctor.selectedOption = localStorage.getItem(settings.storageKeys.textSize);
   }
 }
 
@@ -420,6 +472,7 @@ class WhatsNewPage extends ui.Page
 ///////////////////////////////////////////////////////////
 
 globalThis.settings = SettingsManager.getInstance();
+if(app.isFirstLaunch) settings.setDefaults();
 
 const navigator = new ui.Navigator({ root: new ScoreBoardPage() });
 app.present({ root: navigator });
