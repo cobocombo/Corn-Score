@@ -340,6 +340,7 @@ class SettingsPage extends ui.Page
     this.sourceCodeLink = 'https://github.com/cobocombo/Corn-Score';
     this.buyMeACoffeeLink = 'https://www.buymeacoffee.com/cobocombo';
     this.rateCornScoreLink = 'https://itunes.apple.com/app/id6446418989?action=write-review';
+    this.rulesLink = 'https://www.playcornhole.org/pages/rules';
 
     this.setupNavBar();
 
@@ -383,6 +384,7 @@ class SettingsPage extends ui.Page
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'App Info' }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-clipboard', size: '32px' }), center: 'Corn Hole Rules', tappable: true, modifiers: ['chevron'], onTap: this.rulesItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatNewItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
@@ -436,6 +438,11 @@ class SettingsPage extends ui.Page
   rateCornScoreItemTapped()
   {
     browser.open({ url: this.rateCornScoreLink, inApp: false, animated: false });
+  }
+
+  rulesItemTapped()
+  {
+    browser.open({ url: this.rulesLink, inApp: true, animated: true });
   }
 
   reportABugItemTapped()
