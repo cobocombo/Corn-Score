@@ -483,6 +483,25 @@ class ReportABugPage extends ui.Page
   onInit()
   {
     this.setupNavBar();
+
+    this.titleTextfield = new ui.Textfield({ width: '100%', placeholder: 'A title that summarizes the bug...' });
+    this.titleTextfield.underbar = false;
+
+    this.descriptionTextArea = new ui.TextArea({ width: '100%', placeholder: "A detailed description of what's going wrong...", rows: 5, maxLength: 240 });
+    this.descriptionTextArea.element.classList = 'textarea textarea--transparent';
+
+    this.emailTextfield = new ui.Textfield({ width: '100%', placeholder: 'A good email for discussing the bug...' });
+    this.emailTextfield.underbar = false;
+
+    let reportABugList = new ui.List();
+    reportABugList.addItem({ item: new ui.ListHeader({ text: 'Title' }) });
+    reportABugList.addItem({ item: new ui.ListItem({ center: this.titleTextfield  }) });
+    reportABugList.addItem({ item: new ui.ListHeader({ text: 'Description' }) });
+    reportABugList.addItem({ item: new ui.ListItem({ center: this.descriptionTextArea }) });
+    reportABugList.addItem({ item: new ui.ListHeader({ text: 'Email' }) });
+    reportABugList.addItem({ item: new ui.ListItem({ center: this.emailTextfield  }) });
+    
+    this.addComponents({ components: [ reportABugList ] });
   }
 
   setupNavBar()
@@ -492,7 +511,10 @@ class ReportABugPage extends ui.Page
     let backButton = new ui.BackBarButton();
     backButton.onTap = () => { navigator.pop({ animated : false }); };
 
+    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { console.log('Sending...')} });
+
     this.navigationBarButtonsLeft = [ backButton ];
+    this.navigationBarButtonsRight = [ sendButton ];
   }
 }
 
@@ -503,6 +525,25 @@ class RequestAFeaturePage extends ui.Page
   onInit()
   {
     this.setupNavBar();
+
+    this.titleTextfield = new ui.Textfield({ width: '100%', placeholder: 'A title that summarizes the feature...' });
+    this.titleTextfield.underbar = false;
+
+    this.descriptionTextArea = new ui.TextArea({ width: '100%', placeholder: 'A detailed description of how the app could be improved...', rows: 5, maxLength: 240 });
+    this.descriptionTextArea.element.classList = 'textarea textarea--transparent';
+
+    this.emailTextfield = new ui.Textfield({ width: '100%', placeholder: 'A good email for discussing the new feature...' });
+    this.emailTextfield.underbar = false;
+
+    let requestAFeatureList = new ui.List();
+    requestAFeatureList.addItem({ item: new ui.ListHeader({ text: 'Title' }) });
+    requestAFeatureList.addItem({ item: new ui.ListItem({ center: this.titleTextfield  }) });
+    requestAFeatureList.addItem({ item: new ui.ListHeader({ text: 'Description' }) });
+    requestAFeatureList.addItem({ item: new ui.ListItem({ center: this.descriptionTextArea }) });
+    requestAFeatureList.addItem({ item: new ui.ListHeader({ text: 'Email' }) });
+    requestAFeatureList.addItem({ item: new ui.ListItem({ center: this.emailTextfield  }) });
+    
+    this.addComponents({ components: [ requestAFeatureList ] });
   }
 
   setupNavBar()
@@ -512,7 +553,10 @@ class RequestAFeaturePage extends ui.Page
     let backButton = new ui.BackBarButton();
     backButton.onTap = () => { navigator.pop({ animated : false }); };
 
+    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { console.log('Sending...')} });
+
     this.navigationBarButtonsLeft = [ backButton ];
+    this.navigationBarButtonsRight = [ sendButton ];
   }
 }
 
