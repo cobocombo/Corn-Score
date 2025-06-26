@@ -96,8 +96,10 @@ class SettingsManager
 // PAGES
 ///////////////////////////////////////////////////////////
 
+/** Class representing the score board of Corn Score. */
 class ScoreBoardPage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
     this.team1ScoreAmount = 0;
@@ -109,6 +111,7 @@ class ScoreBoardPage extends ui.Page
     this.setupFooterRow();
   }
 
+  /** Public method called when the page is shown on screen. */
   onShow()
   {
     this.team1Name.text = localStorage.getItem(settings.storageKeys.team1Name);
@@ -138,108 +141,20 @@ class ScoreBoardPage extends ui.Page
     this.team1NameColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
     this.team1ScoreColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
     this.team1FooterColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team1Color);
-
     this.team2NameColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
     this.team2ScoreColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
     this.team2FooterColumn.backgroundColor = localStorage.getItem(settings.storageKeys.team2Color);
-
     this.team1Name.color = localStorage.getItem(settings.storageKeys.textColor);
     this.team2Name.color = localStorage.getItem(settings.storageKeys.textColor);
-
     this.team1Score.color = localStorage.getItem(settings.storageKeys.textColor);
     this.team2Score.color = localStorage.getItem(settings.storageKeys.textColor);
   }
 
-  setupNavBar()
-  {
-    this.navigationBarTitle = 'Corn Score';
-
-    let restartButton = new ui.BarButton();
-    restartButton.icon = 'ion-ios-refresh';
-    restartButton.onTap = this.restartButtonTapped.bind(this);
-
-    let settingsButton = new ui.BarButton();
-    settingsButton.icon = 'ion-ios-cog';
-    settingsButton.onTap = () => { navigator.push({ page: new SettingsPage(), animated : false }) };
-
-    this.navigationBarButtonsLeft = [ restartButton ];
-    this.navigationBarButtonsRight = [ settingsButton ];
-  }
-
-  setupNameRow()
-  {
-    this.team1Name = new ui.Text({ type: 'header-1' });
-    this.team1Name.style.margin = '0px';
-    this.team1Name.style.textAlign = 'center';
-
-    this.team2Name = new ui.Text({ type: 'header-1' });
-    this.team2Name.style.margin = '0px';
-    this.team1Name.style.textAlign = 'center';
-
-    this.team1NameColumn = new ui.Column();
-    this.team1NameColumn.width = '50%';
-    this.team1NameColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
-    this.team1NameColumn.addComponents({ components: [ this.team1Name ], center: true });
-
-    this.team2NameColumn = new ui.Column();
-    this.team2NameColumn.width = '50%';
-    this.team2NameColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
-    this.team2NameColumn.addComponents({ components: [ this.team2Name ], center: true });
-
-    this.nameRow = new ui.Row();
-    this.nameRow.height = '25%';
-    this.nameRow.addColumn({ column: this.team1NameColumn });
-    this.nameRow.addColumn({ column: this.team2NameColumn });
-
-    this.addComponents({ components: [ this.nameRow ]});
-  }
-
-  setupScoreRow()
-  {
-    this.team1Score = new ui.Text({ type: 'header-1' });
-    this.team1Score.text = String(this.team1ScoreAmount);
-    this.team1Score.style.margin = '0px';
-
-    this.team2Score = new ui.Text({ type: 'header-1' });
-    this.team2Score.text = String(this.team2ScoreAmount);
-    this.team2Score.style.margin = '0px';
-
-    this.team1ScoreColumn = new ui.Column();
-    this.team1ScoreColumn.width = '50%';
-    this.team1ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
-    this.team1ScoreColumn.addComponents({ components: [ this.team1Score ], center: true });
-
-    this.team2ScoreColumn = new ui.Column();
-    this.team2ScoreColumn.width = '50%';
-    this.team2ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
-    this.team2ScoreColumn.addComponents({ components: [ this.team2Score ], center: true });
-
-    this.scoreRow = new ui.Row();
-    this.scoreRow.height = '50%';
-    this.scoreRow.addColumn({ column: this.team1ScoreColumn });
-    this.scoreRow.addColumn({ column: this.team2ScoreColumn });
-
-    this.addComponents({ components: [ this.scoreRow ]});
-  }
-
-  setupFooterRow()
-  {
-    this.team1FooterColumn = new ui.Column();
-    this.team1FooterColumn.width = '50%';
-    this.team1FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
-
-    this.team2FooterColumn = new ui.Column();
-    this.team2FooterColumn.width = '50%';
-    this.team2FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
-
-    this.footerRow = new ui.Row();
-    this.footerRow.height = '25%';
-    this.footerRow.addColumn({ column: this.team1FooterColumn });
-    this.footerRow.addColumn({ column: this.team2FooterColumn });
-
-    this.addComponents({ components: [ this.footerRow ]});
-  }
-
+  /** 
+   * Public method to change the score of the board.
+   * @param {String} team - Team to change the score for.
+   * @param {Event} event - Tap event.
+   */
   changeScore({ team, event } = {})
   {
     let scoreText = null;
@@ -271,6 +186,116 @@ class ScoreBoardPage extends ui.Page
     this.updateScores();
   }
 
+  /** Public method called when the user taps the restart button. A restart alert will show if either team has a point. */
+  restartButtonTapped()
+  {
+    if(this.team1ScoreAmount > 0 || this.team2ScoreAmount > 0)
+    {
+      let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
+      let restartButton = new ui.AlertDialogButton({ text: 'Restart', textColor: 'red', onTap: () => { this.restartGame(); }});
+      let restartAlert = new ui.AlertDialog({ title: 'All score data will be lost', rowfooter: true, buttons: [ cancelButton, restartButton ] });
+      restartAlert.addComponents({ components: [ new ui.Text({ text: 'Restart Game?' }) ]});
+      restartAlert.present();
+    }
+  }
+
+  /** Public method called to reset the score board. */
+  restartGame()
+  {
+    this.team1ScoreAmount = 0;
+    this.team2ScoreAmount = 0;
+    this.updateScores();
+  }
+
+  /** Public method called to set the footer row of the score board. */
+  setupFooterRow()
+  {
+    this.team1FooterColumn = new ui.Column();
+    this.team1FooterColumn.width = '50%';
+    this.team1FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
+
+    this.team2FooterColumn = new ui.Column();
+    this.team2FooterColumn.width = '50%';
+    this.team2FooterColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
+
+    this.footerRow = new ui.Row();
+    this.footerRow.height = '25%';
+    this.footerRow.addColumn({ column: this.team1FooterColumn });
+    this.footerRow.addColumn({ column: this.team2FooterColumn });
+
+    this.addComponents({ components: [ this.footerRow ]});
+  }
+
+  /** Public method called to set the name row of the score board. */
+  setupNameRow()
+  {
+    this.team1Name = new ui.Text({ type: 'header-1' });
+    this.team1Name.style.margin = '0px';
+    this.team1Name.style.textAlign = 'center';
+
+    this.team2Name = new ui.Text({ type: 'header-1' });
+    this.team2Name.style.margin = '0px';
+    this.team1Name.style.textAlign = 'center';
+
+    this.team1NameColumn = new ui.Column();
+    this.team1NameColumn.width = '50%';
+    this.team1NameColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
+    this.team1NameColumn.addComponents({ components: [ this.team1Name ], center: true });
+
+    this.team2NameColumn = new ui.Column();
+    this.team2NameColumn.width = '50%';
+    this.team2NameColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
+    this.team2NameColumn.addComponents({ components: [ this.team2Name ], center: true });
+
+    this.nameRow = new ui.Row();
+    this.nameRow.height = '25%';
+    this.nameRow.addColumn({ column: this.team1NameColumn });
+    this.nameRow.addColumn({ column: this.team2NameColumn });
+
+    this.addComponents({ components: [ this.nameRow ]});
+  }
+
+  /** Public method called to set the navigation bar of the score board. */
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Corn Score';
+    let restartButton = new ui.BarButton({ icon: 'ion-ios-refresh', onTap: this.restartButtonTapped.bind(this) });
+    let settingsButton = new ui.BarButton({ icon: 'ion-ios-cog', onTap: () => { navigator.push({ page: new SettingsPage(), animated : false }) }});
+    this.navigationBarButtonsLeft = [ restartButton ];
+    this.navigationBarButtonsRight = [ settingsButton ];
+  }
+
+  /** Public method called to set the score row of the score board. */
+  setupScoreRow()
+  {
+    this.team1Score = new ui.Text({ type: 'header-1', text: String(this.team1ScoreAmount) });
+    this.team1Score.style.margin = '0px';
+
+    this.team2Score = new ui.Text({ type: 'header-1', text: String(this.team2ScoreAmount) });
+    this.team2Score.style.margin = '0px';
+
+    this.team1ScoreColumn = new ui.Column();
+    this.team1ScoreColumn.width = '50%';
+    this.team1ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-1', event: event })};
+    this.team1ScoreColumn.addComponents({ components: [ this.team1Score ], center: true });
+
+    this.team2ScoreColumn = new ui.Column();
+    this.team2ScoreColumn.width = '50%';
+    this.team2ScoreColumn.onTap = (event) => { this.changeScore({ team: 'team-2', event: event })};
+    this.team2ScoreColumn.addComponents({ components: [ this.team2Score ], center: true });
+
+    this.scoreRow = new ui.Row();
+    this.scoreRow.height = '50%';
+    this.scoreRow.addColumn({ column: this.team1ScoreColumn });
+    this.scoreRow.addColumn({ column: this.team2ScoreColumn });
+
+    this.addComponents({ components: [ this.scoreRow ]});
+  }
+
+  /** 
+   * Public method called when a team hits 21 points. It starts confetti and shows a game over alert.
+   * @param {String} team - Team that hit 21 points.
+   */
   teamWins({ team } = {})
   {
     confetti.start();
@@ -279,51 +304,19 @@ class ScoreBoardPage extends ui.Page
     if(team == 'team-1') nameText = this.team1Name;
     else nameText = this.team2Name;
 
-    let okButton = new ui.AlertDialogButton();
-    okButton.text = 'Ok';
+    let okButton = new ui.AlertDialogButton({ text: 'Ok'});
     okButton.onTap = () => 
     { 
       this.restartGame(); 
       confetti.stop();
     }
 
-    let gameOverAlert = new ui.AlertDialog();
-    gameOverAlert.title = 'Game Over!';
-    gameOverAlert.rowfooter = true;
-    gameOverAlert.buttons = [ okButton ];
+    let gameOverAlert = new ui.AlertDialog({ title: 'Game Over!', rowfooter: true, buttons: [ okButton ] });
     gameOverAlert.addComponents({ components: [ new ui.Text({ text: `${nameText.text} wins!` }) ]});
     gameOverAlert.present();
   }
 
-  restartButtonTapped()
-  {
-    if(this.team1ScoreAmount > 0 || this.team2ScoreAmount > 0)
-    {
-      let cancelButton = new ui.AlertDialogButton();
-      cancelButton.text = 'Cancel';
-
-      let restartButton = new ui.AlertDialogButton();
-      restartButton.textColor = 'red';
-      restartButton.text = 'Restart';
-      restartButton.onTap = () => { this.restartGame(); }
-
-      let restartAlert = new ui.AlertDialog();
-      restartAlert.title = 'All score data will be lost';
-      restartAlert.rowfooter = true;
-      restartAlert.buttons = [ cancelButton, restartButton ];
-      restartAlert.addComponents({ components: [ new ui.Text({ text: 'Restart Game?' }) ]})
-
-      restartAlert.present();
-    }
-  }
-
-  restartGame()
-  {
-    this.team1ScoreAmount = 0;
-    this.team2ScoreAmount = 0;
-    this.updateScores();
-  }
-
+  /** Public method called to update the score of each team on the score board. */
   updateScores()
   {
     this.team1Score.text = String(this.team1ScoreAmount);
