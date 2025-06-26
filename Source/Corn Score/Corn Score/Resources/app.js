@@ -9,7 +9,6 @@ class SettingsManager
   #errors;
   #storageKeys;
   #textSizes;
-
   static #instance = null;
 
   /** Creates the settings object. **/
@@ -66,6 +65,7 @@ class SettingsManager
     return new SettingsManager();
   }
 
+  /** Public method to set all of the settings back to their default settings. */
   setDefaults()
   {
     localStorage.setItem(this.#storageKeys.team1Name, 'Team 1');
@@ -76,16 +76,19 @@ class SettingsManager
     localStorage.setItem(this.#storageKeys.textSize, this.#textSizes.medium.label);
   }
 
+  /** Get property to get the current version of the app. */
   get appVersion()
   {
     return this.#appVersion;
   }
 
+  /** Get property to get the textSizes object. */
   get textSizes()
   {
     return this.#textSizes;
   }
 
+  /** Get property to get the storageKeys object. */
   get storageKeys()
   {
     return this.#storageKeys;
