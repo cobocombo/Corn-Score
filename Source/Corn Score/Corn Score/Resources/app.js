@@ -128,6 +128,16 @@ class ScoreBoardPage extends ui.Page
     this.setupNameRow();
     this.setupScoreRow();
     this.setupFooterRow();
+
+    if(showTour == true)
+    {
+      let increaseScoreText = new ui.Text({ text: 'Tap above the number to increase the score!', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
+      increaseScoreText.style.textAlign = 'center';
+
+      let increaseScoreCheckpoint = new ui.Popover({ direction: 'up' });
+      increaseScoreCheckpoint.addComponents({ components: [ increaseScoreText ] })
+      setTimeout(() => { increaseScoreCheckpoint.present({ target: this.team1Score }); }, 1000);
+    }
   }
 
   /** Public method called when the page is shown on screen. */
@@ -475,7 +485,8 @@ class SettingsPage extends ui.Page
   /** Public method called when the user taps the what's new item. Pushes the what's new page onto the navigator. */
   whatsNewItemTapped()
   {
-    navigator.push({ page: new WhatsNewPage(), animated: false });
+    let whatsNewModal = new ui.Modal({ id: 'whats-new-modal' });
+    whatsNewModal.present({ root: new WhatsNewPage() });
   }
 }
 
@@ -553,7 +564,7 @@ class ReportABugPage extends ui.Page
     this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
   }
 
-  /** Public method called to set the navigation bar of the settings page. */
+  /** Public method called to set the navigation bar of the report a bug page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Report A Bug';
@@ -625,6 +636,7 @@ class ReportABugPage extends ui.Page
 /** Class representing the request a feature page of Corn Score. */
 class RequestAFeaturePage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
     this.setupNavBar();
@@ -693,7 +705,7 @@ class RequestAFeaturePage extends ui.Page
     this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
   }
 
-  /** Public method called to set the navigation bar of the settings page. */
+  /** Public method called to set the navigation bar of the request a feature page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Request A Feature';
@@ -765,12 +777,14 @@ class RequestAFeaturePage extends ui.Page
 /** Class representing the privacy policy page of Corn Score. */
 class PrivacyPolicyPage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
     this.setupNavBar();
     this.setupBody();
   }
 
+  /** Public method called to set the navigation bar of the privacy policy page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Privacy Policy';
@@ -781,6 +795,7 @@ class PrivacyPolicyPage extends ui.Page
     this.navigationBarButtonsLeft = [ backButton ];
   }
 
+  /** Public method called to set the body of the privacy policy page. */
   setupBody()
   {
     let header1 = new Text({ type: 'header-2', text: 'Description' });
@@ -824,26 +839,79 @@ class PrivacyPolicyPage extends ui.Page
 /** Class representing the whats new page of Corn Score. */
 class WhatsNewPage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
     this.setupNavBar();
+    this.setupBody();
   }
 
+  /** Public method called to set the navigation bar of the what's new page. */
   setupNavBar()
   {
-    this.navigationBarTitle = 'Whats New';
+    let modal = app.getComponentById({ id: 'whats-new-modal' });
+    let doneButton = new ui.BarButton({ text: 'Done', onTap: () => { modal.dismiss(); } });
+    this.navigationBarButtonsLeft = [ doneButton ];
+  }
 
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
+  /** Public method called to set the body of the whats new page. */
+  setupBody()
+  {
+    let titleColumn = new ui.Column();
+    titleColumn.addComponents({ components: [ new ui.Text({ type: 'header-1', text: `What's New` }) ] });
 
-    this.navigationBarButtonsLeft = [ backButton ];
+    let appVersionColumn = new ui.Column();
+    appVersionColumn.addComponents({ components: [ new ui.Text({ text: `App Version: ${settings.appVersion}`, marginTop: '2px' }) ] });
+
+    let titleRow = new ui.Row();
+    titleRow.addColumn({ column: titleColumn });
+
+    let feature1Row = this.buildFeatureRow({ icon: 'ion-ios-clipboard', iconColor: 'orange', description: 'Added the ability to view the rules for corn hole' });
+    let feature2Row = this.buildFeatureRow({ icon: 'ion-ios-bug', iconColor: 'red', description: 'Fixed some existing bugs and added stability updates' });
+    let feature3Row = this.buildFeatureRow({ icon: 'ion-ios-compass', iconColor: '#007AFF', description: 'Added an app tour guide for new players' });
+
+    let whatsNewCard = new Card();
+    whatsNewCard.addComponents({ components: [ titleRow, appVersionColumn, feature1Row, feature2Row, feature3Row ] });
+
+    this.addComponents({ components: [ whatsNewCard ]});
+  }
+
+  /** 
+   * Public method to build a new feature row and return it to the body of the whats new page.
+   * @param {string} icon - Icon to display for the new feature.
+   * @param {string} iconColor - Color of the icon to display for the new feature.
+   * @param {string} description - Description to display for the new feature.
+   * @returns {Row} The row to be returned and to be added to the whats new body.
+   */
+  buildFeatureRow({ icon, iconColor, description } = {})
+  {
+    let iconColumn = new ui.Column();
+    iconColumn.width = 'auto';
+    iconColumn.addComponents({ components: [ new ui.Icon({ icon: icon, size: '44px', marginTop: '16px', color: iconColor }) ], center: true });
+
+    let descriptionText = new ui.Text({ text: description });
+    descriptionText.style.textAlign = 'center';
+    let detailColumn = new ui.Column();
+    detailColumn.addComponents({ components: [ descriptionText ] });
+
+    let featureRow = new ui.Row();
+    featureRow.addColumn({ column: iconColumn });
+    featureRow.addColumn({ column: detailColumn });
+
+    return featureRow;
   }
 }
 
 ///////////////////////////////////////////////////////////
 
 globalThis.settings = SettingsManager.getInstance();
-if(app.isFirstLaunch) settings.setDefaults();
+
+let showTour = false;
+if(app.isFirstLaunch) 
+{
+  settings.setDefaults();
+  showTour = true; 
+}
 
 const navigator = new ui.Navigator({ root: new ScoreBoardPage() });
 app.present({ root: navigator });
