@@ -503,6 +503,7 @@ class ReportABugPage extends ui.Page
   {
     this.setupNavBar();
     this.setupList();
+    this.setupLoadingModal();
   }
 
   setupList()
@@ -525,6 +526,12 @@ class ReportABugPage extends ui.Page
     reportABugList.addItem({ item: new ui.ListItem({ center: this.emailTextfield  }) });
     
     this.addComponents({ components: [ reportABugList ] });
+  }
+
+  setupLoadingModal()
+  {
+    this.loadingModal = new ui.Modal();
+    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
   }
 
   setupNavBar()
@@ -556,14 +563,12 @@ class ReportABugPage extends ui.Page
       return;
     }
 
-    let loadingModal = new ui.Modal();
-    loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] })
-    loadingModal.present();
+    this.loadingModal.present();
   }
 
   presentInvalidReportAlert({ title, message } = {})
   {
-    let okButton = new ui.AlertDialogButton({ text: 'Ok'});
+    let okButton = new ui.AlertDialogButton({ text: 'Ok' });
     let invalidReportAlert = new ui.AlertDialog({ title: title, rowfooter: true, buttons: [ okButton ] });
     invalidReportAlert.addComponents({ components: [ new ui.Text({ text: message }) ]});
     invalidReportAlert.present();
