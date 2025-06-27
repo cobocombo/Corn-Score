@@ -768,6 +768,7 @@ class PrivacyPolicyPage extends ui.Page
   onInit()
   {
     this.setupNavBar();
+    this.setupBody();
   }
 
   setupNavBar()
@@ -778,6 +779,43 @@ class PrivacyPolicyPage extends ui.Page
     backButton.onTap = () => { navigator.pop({ animated : false }); };
 
     this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  setupBody()
+  {
+    let header1 = new Text({ type: 'header-2', text: 'Description' });
+    let paragraph1 = new Text({ text: `This Privacy Policy describes how Corn Score ("we," "us," or "our") collects, uses, and discloses information when you use our iOS app, Corn Score. By using the app, you agree to the collection and use of information in accordance with this policy.`});
+
+    let header2 = new Text({ type: 'header-2', text: 'Effective Date' });
+    let paragraph2 = new Text({ text: `6.16.23`});
+
+    let header3 = new Text({ type: 'header-2', text: 'Information We Collect'});
+    let paragraph3 = new Text({ text: `The only personal user information we collect is an email if the user decides voluntarily to request a new app feature, or to report a bug from within Corn Score.` });
+
+    let header4 = new Text({ type: 'header-2', text: 'Usage Data'});
+    let paragraph4 = new Text({ text: `Corn Score may collect non-personally identifiable information about your device and app usage. This includes information such as the type of device, operating system version, app version, and other technical information. This data is used for analytical purposes to improve the app's functionality and user experience.` });
+
+    let header5 = new Text({ type: 'header-2', text: 'Third-Party Services'});
+    let paragraph5 = new Text({ text: `Corn Score integrates with the Github Public API in order for users to report new features, or report any bugs from within Corn Score. A user's personal email is necessary to be recorded in order to give the developer a contact point, about new features or bug reports initiated voluntarily.` });
+
+    let header6 = new Text({ type: 'header-2', text: 'Advertising'});
+    let paragraph6 = new Text({ text: `Corn Score does not display any third-party advertisements or collect data for advertising purposes.` });
+
+    let header7 = new Text({ type: 'header-2', text: 'Data Security'});
+    let paragraph7 = new Text({ text: `We take reasonable measures to protect the information collected by Corn Score from loss, unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the internet or electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.` });
+
+    let header8 = new Text({ type: 'header-2', text: 'Changes to This Privacy Policy' });
+    let paragraph8 = new Text({ text: `We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date & revision history. It is advised to review this Privacy Policy periodically for any changes.` });
+
+    let header9 = new Text({ type: 'header-2', text: 'Contact Us'});
+    let paragraph9 = new Text({ text: `If you have any questions or concerns about this Privacy Policy or the practices of the Corn Score app, please contact us at coltonboyd503@icloud.com.` });
+
+    let textComponents = [ header1, paragraph1, header2, paragraph2, header3, paragraph3, header4, paragraph4, header5, paragraph5, header6, paragraph6, header7, paragraph7, header8, paragraph8, header9, paragraph9 ];
+
+    let policyCard = new Card();
+    policyCard.addComponents({ components: textComponents });
+
+    this.addComponents({ components: [ policyCard ]});
   }
 }
 
