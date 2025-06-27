@@ -6,7 +6,11 @@
 class SettingsManager
 {
   #appVersion;
+  #buyMeACoffeeLink;
   #errors;
+  #rateAppLink;
+  #rulesLink;
+  #sourceCodeLink;
   #storageKeys;
   #textSizes;
   static #instance = null;
@@ -15,6 +19,10 @@ class SettingsManager
   constructor() 
   {
     this.#appVersion = '1.5';
+    this.#buyMeACoffeeLink = 'https://www.buymeacoffee.com/cobocombo';
+    this.#rateAppLink = 'https://itunes.apple.com/app/id6446418989?action=write-review';
+    this.#rulesLink = 'https://www.playcornhole.org/pages/rules';
+    this.#sourceCodeLink = 'https://github.com/cobocombo/Corn-Score';
     this.#errors = 
     {
       singleInstanceError: 'Settings Manager Error: Only one SettingsManager object can exist at a time.',
@@ -82,10 +90,34 @@ class SettingsManager
     return this.#appVersion;
   }
 
+  /** Get property to get the link for the buy me a coffee donation page. */
+  get buyMeACoffeeLink()
+  {
+    return this.#buyMeACoffeeLink;
+  }
+
+  /** Get property to get the link to rate the app. */
+  get rateAppLink()
+  {
+    return this.#rateAppLink;
+  }
+
+  /** Get property to get the link to the official corn hole rules. */
+  get rulesLink()
+  {
+    return this.#rulesLink;
+  }
+
   /** Get property to get the textSizes object. */
   get textSizes()
   {
     return this.#textSizes;
+  }
+
+  /** Get property to get the link for the github source code page. */
+  get sourceCodeLink()
+  {
+    return this.#sourceCodeLink;
   }
 
   /** Get property to get the storageKeys object. */
@@ -99,7 +131,7 @@ class SettingsManager
 // PAGES
 ///////////////////////////////////////////////////////////
 
-/** Class representing the score board of Corn Score. */
+/** Class representing the score board page. */
 class ScoreBoardPage extends ui.Page
 {
   /** Public method called when the page is initialized. */
@@ -329,36 +361,49 @@ class ScoreBoardPage extends ui.Page
 
 /////////////////////////////////////////////////
 
+/** Class representing the settings page of Corn Score. */
 class SettingsPage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
-    this.sourceCodeLink = 'https://github.com/cobocombo/Corn-Score';
-    this.buyMeACoffeeLink = 'https://www.buymeacoffee.com/cobocombo';
-    this.rateCornScoreLink = 'https://itunes.apple.com/app/id6446418989?action=write-review';
-    this.rulesLink = 'https://www.playcornhole.org/pages/rules';
-
     this.setupNavBar();
+    this.setupList();
+  }
 
-    this.team1Texfield = new ui.Textfield();
+  /** Public method called when the user taps the buy me a coffee item. Opens a browser in app for the user to give a donation.*/
+  buyMeACoffeeItemTapped()
+  {
+    browser.open({ url: settings.buyMeACoffeeLink, inApp: true, animated: true });
+  }
+
+  /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
+  resetToDefaultItemTapped()
+  {
+    let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
+    let resetButton = new ui.AlertDialogButton({ text: 'Reset', textColor: 'red' });
+    resetButton.onTap = () => 
+    {  
+      settings.setDefaults();
+      this.updateSettings();
+    }
+
+    let resetAlert = new ui.AlertDialog({ title: 'Reset To Default?', rowfooter: true , buttons: [ cancelButton, resetButton ] });
+    resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]})
+    resetAlert.present();
+  }
+
+  /** Public method called to set up the list with all of it's items and components. */
+  setupList()
+  {
+    this.team1Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team1Name, text); } });
     this.team1Texfield.underbar = false;
-    this.team1Texfield.onTextChange = (text) => { localStorage.setItem(settings.storageKeys.team1Name, text); }
-
-    this.team2Texfield = new ui.Textfield();
+    this.team2Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team2Name, text); } });
     this.team2Texfield.underbar = false;
-    this.team2Texfield.onTextChange = (text) => { localStorage.setItem(settings.storageKeys.team2Name, text); }
-
-    this.team1ColorPicker = new ui.ColorPicker();
-    this.team1ColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.team1Color, color); }
-
-    this.team2ColorPicker = new ui.ColorPicker();
-    this.team2ColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.team2Color, color); }
-
-    this.textColorPicker = new ui.ColorPicker();
-    this.textColorPicker.onChange = (color) => { localStorage.setItem(settings.storageKeys.textColor, color); }
-
-    this.textSizeSelctor = new ui.Selector();
-    this.textSizeSelctor.options = [ settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label ];
+    this.team1ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team1Color, color); } });
+    this.team2ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team2Color, color); } });
+    this.textColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.textColor, color); } });
+    this.textSizeSelctor = new ui.Selector({ options: [ settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label ] });
     this.textSizeSelctor.underbar = false;
     this.textSizeSelctor.onChange = (option) => { localStorage.setItem(settings.storageKeys.textSize, option); }
 
@@ -382,85 +427,57 @@ class SettingsPage extends ui.Page
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-clipboard', size: '32px' }), center: 'Corn Hole Rules', tappable: true, modifiers: ['chevron'], onTap: this.rulesItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatNewItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatsNewItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
 
     this.addComponents({ components: [ settingsList ]});
   }
 
+  /** Public method called to set the navigation bar of the settings page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Settings';
-
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
-
+    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
     this.navigationBarButtonsLeft = [ backButton ];
   }
 
-  resetToDefaultItemTapped()
-  {
-    let cancelButton = new ui.AlertDialogButton();
-    cancelButton.text = 'Cancel';
-
-    let resetButton = new ui.AlertDialogButton();
-    resetButton.textColor = 'red';
-    resetButton.text = 'Reset';
-    resetButton.onTap = () => 
-    {  
-      settings.setDefaults();
-      this.updateSettings();
-    }
-
-    let resetAlert = new ui.AlertDialog();
-    resetAlert.title = 'Reset To Default?';
-    resetAlert.rowfooter = true;
-    resetAlert.buttons = [ cancelButton, resetButton ];
-    resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]})
-
-    resetAlert.present();
-  }
-
+  /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
   sourceCodeItemTapped()
   {
-    browser.open({ url: this.sourceCodeLink, inApp: true, animated: true });
+    browser.open({ url: settings.sourceCodeLink, inApp: true, animated: true });
   }
 
-  buyMeACoffeeItemTapped()
-  {
-    browser.open({ url: this.buyMeACoffeeLink, inApp: true, animated: true });
-  }
-
-  rateCornScoreItemTapped()
-  {
-    browser.open({ url: this.rateCornScoreLink, inApp: false, animated: false });
-  }
-
-  rulesItemTapped()
-  {
-    browser.open({ url: this.rulesLink, inApp: true, animated: true });
-  }
-
-  reportABugItemTapped()
-  {
-    navigator.push({ page: new ReportABugPage(), animated: false });
-  }
-
-  requestAFeatureItemTapped()
-  {
-    navigator.push({ page: new RequestAFeaturePage(), animated: false });
-  }
-
-  whatNewItemTapped()
-  {
-    navigator.push({ page: new WhatsNewPage(), animated: false });
-  }
-
+  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the navigator. */
   privacyPolicyItemTapped()
   {
     navigator.push({ page: new PrivacyPolicyPage(), animated: false });
   }
 
+  /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
+  rateCornScoreItemTapped()
+  {
+    browser.open({ url: settings.rateAppLink, inApp: false, animated: false });
+  }
+
+  /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the navigator. */
+  reportABugItemTapped()
+  {
+    navigator.push({ page: new ReportABugPage(), animated: false });
+  }
+
+  /** Public method called when the user taps the request a feature item. Pushes the request a feature page onto the navigator. */
+  requestAFeatureItemTapped()
+  {
+    navigator.push({ page: new RequestAFeaturePage(), animated: false });
+  }
+
+  /** Public method called when the user taps rules item. Opens a browser in app for the user to view the rules for corn hole. */
+  rulesItemTapped()
+  {
+    browser.open({ url: settings.rulesLink, inApp: true, animated: true });
+  }
+
+  /** Public method called to update all of the settings components in the list. */
   updateSettings()
   {
     this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
@@ -469,6 +486,12 @@ class SettingsPage extends ui.Page
     this.team2ColorPicker.color = localStorage.getItem(settings.storageKeys.team2Color);
     this.textColorPicker.color = localStorage.getItem(settings.storageKeys.textColor);
     this.textSizeSelctor.selectedOption = localStorage.getItem(settings.storageKeys.textSize);
+  }
+
+  /** Public method called when the user taps the what's new item. Pushes the what's new page onto the navigator. */
+  whatsNewItemTapped()
+  {
+    navigator.push({ page: new WhatsNewPage(), animated: false });
   }
 }
 
@@ -479,14 +502,18 @@ class ReportABugPage extends ui.Page
   onInit()
   {
     this.setupNavBar();
+    this.setupList();
+  }
 
+  setupList()
+  {
     this.titleTextfield = new ui.Textfield({ width: '100%', placeholder: 'A title that summarizes the bug...' });
     this.titleTextfield.underbar = false;
 
     this.descriptionTextArea = new ui.TextArea({ width: '100%', placeholder: "A detailed description of what's going wrong...", rows: 5, maxLength: 240 });
     this.descriptionTextArea.element.classList = 'textarea textarea--transparent';
 
-    this.emailTextfield = new ui.Textfield({ width: '100%', placeholder: 'A good email for discussing the bug...' });
+    this.emailTextfield = new ui.Textfield({ type: 'email', width: '100%', placeholder: 'A good email for discussing the bug...' });
     this.emailTextfield.underbar = false;
 
     let reportABugList = new ui.List();
@@ -503,14 +530,54 @@ class ReportABugPage extends ui.Page
   setupNavBar()
   {
     this.navigationBarTitle = 'Report A Bug';
-
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
-
-    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { console.log('Sending...')} });
-
+    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
+    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { this.submitBugReport() } });
     this.navigationBarButtonsLeft = [ backButton ];
     this.navigationBarButtonsRight = [ sendButton ];
+  }
+
+  submitBugReport()
+  {
+    if(this.isStringEmpty({ string: this.titleTextfield.text }))
+    {
+      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Title cannot be empty' });
+      return;
+    } 
+
+    if(this.isStringEmpty({ string: this.descriptionTextArea.text }))
+    {
+      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Description cannot be empty' });
+      return;
+    } 
+      
+    if(!this.isValidEmail({ email: this.emailTextfield.text })) 
+    {
+      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Email must be in the correct form' });
+      return;
+    }
+
+    let loadingModal = new ui.Modal();
+    loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] })
+    loadingModal.present();
+  }
+
+  presentInvalidReportAlert({ title, message } = {})
+  {
+    let okButton = new ui.AlertDialogButton({ text: 'Ok'});
+    let invalidReportAlert = new ui.AlertDialog({ title: title, rowfooter: true, buttons: [ okButton ] });
+    invalidReportAlert.addComponents({ components: [ new ui.Text({ text: message }) ]});
+    invalidReportAlert.present();
+  }
+
+  isStringEmpty({ string } = {})
+  {
+    return string.trim() === '';
+  }
+
+  isValidEmail({ email } = {}) 
+  {
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   }
 }
 
