@@ -6,11 +6,8 @@
 class SettingsManager
 {
   #appVersion;
-  #buyMeACoffeeLink;
   #errors;
-  #rateAppLink;
-  #rulesLink;
-  #sourceCodeLink;
+  #links;
   #storageKeys;
   #textSizes;
   static #instance = null;
@@ -19,10 +16,6 @@ class SettingsManager
   constructor() 
   {
     this.#appVersion = '1.5';
-    this.#buyMeACoffeeLink = 'https://www.buymeacoffee.com/cobocombo';
-    this.#rateAppLink = 'https://itunes.apple.com/app/id6446418989?action=write-review';
-    this.#rulesLink = 'https://www.playcornhole.org/pages/rules';
-    this.#sourceCodeLink = 'https://github.com/cobocombo/Corn-Score';
     this.#errors = 
     {
       singleInstanceError: 'Settings Manager Error: Only one SettingsManager object can exist at a time.',
@@ -60,6 +53,15 @@ class SettingsManager
       }
     }
 
+    this.#links = 
+    {
+      buyMeACoffeeLink: 'https://www.buymeacoffee.com/cobocombo',
+      rateAppLink: 'https://itunes.apple.com/app/id6446418989?action=write-review',
+      rulesLink: 'https://www.playcornhole.org/pages/rules',
+      sourceCodeLink: 'https://github.com/cobocombo/Corn-Score',
+      sourceCodeGithubIssuesAPILink: 'https://api.github.com/repos/cobocombo/Corn-Score/issues'
+    }
+
     if(SettingsManager.#instance) console.error(this.#errors.singleInstanceError);
     else 
     {
@@ -90,34 +92,16 @@ class SettingsManager
     return this.#appVersion;
   }
 
-  /** Get property to get the link for the buy me a coffee donation page. */
-  get buyMeACoffeeLink()
+  /** Get property to get the links object containing all website links for the app. */
+  get links()
   {
-    return this.#buyMeACoffeeLink;
-  }
-
-  /** Get property to get the link to rate the app. */
-  get rateAppLink()
-  {
-    return this.#rateAppLink;
-  }
-
-  /** Get property to get the link to the official corn hole rules. */
-  get rulesLink()
-  {
-    return this.#rulesLink;
+    return this.#links;
   }
 
   /** Get property to get the textSizes object. */
   get textSizes()
   {
     return this.#textSizes;
-  }
-
-  /** Get property to get the link for the github source code page. */
-  get sourceCodeLink()
-  {
-    return this.#sourceCodeLink;
   }
 
   /** Get property to get the storageKeys object. */
@@ -374,7 +358,7 @@ class SettingsPage extends ui.Page
   /** Public method called when the user taps the buy me a coffee item. Opens a browser in app for the user to give a donation.*/
   buyMeACoffeeItemTapped()
   {
-    browser.open({ url: settings.buyMeACoffeeLink, inApp: true, animated: true });
+    browser.open({ url: settings.links.buyMeACoffeeLink, inApp: true, animated: true });
   }
 
   /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
@@ -444,7 +428,7 @@ class SettingsPage extends ui.Page
   /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
   sourceCodeItemTapped()
   {
-    browser.open({ url: settings.sourceCodeLink, inApp: true, animated: true });
+    browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
   }
 
   /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the navigator. */
@@ -456,7 +440,7 @@ class SettingsPage extends ui.Page
   /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
   rateCornScoreItemTapped()
   {
-    browser.open({ url: settings.rateAppLink, inApp: false, animated: false });
+    browser.open({ url: settings.links.rateAppLink, inApp: false, animated: false });
   }
 
   /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the navigator. */
@@ -474,7 +458,7 @@ class SettingsPage extends ui.Page
   /** Public method called when the user taps rules item. Opens a browser in app for the user to view the rules for corn hole. */
   rulesItemTapped()
   {
-    browser.open({ url: settings.rulesLink, inApp: true, animated: true });
+    browser.open({ url: settings.links.rulesLink, inApp: true, animated: true });
   }
 
   /** Public method called to update all of the settings components in the list. */
@@ -497,8 +481,10 @@ class SettingsPage extends ui.Page
 
 /////////////////////////////////////////////////
 
+/** Class representing the report a bug page of Corn Score. */
 class ReportABugPage extends ui.Page
 {
+  /** Public method called when the page is initialized. */
   onInit()
   {
     this.setupNavBar();
@@ -506,6 +492,38 @@ class ReportABugPage extends ui.Page
     this.setupLoadingModal();
   }
 
+  /** Public method called to check if a user input string is empty or not. */
+  isStringEmpty({ string } = {})
+  {
+    return string.trim() === '';
+  }
+
+  /** Public method called to check if a email string is a valid email or not. */
+  isValidEmail({ email } = {}) 
+  {
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
+  /** Public method called to present an invalid input alert. */
+  presentInvalidInputAlert({ message } = {})
+  {
+    let okButton = new ui.AlertDialogButton({ text: 'Ok' });
+    let invalidReportAlert = new ui.AlertDialog({ title: 'Invalid input', rowfooter: true, buttons: [ okButton ] });
+    invalidReportAlert.addComponents({ components: [ new ui.Text({ text: message }) ]});
+    invalidReportAlert.present();
+  }
+
+  /** Public method called to present a thank you alert. */
+  presentThankYouAlert()
+  {
+    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { navigator.pop({ animated : false }); } });
+    let thankyouAlert = new ui.AlertDialog({ title: 'Success', rowfooter: true, buttons: [ okButton ] });
+    thankyouAlert.addComponents({ components: [ new ui.Text({ text: 'Bug reported successfully' }) ]});
+    thankyouAlert.present();
+  }
+
+  /** Public method called to set up the list with all of it's items and components. */
   setupList()
   {
     this.titleTextfield = new ui.Textfield({ width: '100%', placeholder: 'A title that summarizes the bug...' });
@@ -528,12 +546,14 @@ class ReportABugPage extends ui.Page
     this.addComponents({ components: [ reportABugList ] });
   }
 
+  /** Public method called to set up the loading modal. */
   setupLoadingModal()
   {
     this.loadingModal = new ui.Modal();
     this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
   }
 
+  /** Public method called to set the navigation bar of the settings page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Report A Bug';
@@ -543,57 +563,109 @@ class ReportABugPage extends ui.Page
     this.navigationBarButtonsRight = [ sendButton ];
   }
 
+  /** Public method called to submit the bug report to github. Shows modal state until a response comes in and then gives the user a success message. */
   submitBugReport()
   {
     if(this.isStringEmpty({ string: this.titleTextfield.text }))
     {
-      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Title cannot be empty' });
+      this.presentInvalidInputAlert({ message: 'Title cannot be empty' });
       return;
     } 
 
     if(this.isStringEmpty({ string: this.descriptionTextArea.text }))
     {
-      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Description cannot be empty' });
+      this.presentInvalidInputAlert({ message: 'Description cannot be empty' });
       return;
     } 
       
     if(!this.isValidEmail({ email: this.emailTextfield.text })) 
     {
-      this.presentInvalidReportAlert({ title: 'Invalid input', message: 'Email must be in the correct form' });
+      this.presentInvalidInputAlert({ message: 'Email must be in the correct form' });
       return;
     }
 
     this.loadingModal.present();
-  }
 
-  presentInvalidReportAlert({ title, message } = {})
-  {
-    let okButton = new ui.AlertDialogButton({ text: 'Ok' });
-    let invalidReportAlert = new ui.AlertDialog({ title: title, rowfooter: true, buttons: [ okButton ] });
-    invalidReportAlert.addComponents({ components: [ new ui.Text({ text: message }) ]});
-    invalidReportAlert.present();
-  }
+    let issue = 
+    {
+      title: `[Reported In App] ${this.titleTextfield.text}`,
+      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}`,
+      labels: ['bug']
+    };
 
-  isStringEmpty({ string } = {})
-  {
-    return string.trim() === '';
-  }
-
-  isValidEmail({ email } = {}) 
-  {
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+    fetch(settings.links.sourceCodeGithubIssuesAPILink, 
+    {
+      method: 'POST',
+      headers: 
+      {
+        'Authorization': `Bearer ${github_secret}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(issue)
+    })
+    .then(response => 
+    {
+      if(response.ok) console.log('Bug reported successfully'); 
+      else return response.json().then(data => { console.error(data.message); });
+      setTimeout(() => { this.loadingModal.dismiss(); }, 2000);
+      setTimeout(() => { this.presentThankYouAlert(); }, 2500);
+    })
+    .catch(error => 
+    {
+      console.error(error);
+      setTimeout(() => { this.loadingModal.dismiss(); }, 2000);
+      setTimeout(() => { this.presentThankYouAlert(); }, 2500);
+    });
   }
 }
 
 /////////////////////////////////////////////////
 
+/** Class representing the request a feature page of Corn Score. */
 class RequestAFeaturePage extends ui.Page
 {
   onInit()
   {
     this.setupNavBar();
+    this.setupList();
+    this.setupLoadingModal();
+  }
 
+  /** Public method called to check if a user input string is empty or not. */
+  isStringEmpty({ string } = {})
+  {
+    return string.trim() === '';
+  }
+
+  /** Public method called to check if a email string is a valid email or not. */
+  isValidEmail({ email } = {}) 
+  {
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+
+  /** Public method called to present an invalid input alert. */
+  presentInvalidInputAlert({ message } = {})
+  {
+    let okButton = new ui.AlertDialogButton({ text: 'Ok' });
+    let invalidReportAlert = new ui.AlertDialog({ title: 'Invalid input', rowfooter: true, buttons: [ okButton ] });
+    invalidReportAlert.addComponents({ components: [ new ui.Text({ text: message }) ]});
+    invalidReportAlert.present();
+  }
+
+  /** Public method called to present a thank you alert. */
+  presentThankYouAlert()
+  {
+    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { navigator.pop({ animated : false }); } });
+    let thankyouAlert = new ui.AlertDialog({ title: 'Success', rowfooter: true, buttons: [ okButton ] });
+    thankyouAlert.addComponents({ components: [ new ui.Text({ text: 'New feature reported successfully' }) ]});
+    thankyouAlert.present();
+  }
+
+  /** Public method called to set up the list with all of it's items and components. */
+  setupList()
+  {
     this.titleTextfield = new ui.Textfield({ width: '100%', placeholder: 'A title that summarizes the feature...' });
     this.titleTextfield.underbar = false;
 
@@ -614,22 +686,83 @@ class RequestAFeaturePage extends ui.Page
     this.addComponents({ components: [ requestAFeatureList ] });
   }
 
+  /** Public method called to set up the loading modal. */
+  setupLoadingModal()
+  {
+    this.loadingModal = new ui.Modal();
+    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
+  }
+
+  /** Public method called to set the navigation bar of the settings page. */
   setupNavBar()
   {
     this.navigationBarTitle = 'Request A Feature';
-
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
-
-    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { console.log('Sending...')} });
-
+    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
+    let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { this.submitNewFeatureRquest() } });
     this.navigationBarButtonsLeft = [ backButton ];
     this.navigationBarButtonsRight = [ sendButton ];
+  }
+
+  /** Public method called to submit the new feature request to github. Shows modal state until a response comes in and then gives the user a success message. */
+  submitNewFeatureRquest()
+  {
+    if(this.isStringEmpty({ string: this.titleTextfield.text }))
+    {
+      this.presentInvalidInputAlert({ message: 'Title cannot be empty' });
+      return;
+    } 
+
+    if(this.isStringEmpty({ string: this.descriptionTextArea.text }))
+    {
+      this.presentInvalidInputAlert({ message: 'Description cannot be empty' });
+      return;
+    } 
+      
+    if(!this.isValidEmail({ email: this.emailTextfield.text })) 
+    {
+      this.presentInvalidInputAlert({ message: 'Email must be in the correct form' });
+      return;
+    }
+
+    this.loadingModal.present();
+
+    let issue = 
+    {
+      title: `[Reported In App] ${this.titleTextfield.text}`,
+      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}`,
+      labels: ['enhancement']
+    };
+
+    fetch(settings.links.sourceCodeGithubIssuesAPILink, 
+    {
+      method: 'POST',
+      headers: 
+      {
+        'Authorization': `Bearer ${github_secret}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(issue)
+    })
+    .then(response => 
+    {
+      if(response.ok) console.log('New feature request reported successfully'); 
+      else return response.json().then(data => { console.error(data.message); });
+      setTimeout(() => { this.loadingModal.dismiss(); }, 2000);
+      setTimeout(() => { this.presentThankYouAlert(); }, 2500);
+    })
+    .catch(error => 
+    {
+      console.error(error);
+      setTimeout(() => { this.loadingModal.dismiss(); }, 2000);
+      setTimeout(() => { this.presentThankYouAlert(); }, 2500);
+    });
   }
 }
 
 /////////////////////////////////////////////////
 
+/** Class representing the privacy policy page of Corn Score. */
 class PrivacyPolicyPage extends ui.Page
 {
   onInit()
@@ -650,6 +783,7 @@ class PrivacyPolicyPage extends ui.Page
 
 /////////////////////////////////////////////////
 
+/** Class representing the whats new page of Corn Score. */
 class WhatsNewPage extends ui.Page
 {
   onInit()
