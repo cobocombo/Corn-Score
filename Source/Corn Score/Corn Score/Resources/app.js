@@ -125,19 +125,8 @@ class ScoreBoardPage extends ui.Page
     this.team2ScoreAmount = 0;
 
     this.setupNavBar();
-    this.setupNameRow();
-    this.setupScoreRow();
-    this.setupFooterRow();
-
-    if(showTour == true)
-    {
-      let increaseScoreText = new ui.Text({ text: 'Tap above the number to increase the score!', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
-      increaseScoreText.style.textAlign = 'center';
-
-      let increaseScoreCheckpoint = new ui.Popover({ direction: 'up' });
-      increaseScoreCheckpoint.addComponents({ components: [ increaseScoreText ] })
-      setTimeout(() => { increaseScoreCheckpoint.present({ target: this.team1Score }); }, 1000);
-    }
+    this.setupBoard();
+    this.setupAppTour();
   }
 
   /** Public method called when the page is shown on screen. */
@@ -236,6 +225,31 @@ class ScoreBoardPage extends ui.Page
     this.updateScores();
   }
 
+  /** Public method called to setup the app tour. */
+  setupAppTour()
+  {
+    if(_showTour_ == true)
+    {
+      let skipButton = new ui.AlertDialogButton({ text: 'Skip', textColor: 'red', onTap: () => {  } });
+      let yesButton = new ui.AlertDialogButton({ text: 'Yes', onTap: () => { this.startAppTour(); } });
+      let welcomeAlert = new ui.AlertDialog({ title: 'Welcome To Corn Score!', rowfooter: true, buttons: [ skipButton, yesButton ] });
+      welcomeAlert.addComponents({ components: [ new ui.Text({ text: 'Would you like to take a quick tour?' }) ]});
+      welcomeAlert.present(); 
+    }
+  }
+
+  /** Public method called to setup the board. */
+  setupBoard()
+  {
+    this.setupNameRow();
+    this.setupScoreRow();
+    this.setupFooterRow();
+
+    this.rulesFab = new ui.FabButton({ icon: 'ion-ios-clipboard', backgroundColor: 'gold', iconColor: 'black' });
+    this.rulesFab.onTap = () => { browser.open({ url: settings.links.rulesLink, inApp: true, animated: true }); };
+    this.addComponents({ components: [ this.rulesFab ] })
+  }
+
   /** Public method called to set the footer row of the score board. */
   setupFooterRow()
   {
@@ -288,10 +302,10 @@ class ScoreBoardPage extends ui.Page
   setupNavBar()
   {
     this.navigationBarTitle = 'Corn Score';
-    let restartButton = new ui.BarButton({ icon: 'ion-ios-refresh', onTap: this.restartButtonTapped.bind(this) });
-    let settingsButton = new ui.BarButton({ icon: 'ion-ios-cog', onTap: () => { navigator.push({ page: new SettingsPage(), animated : false }) }});
-    this.navigationBarButtonsLeft = [ restartButton ];
-    this.navigationBarButtonsRight = [ settingsButton ];
+    this.restartButton = new ui.BarButton({ icon: 'ion-ios-refresh', onTap: this.restartButtonTapped.bind(this) });
+    this.settingsButton = new ui.BarButton({ icon: 'ion-ios-cog', onTap: () => { _navigator_.push({ page: new SettingsPage(), animated : false }) }});
+    this.navigationBarButtonsLeft = [ this.restartButton ];
+    this.navigationBarButtonsRight = [ this.settingsButton ];
   }
 
   /** Public method called to set the score row of the score board. */
@@ -319,6 +333,57 @@ class ScoreBoardPage extends ui.Page
     this.scoreRow.addColumn({ column: this.team2ScoreColumn });
 
     this.addComponents({ components: [ this.scoreRow ]});
+  }
+
+  /** Public method called to start the app tour. */
+  startAppTour()
+  {
+    let increaseScoreText = new ui.Text({ text: 'Tap above the number to increase the score!', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
+    increaseScoreText.style.textAlign = 'center';
+
+    let decreaseScoreText = new ui.Text({ text: 'Tap below the number to decrease the score!', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
+    decreaseScoreText.style.textAlign = 'center';
+
+    let restartGameText = new ui.Text({ text: 'Tap here to restart the game!', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
+    restartGameText.style.textAlign = 'center';
+
+    let settingsText = new ui.Text({ text: 'Go to settings to customize the board, request new features, and rate the app! ', marginLeft: '12px', marginRight: '12px', marginTop: '14px' });
+    settingsText.style.textAlign = 'center';
+
+    let rulesText = new ui.Text({ text: 'Tap here to view the offical rules of corn hole! ', marginLeft: '12px', marginRight: '12px', marginTop: '32px' });
+    rulesText.style.textAlign = 'center';
+
+    let thankyouText = new ui.Text({ text: 'Thanks for the download and we hope you enjoy Corn Score! ', marginLeft: '12px', marginRight: '12px', marginTop: '24px' });
+    thankyouText.style.textAlign = 'center';
+
+    let increaseScoreCheckpoint = new ui.Popover({ direction: 'up' });
+    increaseScoreCheckpoint.addComponents({ components: [ increaseScoreText ] });
+
+    let decreaseScoreCheckpoint = new ui.Popover({ direction: 'down' });
+    decreaseScoreCheckpoint.addComponents({ components: [ decreaseScoreText ] });
+
+    let restartGameCheckpoint = new ui.Popover({ direction: 'down' });
+    restartGameCheckpoint.addComponents({ components: [ restartGameText ] });
+
+    let settingsCheckpoint = new ui.Popover({ direction: 'down' });
+    settingsCheckpoint.addComponents({ components: [ settingsText ] });
+
+    let rulesCheckpoint = new ui.Popover({ direction: 'up' });
+    rulesCheckpoint.addComponents({ components: [ rulesText ] });
+
+    let thankyouCheckpoint = new ui.Popover({ direction: 'up' });
+    thankyouCheckpoint.addComponents({ components: [ thankyouText ] });
+
+    let thankyouComponent = new ui.Rectangle({ width: '50px', height: '50px', alpha: '0.0' });
+
+    this.addComponentToCenter({ component: thankyouComponent });
+
+    setTimeout(() => { increaseScoreCheckpoint.present({ target: this.team1Score }); }, 200);
+    increaseScoreCheckpoint.addEventListener({ event: 'dialogcancel', handler: () => { setTimeout(() => { decreaseScoreCheckpoint.present({ target: this.team2Score }); }, 100) }});
+    decreaseScoreCheckpoint.addEventListener({ event: 'dialogcancel', handler: () => { setTimeout(() => { restartGameCheckpoint.present({ target: this.restartButton }); }, 100) }});
+    restartGameCheckpoint.addEventListener({ event: 'dialogcancel', handler: () => { setTimeout(() => { settingsCheckpoint.present({ target: this.settingsButton }); }, 100) }});
+    settingsCheckpoint.addEventListener({ event: 'dialogcancel', handler: () => { setTimeout(() => { rulesCheckpoint.present({ target: this.rulesFab }); }, 100) }});
+    rulesCheckpoint.addEventListener({ event: 'dialogcancel', handler: () => { setTimeout(() => { thankyouCheckpoint.present({ target: thankyouComponent }); }, 100) }});
   }
 
   /** 
@@ -419,7 +484,6 @@ class SettingsPage extends ui.Page
 
     settingsList.addItem({ item: new ui.ListHeader({ text: 'App Info' }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-clipboard', size: '32px' }), center: 'Corn Hole Rules', tappable: true, modifiers: ['chevron'], onTap: this.rulesItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatsNewItemTapped.bind(this) }) });
     settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
@@ -431,7 +495,7 @@ class SettingsPage extends ui.Page
   setupNavBar()
   {
     this.navigationBarTitle = 'Settings';
-    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
+    let backButton = new ui.BackBarButton({ onTap: () => { _navigator_.pop({ animated : false }); } });
     this.navigationBarButtonsLeft = [ backButton ];
   }
 
@@ -441,10 +505,10 @@ class SettingsPage extends ui.Page
     browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
   }
 
-  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the navigator. */
+  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the _navigator_. */
   privacyPolicyItemTapped()
   {
-    navigator.push({ page: new PrivacyPolicyPage(), animated: false });
+    _navigator_.push({ page: new PrivacyPolicyPage(), animated: false });
   }
 
   /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
@@ -453,22 +517,16 @@ class SettingsPage extends ui.Page
     browser.open({ url: settings.links.rateAppLink, inApp: false, animated: false });
   }
 
-  /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the navigator. */
+  /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the _navigator_. */
   reportABugItemTapped()
   {
-    navigator.push({ page: new ReportABugPage(), animated: false });
+    _navigator_.push({ page: new ReportABugPage(), animated: false });
   }
 
-  /** Public method called when the user taps the request a feature item. Pushes the request a feature page onto the navigator. */
+  /** Public method called when the user taps the request a feature item. Pushes the request a feature page onto the _navigator_. */
   requestAFeatureItemTapped()
   {
-    navigator.push({ page: new RequestAFeaturePage(), animated: false });
-  }
-
-  /** Public method called when the user taps rules item. Opens a browser in app for the user to view the rules for corn hole. */
-  rulesItemTapped()
-  {
-    browser.open({ url: settings.links.rulesLink, inApp: true, animated: true });
+    _navigator_.push({ page: new RequestAFeaturePage(), animated: false });
   }
 
   /** Public method called to update all of the settings components in the list. */
@@ -482,7 +540,7 @@ class SettingsPage extends ui.Page
     this.textSizeSelctor.selectedOption = localStorage.getItem(settings.storageKeys.textSize);
   }
 
-  /** Public method called when the user taps the what's new item. Pushes the what's new page onto the navigator. */
+  /** Public method called when the user taps the what's new item. Pushes the what's new page onto the _navigator_. */
   whatsNewItemTapped()
   {
     let whatsNewModal = new ui.Modal({ id: 'whats-new-modal' });
@@ -528,7 +586,7 @@ class ReportABugPage extends ui.Page
   /** Public method called to present a thank you alert. */
   presentThankYouAlert()
   {
-    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { navigator.pop({ animated : false }); } });
+    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { _navigator_.pop({ animated : false }); } });
     let thankyouAlert = new ui.AlertDialog({ title: 'Success', rowfooter: true, buttons: [ okButton ] });
     thankyouAlert.addComponents({ components: [ new ui.Text({ text: 'Bug reported successfully' }) ]});
     thankyouAlert.present();
@@ -568,7 +626,7 @@ class ReportABugPage extends ui.Page
   setupNavBar()
   {
     this.navigationBarTitle = 'Report A Bug';
-    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
+    let backButton = new ui.BackBarButton({ onTap: () => { _navigator_.pop({ animated : false }); } });
     let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { this.submitBugReport() } });
     this.navigationBarButtonsLeft = [ backButton ];
     this.navigationBarButtonsRight = [ sendButton ];
@@ -609,7 +667,7 @@ class ReportABugPage extends ui.Page
       method: 'POST',
       headers: 
       {
-        'Authorization': `Bearer ${github_secret}`,
+        'Authorization': `Bearer ${_githubSecret_}`,
         'Accept': 'application/vnd.github+json',
         'Content-Type': 'application/json'
       },
@@ -669,7 +727,7 @@ class RequestAFeaturePage extends ui.Page
   /** Public method called to present a thank you alert. */
   presentThankYouAlert()
   {
-    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { navigator.pop({ animated : false }); } });
+    let okButton = new ui.AlertDialogButton({ text: 'Ok', onTap: () => { _navigator_.pop({ animated : false }); } });
     let thankyouAlert = new ui.AlertDialog({ title: 'Success', rowfooter: true, buttons: [ okButton ] });
     thankyouAlert.addComponents({ components: [ new ui.Text({ text: 'New feature reported successfully' }) ]});
     thankyouAlert.present();
@@ -709,7 +767,7 @@ class RequestAFeaturePage extends ui.Page
   setupNavBar()
   {
     this.navigationBarTitle = 'Request A Feature';
-    let backButton = new ui.BackBarButton({ onTap: () => { navigator.pop({ animated : false }); } });
+    let backButton = new ui.BackBarButton({ onTap: () => { _navigator_.pop({ animated : false }); } });
     let sendButton = new ui.BarButton({ icon: 'ion-ios-paper-plane', onTap: () => { this.submitNewFeatureRquest() } });
     this.navigationBarButtonsLeft = [ backButton ];
     this.navigationBarButtonsRight = [ sendButton ];
@@ -750,7 +808,7 @@ class RequestAFeaturePage extends ui.Page
       method: 'POST',
       headers: 
       {
-        'Authorization': `Bearer ${github_secret}`,
+        'Authorization': `Bearer ${_githubSecret_}`,
         'Accept': 'application/vnd.github+json',
         'Content-Type': 'application/json'
       },
@@ -790,7 +848,7 @@ class PrivacyPolicyPage extends ui.Page
     this.navigationBarTitle = 'Privacy Policy';
 
     let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { navigator.pop({ animated : false }); };
+    backButton.onTap = () => { _navigator_.pop({ animated : false }); };
 
     this.navigationBarButtonsLeft = [ backButton ];
   }
@@ -906,14 +964,14 @@ class WhatsNewPage extends ui.Page
 
 globalThis.settings = SettingsManager.getInstance();
 
-let showTour = false;
+let _showTour_ = false;
 if(app.isFirstLaunch) 
 {
   settings.setDefaults();
-  showTour = true; 
+  _showTour_ = true; 
 }
 
-const navigator = new ui.Navigator({ root: new ScoreBoardPage() });
-app.present({ root: navigator });
+const _navigator_ = new ui.Navigator({ root: new ScoreBoardPage() });
+app.present({ root: _navigator_ });
 
 ///////////////////////////////////////////////////////////
