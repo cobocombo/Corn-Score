@@ -34,7 +34,6 @@ Corn Score is supported by the following awesome libraries and is subject to the
 
 If you enjoy the app and you feel like this repository is a great learning space for building apps, then feel free to help support further development by keeping me fueled with coffee.
 
-
 <a href="https://buymeacoffee.com/cobocombo">
   <img src="Images/bmc-button.png" alt="Alt Text" width="300">
 </a>

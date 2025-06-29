@@ -225,7 +225,7 @@ class ScoreBoardPage extends ui.Page
     this.updateScores();
   }
 
-  /** Public method called to setup the app tour. */
+  /** Public method called to setup the app tour. */ 
   setupAppTour()
   {
     if(_showTour_ == true)
@@ -619,7 +619,7 @@ class ReportABugPage extends ui.Page
   setupLoadingModal()
   {
     this.loadingModal = new ui.Modal();
-    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
+    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px', color: 'white' }) ] });
   }
 
   /** Public method called to set the navigation bar of the report a bug page. */
@@ -760,7 +760,7 @@ class RequestAFeaturePage extends ui.Page
   setupLoadingModal()
   {
     this.loadingModal = new ui.Modal();
-    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px' }) ] });
+    this.loadingModal.addComponents({ components: [ new ui.CircularProgress({ indeterminate: true, size: '80px', color: 'white' }) ] });
   }
 
   /** Public method called to set the navigation bar of the request a feature page. */
