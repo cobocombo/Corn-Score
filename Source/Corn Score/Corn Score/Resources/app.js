@@ -877,7 +877,7 @@ class PrivacyPolicyPage extends ui.Page
     let header7 = new Text({ type: 'header-2', text: 'Data Security'});
     let paragraph7 = new Text({ text: `We take reasonable measures to protect the information collected by Corn Score from loss, unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the internet or electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.` });
 
-    let header8 = new Text({ type: 'header-2', text: 'Changes to This Privacy Policy' });
+    let header8 = new Text({ type: 'header-2', text: 'Changes To This Privacy Policy' });
     let paragraph8 = new Text({ text: `We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date & revision history. It is advised to review this Privacy Policy periodically for any changes.` });
 
     let header9 = new Text({ type: 'header-2', text: 'Contact Us'});
