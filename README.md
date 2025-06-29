@@ -4,8 +4,6 @@
 
 # Corn Score
 
-A simple app where users can keep track of an ongoing corn hole game.
-
 <div style="display: flex;">
     <a href="https://itunes.apple.com/app/id6446418989"><img src="Images/app-store.webp" alt="Image 1" style="width: 250px; height: auto; padding-right: 20px"></a>
 </div>
