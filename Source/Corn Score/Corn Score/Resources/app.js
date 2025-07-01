@@ -770,7 +770,7 @@ class ReportABugPage extends ui.Page
     let issue = 
     {
       title: `[Reported In App] ${this.titleTextfield.text}`,
-      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}`,
+      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}\n\n**Core version:** ${app.coreVersion}\n\n**Core release date:** ${app.coreReleaseDate}`,
       labels: ['bug']
     };
 
@@ -911,7 +911,7 @@ class RequestAFeaturePage extends ui.Page
     let issue = 
     {
       title: `[Reported In App] ${this.titleTextfield.text}`,
-      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}`,
+      body: `## Description\n${this.descriptionTextArea.text}\n\n**Reported by:** ${this.emailTextfield.text}\n\n**Core version:** ${app.coreVersion}\n\n**Core release date:** ${app.coreReleaseDate}`,
       labels: ['enhancement']
     };
 
