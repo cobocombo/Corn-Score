@@ -56,6 +56,7 @@ class SettingsManager
     this.#links = 
     {
       buyMeACoffeeLink: 'https://www.buymeacoffee.com/cobocombo',
+      privacyPolicyLink: 'https://github.com/cobocombo/Corn-Score/blob/main/PRIVACY_POLICY.md',
       rateAppLink: 'https://itunes.apple.com/app/id6446418989?action=write-review',
       rulesLink: 'https://www.playcornhole.org/pages/rules',
       sourceCodeLink: 'https://github.com/cobocombo/Corn-Score',
@@ -115,6 +116,190 @@ class SettingsManager
 // PAGES
 ///////////////////////////////////////////////////////////
 
+/** Class representing the app info page of Corn Score. */
+class AppInfoPage extends ui.Page
+{
+  /** Public method called when the page is initialized. */
+  onInit()
+  {
+    this.setupNavBar();
+    this.setupBody();
+  }
+
+  /** Public method called to set the navigation bar of the app info page. */
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'App Info';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  /** Public method called to set the body of the app info page. */
+  setupBody()
+  {
+    let appInfoList = new ui.List();
+    appInfoList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
+    appInfoList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
+    appInfoList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatsNewItemTapped.bind(this) }) });
+    this.addComponents({ components: [ appInfoList ]});
+  }
+
+  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the _navigator_. */
+  privacyPolicyItemTapped()
+  {
+    browser.open({ url: settings.links.privacyPolicyLink, inApp: true, animated: true });
+  }
+
+  /** Public method called when the user taps the what's new item. Pushes the what's new page onto the _navigator_. */
+  whatsNewItemTapped()
+  {
+    _navigator_.push({ page: new WhatsNewPage(), animated: false });
+  }
+}
+
+/////////////////////////////////////////////////
+
+/** Class representing the customization page of Corn Score. */
+class CustomizationPage extends ui.Page
+{
+  /** Public method called when the page is initialized. */
+  onInit()
+  {
+    this.setupNavBar();
+    this.setupBody();
+    this.setupAlerts();
+  }
+
+  /** Public method called to set up any of the reusable alerts for the customization page. */
+  setupAlerts()
+  {
+    let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
+    let resetButton = new ui.AlertDialogButton({ text: 'Reset', textColor: 'red' });
+    resetButton.onTap = () => 
+    {  
+      settings.setDefaults();
+      this.updateSettings();
+    }
+    this.resetAlert = new ui.AlertDialog({ title: 'Reset To Default?', rowfooter: true, buttons: [ cancelButton, resetButton ]});
+    this.resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]});
+  }
+
+  /** Public method called to set the navigation bar of the customization page. */
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Customization';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  /** Public method called to set the body of the customization page. */
+  setupBody()
+  {
+    this.team1Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team1Name, text); } });
+    this.team1Texfield.underbar = false;
+    this.team2Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team2Name, text); } });
+    this.team2Texfield.underbar = false;
+    this.team1ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team1Color, color); } });
+    this.team2ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team2Color, color); } });
+    this.textColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.textColor, color); } });
+    this.textSizeSelctor = new ui.Selector({ options: [ settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label ] });
+    this.textSizeSelctor.underbar = false;
+    this.textSizeSelctor.onChange = (option) => { localStorage.setItem(settings.storageKeys.textSize, option); }
+
+    this.updateSettings();
+
+    let customizationList = new ui.List();
+    customizationList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team1Texfield, right: this.team1ColorPicker  }) });
+    customizationList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team2Texfield, right: this.team2ColorPicker }) });
+    customizationList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-color-palette', size: '32px' }), center: 'Text Color', right: this.textColorPicker }) });
+    customizationList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-document', size: '32px' }), center: 'Text Size', right: this.textSizeSelctor }) });
+    customizationList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-refresh', size: '32px' }), center: 'Reset To Default', tappable: true, onTap: this.resetToDefaultItemTapped.bind(this) }) });
+    this.addComponents({ components: [ customizationList ]});
+  }
+
+  /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
+  resetToDefaultItemTapped()
+  {
+    this.resetAlert.present();
+  }
+
+  /** Public method called to update all of the settings components in the list. */
+  updateSettings()
+  {
+    this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
+    this.team2Texfield.text = localStorage.getItem(settings.storageKeys.team2Name);
+    this.team1ColorPicker.color = localStorage.getItem(settings.storageKeys.team1Color);
+    this.team2ColorPicker.color = localStorage.getItem(settings.storageKeys.team2Color);
+    this.textColorPicker.color = localStorage.getItem(settings.storageKeys.textColor);
+    this.textSizeSelctor.selectedOption = localStorage.getItem(settings.storageKeys.textSize);
+  }
+}
+
+/////////////////////////////////////////////////
+
+/** Class representing the get involved page of Corn Score. */
+class GetInvolvedPage extends ui.Page
+{
+  /** Public method called when the page is initialized. */
+  onInit()
+  {
+    this.setupNavBar();
+    this.setupBody();
+  }
+
+  /** Public method called when the user taps the buy me a coffee item. Opens a browser in app for the user to give a donation.*/
+  buyMeACoffeeItemTapped()
+  {
+    browser.open({ url: settings.links.buyMeACoffeeLink, inApp: true, animated: true });
+  }
+
+  /** Public method called to set the navigation bar of the get involved page. */
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Get Involved';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  /** Public method called to set the body of the get involved page. */
+  setupBody()
+  {
+    let getInvolvedList = new ui.List();
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'], onTap: this.sourceCodeItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'], onTap: this.reportABugItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'], onTap: this.requestAFeatureItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'], onTap: this.buyMeACoffeeItemTapped.bind(this) }) });
+    this.addComponents({ components: [ getInvolvedList ]});
+  }
+
+  /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
+  sourceCodeItemTapped()
+  {
+    browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
+  }
+
+  /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
+  rateCornScoreItemTapped()
+  {
+    browser.open({ url: settings.links.rateAppLink, inApp: false, animated: false });
+  }
+
+  /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the _navigator_. */
+  reportABugItemTapped()
+  {
+    _navigator_.push({ page: new ReportABugPage(), animated: false });
+  }
+
+  /** Public method called when the user taps the request a feature item. Pushes the request a feature page onto the _navigator_. */
+  requestAFeatureItemTapped()
+  {
+    _navigator_.push({ page: new RequestAFeaturePage(), animated: false });
+  }
+}
+
+/////////////////////////////////////////////////
+
 /** Class representing the score board page. */
 class ScoreBoardPage extends ui.Page
 {
@@ -126,6 +311,7 @@ class ScoreBoardPage extends ui.Page
 
     this.setupNavBar();
     this.setupBoard();
+    this.setupAlerts();
     this.setupAppTour();
   }
 
@@ -209,11 +395,7 @@ class ScoreBoardPage extends ui.Page
   {
     if(this.team1ScoreAmount > 0 || this.team2ScoreAmount > 0)
     {
-      let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
-      let restartButton = new ui.AlertDialogButton({ text: 'Restart', textColor: 'red', onTap: () => { this.restartGame(); }});
-      let restartAlert = new ui.AlertDialog({ title: 'All score data will be lost', rowfooter: true, buttons: [ cancelButton, restartButton ] });
-      restartAlert.addComponents({ components: [ new ui.Text({ text: 'Restart Game?' }) ]});
-      restartAlert.present();
+      this.restartAlert.present();
     }
   }
 
@@ -223,6 +405,15 @@ class ScoreBoardPage extends ui.Page
     this.team1ScoreAmount = 0;
     this.team2ScoreAmount = 0;
     this.updateScores();
+  }
+
+  /** Public method called to set up any of the reusable alerts for the score board page. */
+  setupAlerts()
+  {
+    let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
+    let restartButton = new ui.AlertDialogButton({ text: 'Restart', textColor: 'red', onTap: () => { this.restartGame(); }});
+    this.restartAlert = new ui.AlertDialog({ title: 'All score data will be lost', rowfooter: true, buttons: [ cancelButton, restartButton ] });
+    this.restartAlert.addComponents({ components: [ new ui.Text({ text: 'Restart Game?' }) ]});
   }
 
   /** Public method called to setup the app tour. */ 
@@ -397,16 +588,21 @@ class ScoreBoardPage extends ui.Page
     let nameText = null;
     if(team == 'team-1') nameText = this.team1Name;
     else nameText = this.team2Name;
+    this.restartGame(); 
 
+    let gameOverAlert = new ui.AlertDialog({ id: 'game-over-alert', title: 'Game Over!', rowfooter: true });
     let okButton = new ui.AlertDialogButton({ text: 'Ok'});
     okButton.onTap = () => 
     { 
       this.restartGame(); 
       confetti.stop();
+      setTimeout(() => { document.getElementById('confetti-canvas')?.remove(); }, 2500);
+      setTimeout(() => { gameOverAlert.remove() });
     }
 
-    let gameOverAlert = new ui.AlertDialog({ title: 'Game Over!', rowfooter: true, buttons: [ okButton ] });
+    gameOverAlert.buttons = [ okButton ];
     gameOverAlert.addComponents({ components: [ new ui.Text({ text: `${nameText.text} wins!` }) ]});
+    gameOverAlert.cancelable = false 
     gameOverAlert.present();
   }
 
@@ -423,6 +619,24 @@ class ScoreBoardPage extends ui.Page
 /** Class representing the settings page of Corn Score. */
 class SettingsPage extends ui.Page
 {
+  /** Public method called when the user taps the app info item. Pushes the app info page onto the _navigator_. */
+  appInfoItemTapped()
+  {
+    _navigator_.push({ page: new AppInfoPage(), animated: false });
+  }
+
+  /** Public method called when the user taps the customization item. Pushes the customization page onto the _navigator_. */
+  customizationItemTapped()
+  {
+    _navigator_.push({ page: new CustomizationPage(), animated: false });
+  }
+
+  /** Public method called when the user taps the get involved item. Pushes the get involved page onto the _navigator_. */
+  getInvolvedItemTapped()
+  {
+    _navigator_.push({ page: new GetInvolvedPage(), animated: false });
+  }
+
   /** Public method called when the page is initialized. */
   onInit()
   {
@@ -430,64 +644,13 @@ class SettingsPage extends ui.Page
     this.setupList();
   }
 
-  /** Public method called when the user taps the buy me a coffee item. Opens a browser in app for the user to give a donation.*/
-  buyMeACoffeeItemTapped()
-  {
-    browser.open({ url: settings.links.buyMeACoffeeLink, inApp: true, animated: true });
-  }
-
-  /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
-  resetToDefaultItemTapped()
-  {
-    let cancelButton = new ui.AlertDialogButton({ text: 'Cancel' });
-    let resetButton = new ui.AlertDialogButton({ text: 'Reset', textColor: 'red' });
-    resetButton.onTap = () => 
-    {  
-      settings.setDefaults();
-      this.updateSettings();
-    }
-
-    let resetAlert = new ui.AlertDialog({ title: 'Reset To Default?', rowfooter: true , buttons: [ cancelButton, resetButton ] });
-    resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]})
-    resetAlert.present();
-  }
-
   /** Public method called to set up the list with all of it's items and components. */
   setupList()
   {
-    this.team1Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team1Name, text); } });
-    this.team1Texfield.underbar = false;
-    this.team2Texfield = new ui.Textfield({ onTextChange: (text) => { localStorage.setItem(settings.storageKeys.team2Name, text); } });
-    this.team2Texfield.underbar = false;
-    this.team1ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team1Color, color); } });
-    this.team2ColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.team2Color, color); } });
-    this.textColorPicker = new ui.ColorPicker({ onChange: (color) => { localStorage.setItem(settings.storageKeys.textColor, color); } });
-    this.textSizeSelctor = new ui.Selector({ options: [ settings.textSizes.small.label, settings.textSizes.medium.label, settings.textSizes.large.label ] });
-    this.textSizeSelctor.underbar = false;
-    this.textSizeSelctor.onChange = (option) => { localStorage.setItem(settings.storageKeys.textSize, option); }
-
-    this.updateSettings();
-    
     let settingsList = new ui.List();
-    settingsList.addItem({ item: new ui.ListHeader({ text: 'Customize' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team1Texfield, right: this.team1ColorPicker  }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-person', size: '32px' }), center: this.team2Texfield, right: this.team2ColorPicker }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-color-palette', size: '32px' }), center: 'Text Color', right: this.textColorPicker }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-document', size: '32px' }), center: 'Text Size', right: this.textSizeSelctor }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-refresh', size: '32px' }), center: 'Reset To Default', tappable: true, onTap: this.resetToDefaultItemTapped.bind(this) }) });
-
-    settingsList.addItem({ item: new ui.ListHeader({ text: 'Get Involved' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'], onTap: this.sourceCodeItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'], onTap: this.reportABugItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'], onTap: this.requestAFeatureItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'], onTap: this.buyMeACoffeeItemTapped.bind(this) }) });
-
-    settingsList.addItem({ item: new ui.ListHeader({ text: 'App Info' }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: `Version: ${settings.appVersion}` }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-star', size: '32px' }), center: "What's New", tappable: true, modifiers: ['chevron'], onTap: this.whatsNewItemTapped.bind(this) }) });
-    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-eye', size: '32px' }), center: "Privacy Policy", tappable: true, modifiers: ['chevron'], onTap: this.privacyPolicyItemTapped.bind(this) }) });
-
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-color-palette', size: '32px' }), center: 'Customize', tappable: true, modifiers: ['chevron'], onTap: this.customizationItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-people', size: '32px' }), center: 'Get Involved', tappable: true, modifiers: ['chevron'], onTap: this.getInvolvedItemTapped.bind(this) }) });
+    settingsList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-information-circle', size: '32px' }), center: 'App Info', tappable: true, modifiers: ['chevron'], onTap: this.appInfoItemTapped.bind(this) }) });
     this.addComponents({ components: [ settingsList ]});
   }
 
@@ -497,54 +660,6 @@ class SettingsPage extends ui.Page
     this.navigationBarTitle = 'Settings';
     let backButton = new ui.BackBarButton({ onTap: () => { _navigator_.pop({ animated : false }); } });
     this.navigationBarButtonsLeft = [ backButton ];
-  }
-
-  /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
-  sourceCodeItemTapped()
-  {
-    browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
-  }
-
-  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the _navigator_. */
-  privacyPolicyItemTapped()
-  {
-    _navigator_.push({ page: new PrivacyPolicyPage(), animated: false });
-  }
-
-  /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
-  rateCornScoreItemTapped()
-  {
-    browser.open({ url: settings.links.rateAppLink, inApp: false, animated: false });
-  }
-
-  /** Public method called when the user taps the report a bug item. Pushes the report a bug page onto the _navigator_. */
-  reportABugItemTapped()
-  {
-    _navigator_.push({ page: new ReportABugPage(), animated: false });
-  }
-
-  /** Public method called when the user taps the request a feature item. Pushes the request a feature page onto the _navigator_. */
-  requestAFeatureItemTapped()
-  {
-    _navigator_.push({ page: new RequestAFeaturePage(), animated: false });
-  }
-
-  /** Public method called to update all of the settings components in the list. */
-  updateSettings()
-  {
-    this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
-    this.team2Texfield.text = localStorage.getItem(settings.storageKeys.team2Name);
-    this.team1ColorPicker.color = localStorage.getItem(settings.storageKeys.team1Color);
-    this.team2ColorPicker.color = localStorage.getItem(settings.storageKeys.team2Color);
-    this.textColorPicker.color = localStorage.getItem(settings.storageKeys.textColor);
-    this.textSizeSelctor.selectedOption = localStorage.getItem(settings.storageKeys.textSize);
-  }
-
-  /** Public method called when the user taps the what's new item. Pushes the what's new page onto the _navigator_. */
-  whatsNewItemTapped()
-  {
-    let whatsNewModal = new ui.Modal({ id: 'whats-new-modal' });
-    whatsNewModal.present({ root: new WhatsNewPage() });
   }
 }
 
@@ -832,68 +947,6 @@ class RequestAFeaturePage extends ui.Page
 
 /////////////////////////////////////////////////
 
-/** Class representing the privacy policy page of Corn Score. */
-class PrivacyPolicyPage extends ui.Page
-{
-  /** Public method called when the page is initialized. */
-  onInit()
-  {
-    this.setupNavBar();
-    this.setupBody();
-  }
-
-  /** Public method called to set the navigation bar of the privacy policy page. */
-  setupNavBar()
-  {
-    this.navigationBarTitle = 'Privacy Policy';
-
-    let backButton = new ui.BackBarButton();
-    backButton.onTap = () => { _navigator_.pop({ animated : false }); };
-
-    this.navigationBarButtonsLeft = [ backButton ];
-  }
-
-  /** Public method called to set the body of the privacy policy page. */
-  setupBody()
-  {
-    let header1 = new Text({ type: 'header-2', text: 'Description' });
-    let paragraph1 = new Text({ text: `This Privacy Policy describes how Corn Score ("we," "us," or "our") collects, uses, and discloses information when you use our iOS app, Corn Score. By using the app, you agree to the collection and use of information in accordance with this policy.`});
-
-    let header2 = new Text({ type: 'header-2', text: 'Effective Date' });
-    let paragraph2 = new Text({ text: `6.16.23`});
-
-    let header3 = new Text({ type: 'header-2', text: 'Information We Collect'});
-    let paragraph3 = new Text({ text: `The only personal user information we collect is an email if the user decides voluntarily to request a new app feature, or to report a bug from within Corn Score.` });
-
-    let header4 = new Text({ type: 'header-2', text: 'Usage Data'});
-    let paragraph4 = new Text({ text: `Corn Score may collect non-personally identifiable information about your device and app usage. This includes information such as the type of device, operating system version, app version, and other technical information. This data is used for analytical purposes to improve the app's functionality and user experience.` });
-
-    let header5 = new Text({ type: 'header-2', text: 'Third-Party Services'});
-    let paragraph5 = new Text({ text: `Corn Score integrates with the Github Public API in order for users to report new features, or report any bugs from within Corn Score. A user's personal email is necessary to be recorded in order to give the developer a contact point, about new features or bug reports initiated voluntarily.` });
-
-    let header6 = new Text({ type: 'header-2', text: 'Advertising'});
-    let paragraph6 = new Text({ text: `Corn Score does not display any third-party advertisements or collect data for advertising purposes.` });
-
-    let header7 = new Text({ type: 'header-2', text: 'Data Security'});
-    let paragraph7 = new Text({ text: `We take reasonable measures to protect the information collected by Corn Score from loss, unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the internet or electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.` });
-
-    let header8 = new Text({ type: 'header-2', text: 'Changes To This Privacy Policy' });
-    let paragraph8 = new Text({ text: `We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date & revision history. It is advised to review this Privacy Policy periodically for any changes.` });
-
-    let header9 = new Text({ type: 'header-2', text: 'Contact Us'});
-    let paragraph9 = new Text({ text: `If you have any questions or concerns about this Privacy Policy or the practices of the Corn Score app, please contact us at coltonboyd503@icloud.com.` });
-
-    let textComponents = [ header1, paragraph1, header2, paragraph2, header3, paragraph3, header4, paragraph4, header5, paragraph5, header6, paragraph6, header7, paragraph7, header8, paragraph8, header9, paragraph9 ];
-
-    let policyCard = new Card();
-    policyCard.addComponents({ components: textComponents });
-
-    this.addComponents({ components: [ policyCard ]});
-  }
-}
-
-/////////////////////////////////////////////////
-
 /** Class representing the whats new page of Corn Score. */
 class WhatsNewPage extends ui.Page
 {
@@ -907,9 +960,8 @@ class WhatsNewPage extends ui.Page
   /** Public method called to set the navigation bar of the what's new page. */
   setupNavBar()
   {
-    let modal = app.getComponentById({ id: 'whats-new-modal' });
-    let doneButton = new ui.BarButton({ text: 'Done', onTap: () => { modal.dismiss(); } });
-    this.navigationBarButtonsLeft = [ doneButton ];
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 
   /** Public method called to set the body of the whats new page. */
