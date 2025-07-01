@@ -126,12 +126,10 @@ class AppInfoPage extends ui.Page
     this.setupBody();
   }
 
-  /** Public method called to set the navigation bar of the app info page. */
-  setupNavBar()
+  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the _navigator_. */
+  privacyPolicyItemTapped()
   {
-    this.navigationBarTitle = 'App Info';
-    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
-    this.navigationBarButtonsLeft = [ backButton ];
+    browser.open({ url: settings.links.privacyPolicyLink, inApp: true, animated: true });
   }
 
   /** Public method called to set the body of the app info page. */
@@ -144,10 +142,12 @@ class AppInfoPage extends ui.Page
     this.addComponents({ components: [ appInfoList ]});
   }
 
-  /** Public method called when the user taps the privacy policy item. Pushes the privacy policy page onto the _navigator_. */
-  privacyPolicyItemTapped()
+  /** Public method called to set the navigation bar of the app info page. */
+  setupNavBar()
   {
-    browser.open({ url: settings.links.privacyPolicyLink, inApp: true, animated: true });
+    this.navigationBarTitle = 'App Info';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 
   /** Public method called when the user taps the what's new item. Pushes the what's new page onto the _navigator_. */
@@ -170,6 +170,12 @@ class CustomizationPage extends ui.Page
     this.setupAlerts();
   }
 
+  /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
+  resetToDefaultItemTapped()
+  {
+    this.resetAlert.present();
+  }
+
   /** Public method called to set up any of the reusable alerts for the customization page. */
   setupAlerts()
   {
@@ -182,14 +188,6 @@ class CustomizationPage extends ui.Page
     }
     this.resetAlert = new ui.AlertDialog({ title: 'Reset To Default?', rowfooter: true, buttons: [ cancelButton, resetButton ]});
     this.resetAlert.addComponents({ components: [ new ui.Text({ text: 'All customizations will be lost' }) ]});
-  }
-
-  /** Public method called to set the navigation bar of the customization page. */
-  setupNavBar()
-  {
-    this.navigationBarTitle = 'Customization';
-    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
-    this.navigationBarButtonsLeft = [ backButton ];
   }
 
   /** Public method called to set the body of the customization page. */
@@ -217,13 +215,15 @@ class CustomizationPage extends ui.Page
     this.addComponents({ components: [ customizationList ]});
   }
 
-  /** Public method called when the user taps the rest to default item. Allows the user to reset their settings. */
-  resetToDefaultItemTapped()
+  /** Public method called to set the navigation bar of the customization page. */
+  setupNavBar()
   {
-    this.resetAlert.present();
+    this.navigationBarTitle = 'Customization';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
   }
 
-  /** Public method called to update all of the settings components in the list. */
+  /** Public method called to update all of the customization settings in the list. */
   updateSettings()
   {
     this.team1Texfield.text = localStorage.getItem(settings.storageKeys.team1Name);
@@ -240,43 +240,17 @@ class CustomizationPage extends ui.Page
 /** Class representing the get involved page of Corn Score. */
 class GetInvolvedPage extends ui.Page
 {
-  /** Public method called when the page is initialized. */
-  onInit()
-  {
-    this.setupNavBar();
-    this.setupBody();
-  }
-
   /** Public method called when the user taps the buy me a coffee item. Opens a browser in app for the user to give a donation.*/
   buyMeACoffeeItemTapped()
   {
     browser.open({ url: settings.links.buyMeACoffeeLink, inApp: true, animated: true });
   }
 
-  /** Public method called to set the navigation bar of the get involved page. */
-  setupNavBar()
+  /** Public method called when the page is initialized. */
+  onInit()
   {
-    this.navigationBarTitle = 'Get Involved';
-    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
-    this.navigationBarButtonsLeft = [ backButton ];
-  }
-
-  /** Public method called to set the body of the get involved page. */
-  setupBody()
-  {
-    let getInvolvedList = new ui.List();
-    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
-    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'], onTap: this.sourceCodeItemTapped.bind(this) }) });
-    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'], onTap: this.reportABugItemTapped.bind(this) }) });
-    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'], onTap: this.requestAFeatureItemTapped.bind(this) }) });
-    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'], onTap: this.buyMeACoffeeItemTapped.bind(this) }) });
-    this.addComponents({ components: [ getInvolvedList ]});
-  }
-
-  /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
-  sourceCodeItemTapped()
-  {
-    browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
+    this.setupNavBar();
+    this.setupBody();
   }
 
   /** Public method called when the user taps the rate corn score item. Opens a browser out of app for the user to rate the app. */
@@ -296,6 +270,32 @@ class GetInvolvedPage extends ui.Page
   {
     _navigator_.push({ page: new RequestAFeaturePage(), animated: false });
   }
+
+  /** Public method called to set the body of the get involved page. */
+  setupBody()
+  {
+    let getInvolvedList = new ui.List();
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-heart', size: '32px' }), center: 'Rate Corn Score', tappable: true, modifiers: ['chevron'], onTap: this.rateCornScoreItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-logo-github', size: '32px' }), center: 'Source Code', tappable: true, modifiers: ['chevron'], onTap: this.sourceCodeItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-bug', size: '32px' }), center: 'Report A Bug', tappable: true, modifiers: ['chevron'], onTap: this.reportABugItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-add-circle', size: '32px' }), center: 'Request A Feature', tappable: true, modifiers: ['chevron'], onTap: this.requestAFeatureItemTapped.bind(this) }) });
+    getInvolvedList.addItem({ item: new ui.ListItem({ left: new ui.Icon({ icon: 'ion-ios-cafe', size: '32px' }), center: 'Buy Me A Coffee', tappable: true, modifiers: ['chevron'], onTap: this.buyMeACoffeeItemTapped.bind(this) }) });
+    this.addComponents({ components: [ getInvolvedList ]});
+  }
+
+  /** Public method called to set the navigation bar of the get involved page. */
+  setupNavBar()
+  {
+    this.navigationBarTitle = 'Get Involved';
+    let backButton = new ui.BackBarButton( { onTap: () => { _navigator_.pop({ animated : false }); } });
+    this.navigationBarButtonsLeft = [ backButton ];
+  }
+
+  /** Public method called when the user taps source code item. Opens a browser in app for the user to view the source code of the project. */
+  sourceCodeItemTapped()
+  {
+    browser.open({ url: settings.links.sourceCodeLink, inApp: true, animated: true });
+  }
 }
 
 /////////////////////////////////////////////////
@@ -303,6 +303,42 @@ class GetInvolvedPage extends ui.Page
 /** Class representing the score board page. */
 class ScoreBoardPage extends ui.Page
 {
+  /** 
+   * Public method to change the score of the board.
+   * @param {String} team - Team to change the score for.
+   * @param {Event} event - Tap event.
+   */
+  changeScore({ team, event } = {})
+  {
+    let scoreText = null;
+    if(team == 'team-1') scoreText = this.team1Score;
+    else scoreText = this.team2Score;
+
+    let rect = scoreText.element.getBoundingClientRect();
+    let clickY = event.clientY - rect.top;
+
+    if(clickY < rect.height / 2) 
+    {
+      if(team === 'team-1') 
+      {
+        this.team1ScoreAmount++;
+        if(this.team1ScoreAmount == 21) this.teamWins({ team: 'team-1' });
+      } 
+      else if(team === 'team-2') 
+      {
+        this.team2ScoreAmount++;
+        if(this.team2ScoreAmount == 21) this.teamWins({ team: 'team-2' });
+      }
+    }
+    else 
+    {
+      if(team === 'team-1' && this.team1ScoreAmount > 0) this.team1ScoreAmount--;
+      else if(team === 'team-2' && this.team2ScoreAmount > 0) this.team2ScoreAmount--;
+    }
+
+    this.updateScores();
+  }
+
   /** Public method called when the page is initialized. */
   onInit()
   {
@@ -354,49 +390,10 @@ class ScoreBoardPage extends ui.Page
     this.team2Score.color = localStorage.getItem(settings.storageKeys.textColor);
   }
 
-  /** 
-   * Public method to change the score of the board.
-   * @param {String} team - Team to change the score for.
-   * @param {Event} event - Tap event.
-   */
-  changeScore({ team, event } = {})
-  {
-    let scoreText = null;
-    if(team == 'team-1') scoreText = this.team1Score;
-    else scoreText = this.team2Score;
-
-    let rect = scoreText.element.getBoundingClientRect();
-    let clickY = event.clientY - rect.top;
-
-    if(clickY < rect.height / 2) 
-    {
-      if(team === 'team-1') 
-      {
-        this.team1ScoreAmount++;
-        if(this.team1ScoreAmount == 21) this.teamWins({ team: 'team-1' });
-      } 
-      else if(team === 'team-2') 
-      {
-        this.team2ScoreAmount++;
-        if(this.team2ScoreAmount == 21) this.teamWins({ team: 'team-2' });
-      }
-    }
-    else 
-    {
-      if(team === 'team-1' && this.team1ScoreAmount > 0) this.team1ScoreAmount--;
-      else if(team === 'team-2' && this.team2ScoreAmount > 0) this.team2ScoreAmount--;
-    }
-
-    this.updateScores();
-  }
-
   /** Public method called when the user taps the restart button. A restart alert will show if either team has a point. */
   restartButtonTapped()
   {
-    if(this.team1ScoreAmount > 0 || this.team2ScoreAmount > 0)
-    {
-      this.restartAlert.present();
-    }
+    if(this.team1ScoreAmount > 0 || this.team2ScoreAmount > 0) this.restartAlert.present();
   }
 
   /** Public method called to reset the score board. */
@@ -668,14 +665,6 @@ class SettingsPage extends ui.Page
 /** Class representing the report a bug page of Corn Score. */
 class ReportABugPage extends ui.Page
 {
-  /** Public method called when the page is initialized. */
-  onInit()
-  {
-    this.setupNavBar();
-    this.setupList();
-    this.setupLoadingModal();
-  }
-
   /** Public method called to check if a user input string is empty or not. */
   isStringEmpty({ string } = {})
   {
@@ -687,6 +676,14 @@ class ReportABugPage extends ui.Page
   {
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
+  }
+
+  /** Public method called when the page is initialized. */
+  onInit()
+  {
+    this.setupNavBar();
+    this.setupList();
+    this.setupLoadingModal();
   }
 
   /** Public method called to present an invalid input alert. */
@@ -809,14 +806,6 @@ class ReportABugPage extends ui.Page
 /** Class representing the request a feature page of Corn Score. */
 class RequestAFeaturePage extends ui.Page
 {
-  /** Public method called when the page is initialized. */
-  onInit()
-  {
-    this.setupNavBar();
-    this.setupList();
-    this.setupLoadingModal();
-  }
-
   /** Public method called to check if a user input string is empty or not. */
   isStringEmpty({ string } = {})
   {
@@ -828,6 +817,14 @@ class RequestAFeaturePage extends ui.Page
   {
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
+  }
+
+  /** Public method called when the page is initialized. */
+  onInit()
+  {
+    this.setupNavBar();
+    this.setupList();
+    this.setupLoadingModal();
   }
 
   /** Public method called to present an invalid input alert. */
