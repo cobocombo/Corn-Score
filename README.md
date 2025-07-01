@@ -12,7 +12,8 @@
 
 | Release | Date | Notes |
 |----------|----------|----------|
-| v1.5  | TBD  | - Initial release with this new repository.<br> - Added rules page. <br> - Fixed some bugs and added stability updates. <br> - Added an app tour guide for new players. |
+| v1.5  | 6/30/25  | - Initial release with this new repository.<br> - Added rules page. <br> - Fixed some bugs and added stability updates. <br> - Added an app tour guide for new players. |
+| v1.6 | TBD | - Fixed a bug with settings page not scrolling. <br> - Restructured settings page. |
 
 ## 💪🏻 Get Involved
 If you would like get involved in the future creation of this iOS app, there are two things you can do! Request new features for future versions or report existing bugs. This can be one of two ways: 

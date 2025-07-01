@@ -15,7 +15,7 @@ class SettingsManager
   /** Creates the settings object. **/
   constructor() 
   {
-    this.#appVersion = '1.5';
+    this.#appVersion = '1.6';
     this.#errors = 
     {
       singleInstanceError: 'Settings Manager Error: Only one SettingsManager object can exist at a time.',
